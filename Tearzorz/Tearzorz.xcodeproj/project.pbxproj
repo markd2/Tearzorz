@@ -1,0 +1,554 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		7DDB79D22F1431CF009E75E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DDB79BA2F1431CE009E75E3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DDB79C12F1431CE009E75E3;
+			remoteInfo = Tearzorz;
+		};
+		7DDB79DC2F1431CF009E75E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7DDB79BA2F1431CE009E75E3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DDB79C12F1431CE009E75E3;
+			remoteInfo = Tearzorz;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		7DDB79C22F1431CE009E75E3 /* Tearzorz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tearzorz.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DDB79D12F1431CF009E75E3 /* TearzorzTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TearzorzTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DDB79DB2F1431CF009E75E3 /* TearzorzUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TearzorzUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		7DDB79C42F1431CE009E75E3 /* Tearzorz */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Tearzorz;
+			sourceTree = "<group>";
+		};
+		7DDB79D42F1431CF009E75E3 /* TearzorzTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TearzorzTests;
+			sourceTree = "<group>";
+		};
+		7DDB79DE2F1431CF009E75E3 /* TearzorzUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TearzorzUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7DDB79BF2F1431CE009E75E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DDB79CE2F1431CF009E75E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DDB79D82F1431CF009E75E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7DDB79B92F1431CE009E75E3 = {
+			isa = PBXGroup;
+			children = (
+				7DDB79C42F1431CE009E75E3 /* Tearzorz */,
+				7DDB79D42F1431CF009E75E3 /* TearzorzTests */,
+				7DDB79DE2F1431CF009E75E3 /* TearzorzUITests */,
+				7DDB79C32F1431CE009E75E3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7DDB79C32F1431CE009E75E3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7DDB79C22F1431CE009E75E3 /* Tearzorz.app */,
+				7DDB79D12F1431CF009E75E3 /* TearzorzTests.xctest */,
+				7DDB79DB2F1431CF009E75E3 /* TearzorzUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7DDB79C12F1431CE009E75E3 /* Tearzorz */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7DDB79E52F1431CF009E75E3 /* Build configuration list for PBXNativeTarget "Tearzorz" */;
+			buildPhases = (
+				7DDB79BE2F1431CE009E75E3 /* Sources */,
+				7DDB79BF2F1431CE009E75E3 /* Frameworks */,
+				7DDB79C02F1431CE009E75E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				7DDB79C42F1431CE009E75E3 /* Tearzorz */,
+			);
+			name = Tearzorz;
+			packageProductDependencies = (
+			);
+			productName = Tearzorz;
+			productReference = 7DDB79C22F1431CE009E75E3 /* Tearzorz.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7DDB79D02F1431CF009E75E3 /* TearzorzTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7DDB79E82F1431CF009E75E3 /* Build configuration list for PBXNativeTarget "TearzorzTests" */;
+			buildPhases = (
+				7DDB79CD2F1431CF009E75E3 /* Sources */,
+				7DDB79CE2F1431CF009E75E3 /* Frameworks */,
+				7DDB79CF2F1431CF009E75E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7DDB79D32F1431CF009E75E3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				7DDB79D42F1431CF009E75E3 /* TearzorzTests */,
+			);
+			name = TearzorzTests;
+			packageProductDependencies = (
+			);
+			productName = TearzorzTests;
+			productReference = 7DDB79D12F1431CF009E75E3 /* TearzorzTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		7DDB79DA2F1431CF009E75E3 /* TearzorzUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7DDB79EB2F1431CF009E75E3 /* Build configuration list for PBXNativeTarget "TearzorzUITests" */;
+			buildPhases = (
+				7DDB79D72F1431CF009E75E3 /* Sources */,
+				7DDB79D82F1431CF009E75E3 /* Frameworks */,
+				7DDB79D92F1431CF009E75E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7DDB79DD2F1431CF009E75E3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				7DDB79DE2F1431CF009E75E3 /* TearzorzUITests */,
+			);
+			name = TearzorzUITests;
+			packageProductDependencies = (
+			);
+			productName = TearzorzUITests;
+			productReference = 7DDB79DB2F1431CF009E75E3 /* TearzorzUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7DDB79BA2F1431CE009E75E3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					7DDB79C12F1431CE009E75E3 = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					7DDB79D02F1431CF009E75E3 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = 7DDB79C12F1431CE009E75E3;
+					};
+					7DDB79DA2F1431CF009E75E3 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = 7DDB79C12F1431CE009E75E3;
+					};
+				};
+			};
+			buildConfigurationList = 7DDB79BD2F1431CE009E75E3 /* Build configuration list for PBXProject "Tearzorz" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7DDB79B92F1431CE009E75E3;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 7DDB79C32F1431CE009E75E3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7DDB79C12F1431CE009E75E3 /* Tearzorz */,
+				7DDB79D02F1431CF009E75E3 /* TearzorzTests */,
+				7DDB79DA2F1431CF009E75E3 /* TearzorzUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7DDB79C02F1431CE009E75E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DDB79CF2F1431CF009E75E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DDB79D92F1431CF009E75E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7DDB79BE2F1431CE009E75E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DDB79CD2F1431CF009E75E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7DDB79D72F1431CF009E75E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7DDB79D32F1431CF009E75E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7DDB79C12F1431CE009E75E3 /* Tearzorz */;
+			targetProxy = 7DDB79D22F1431CF009E75E3 /* PBXContainerItemProxy */;
+		};
+		7DDB79DD2F1431CF009E75E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7DDB79C12F1431CE009E75E3 /* Tearzorz */;
+			targetProxy = 7DDB79DC2F1431CF009E75E3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		7DDB79E32F1431CF009E75E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7DDB79E42F1431CF009E75E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		7DDB79E62F1431CF009E75E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Tearzorz/Tearzorz.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2HBB3G8HCG;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainNibFile = MainMenu;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.borkware.Tearzorz;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		7DDB79E72F1431CF009E75E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Tearzorz/Tearzorz.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2HBB3G8HCG;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainNibFile = MainMenu;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.borkware.Tearzorz;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		7DDB79E92F1431CF009E75E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2HBB3G8HCG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.borkware.TearzorzTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tearzorz.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tearzorz";
+			};
+			name = Debug;
+		};
+		7DDB79EA2F1431CF009E75E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2HBB3G8HCG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.borkware.TearzorzTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tearzorz.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tearzorz";
+			};
+			name = Release;
+		};
+		7DDB79EC2F1431CF009E75E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2HBB3G8HCG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.borkware.TearzorzUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Tearzorz;
+			};
+			name = Debug;
+		};
+		7DDB79ED2F1431CF009E75E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2HBB3G8HCG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.borkware.TearzorzUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Tearzorz;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7DDB79BD2F1431CE009E75E3 /* Build configuration list for PBXProject "Tearzorz" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DDB79E32F1431CF009E75E3 /* Debug */,
+				7DDB79E42F1431CF009E75E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7DDB79E52F1431CF009E75E3 /* Build configuration list for PBXNativeTarget "Tearzorz" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DDB79E62F1431CF009E75E3 /* Debug */,
+				7DDB79E72F1431CF009E75E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7DDB79E82F1431CF009E75E3 /* Build configuration list for PBXNativeTarget "TearzorzTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DDB79E92F1431CF009E75E3 /* Debug */,
+				7DDB79EA2F1431CF009E75E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7DDB79EB2F1431CF009E75E3 /* Build configuration list for PBXNativeTarget "TearzorzUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DDB79EC2F1431CF009E75E3 /* Debug */,
+				7DDB79ED2F1431CF009E75E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7DDB79BA2F1431CE009E75E3 /* Project object */;
+}
