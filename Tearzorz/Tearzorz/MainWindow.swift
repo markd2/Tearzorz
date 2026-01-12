@@ -10,12 +10,15 @@ class MainWindow: NSWindow {
     @IBOutlet var xView: RegisterView! = nil
     @IBOutlet var yView: RegisterView! = nil
     @IBOutlet var spView: RegisterView! = nil
+    @IBOutlet var pswView: PSWView! = nil
     
     override func awakeFromNib() {
         accumulatorView.bind(to: cpu.accumulator)
         xView.bind(to: cpu.Xregister)
         yView.bind(to: cpu.Yregister)
         spView.bind(to: cpu.stackPointer)
+
+        pswView.psw = cpu.psw
     }
 
     @IBAction func changeRegisters(_ sender: NSButton) {
@@ -23,6 +26,12 @@ class MainWindow: NSWindow {
         cpu.Xregister.value = (cpu.Xregister.value + 2) % 127
         cpu.Yregister.value = (cpu.Yregister.value + 3) % 127
         cpu.stackPointer.value = (cpu.stackPointer.value + 2)
+    }
+
+    @IBAction func changePSW(_ sender: NSButton) {
+        cpu.psw.setFlag(.Z)
+        cpu.psw.setFlag(.N)
+        pswView.needsDisplay = true
     }
 
     @IBAction func splunge(_ sender: NSButton) {
