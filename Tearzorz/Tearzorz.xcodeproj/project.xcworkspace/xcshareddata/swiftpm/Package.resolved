@@ -1,0 +1,24 @@
+{
+  "originHash" : "93edd934269d9cdd8d38aa52581001b51660820a30bf9021b23e3b244e44547a",
+  "pins" : [
+    {
+      "identity" : "afluent",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Tyler-Keith-Thompson/Afluent.git",
+      "state" : {
+        "revision" : "f90d0fce549ce70aa0cd13071ec3e40ff84b7e58",
+        "version" : "1.0.11"
+      }
+    },
+    {
+      "identity" : "swift-atomics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-atomics.git",
+      "state" : {
+        "revision" : "b601256eab081c0f92f059e12818ac1d4f178ff7",
+        "version" : "1.3.0"
+      }
+    }
+  ],
+  "version" : 3
+}
