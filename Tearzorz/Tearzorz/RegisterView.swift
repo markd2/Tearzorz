@@ -4,6 +4,10 @@ import AppKit
 
 class RegisterView: NSView {
     var register: Register! = nil
+    
+    override var isFlipped: Bool {
+        true
+    }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -13,8 +17,16 @@ class RegisterView: NSView {
         NSColor.white.set()
         bounds.fill()
 
-        let display = String(format: "%02X", register.value)
-        (display as NSString).draw(with: bounds)
+        let display = String(format: "%02X", register.value) as NSString
+        
+        let size = display.size()
+        let fudgeFactor = size.height - 3 //  if the rect is perfectly centered, the text draws above it %-)
+        let rect = CGRect(x: bounds.origin.x + ((bounds.width - size.width) / 2.0),
+                          y: bounds.origin.y + ((bounds.height - size.height) / 2.0) + fudgeFactor,
+                          width: size.width,
+                          height: size.height)
+
+        display.draw(with: rect)
         
         NSColor.black.set()
         bounds.frame()
