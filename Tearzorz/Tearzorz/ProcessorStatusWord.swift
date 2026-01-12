@@ -1,3 +1,6 @@
+// ProcessStatusWord.swift - the PSW / bits that are set and tested in the
+//    regular operation of the 6502
+
 import Foundation
 
 

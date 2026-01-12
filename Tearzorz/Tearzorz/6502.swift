@@ -1,3 +1,5 @@
+// 6502.swift - main glue class for the 6502. Holds the moving pieces.
+
 import Foundation
 
 class MOS6502 {

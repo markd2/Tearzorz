@@ -1,3 +1,6 @@
+// Disassembly.h - header for byte to Instruction mapping. also has the list
+//    of opcodes and addressing modes
+
 #import <Foundation/Foundation.h>
 
 
