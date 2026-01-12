@@ -20,5 +20,4 @@ class Register<Value> {
     var publisher: AnyPublisher<Value, Never> {
         subject.eraseToAnyPublisher()
     }
-
 }

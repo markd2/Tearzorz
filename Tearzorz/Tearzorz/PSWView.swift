@@ -24,7 +24,7 @@ class PSWView: NSView {
         NSColor.white.set()
         bounds.fill()
 
-        let flags: [ProcessorStatusWord.Storage] = 
+        let flags: [ProcessorStatusWord.Flags] = 
           [.N, .V, .brk, .ignored, .D, .I, .Z, .C]
 
         let sliceWidth = bounds.width / CGFloat(flags.count)
