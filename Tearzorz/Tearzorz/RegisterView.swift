@@ -3,7 +3,8 @@
 import AppKit
 
 class RegisterView: NSView {
-    var register: Register! = nil
+    private var updateTask: Task<Void, Never>?
+    private var register: Register!
     
     override var isFlipped: Bool {
         true
@@ -11,6 +12,25 @@ class RegisterView: NSView {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    deinit {
+        updateTask?.cancel()
+    }
+
+    func bind(to register: Register) {
+//             update: @escaping @MainActor (UInt8) -> Void) {
+        self.register = register
+
+        updateTask?.cancel()
+
+        updateTask = Task {
+            for await _ in register.values {
+                await MainActor.run {
+                    needsDisplay = true
+                }
+            }
+        }
     }
     
     override func draw(_ dirtyRect: NSRect) {
