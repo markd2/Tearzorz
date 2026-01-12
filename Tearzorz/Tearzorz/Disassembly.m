@@ -38,7 +38,7 @@
 
         NSInteger count = [self bytesForMode: addressingMode];
         for (int i = 0; i < count + 1; i++) {
-            bytes[i] = bytes[i];
+            _bytes[i] = bytes[i];
         }
     }
     return self;
@@ -118,24 +118,25 @@
 @implementation Disassembly
 
 - (Instruction *) makeInstructionFrom: (unsigned char **)scan
-                           opcode: (Opcode) opcode
-                             mode: (AddressingMode) mode {
+                               opcode: (Opcode) opcode
+                                 mode: (AddressingMode) mode {
     Instruction *instruction =
         [[Instruction alloc] initWithOpcode: opcode
                              addressingMode: mode
                                       bytes: *scan];
-    scan += (1 + [instruction bytesForMode: mode]);
+    *scan = *scan + (1 + [instruction bytesForMode: mode]);
 
     return instruction;
 } // makeInstructionFrom
 
 
-- (NSArray<Instruction *> *) disassembleFrom: (unsigned char *) address  length: (NSInteger) length {
+- (NSArray<Instruction *> *) disassemble: (NSData *) data {
+
     NSMutableArray *instructions = NSMutableArray.new;
     Instruction *instruction;
 
-    unsigned char *scan = address;
-    unsigned char *stop = address + length;
+    unsigned char *scan = (unsigned char *)data.bytes;
+    unsigned char *stop = scan + data.length;
     
     while (scan < stop) {
 
@@ -292,6 +293,8 @@
         case 0xFD: instruction = [self makeInstructionFrom: &scan  opcode: SBC  mode: Absolute_XIndexed]; break;
         case 0xFE: instruction = [self makeInstructionFrom: &scan  opcode: INC  mode: Absolute_XIndexed]; break;
         }
+
+        [instructions addObject: instruction];
     }
 
     return instructions;

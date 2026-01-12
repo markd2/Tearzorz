@@ -91,6 +91,8 @@ typedef enum AddressingMode {
 
 @interface Disassembly : NSObject
 
+- (NSArray<Instruction *> *) disassemble: (NSData *) data;
+
 @end // Disassembly
 
 
