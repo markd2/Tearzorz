@@ -1,13 +1,38 @@
-//
-//  MainWindow.swift
-//  Tearzorz
-//
-//  Created by MarkD on 1/11/26.
-//
+// MainWindow.swift - the single window shown by the app, until we get
+//    more windows involved via NSWindowController, or whatnot
 
 import Cocoa
 
 class MainWindow: NSWindow {
+    let cpu: MOS6502 = MOS6502()
+
+    @IBOutlet var accumulatorView: RegisterView! = nil
+    @IBOutlet var xView: RegisterView! = nil
+    @IBOutlet var yView: RegisterView! = nil
+    @IBOutlet var spView: RegisterView! = nil
+    @IBOutlet var pswView: PSWView! = nil
+    
+    override func awakeFromNib() {
+        accumulatorView.bind(to: cpu.accumulator)
+        xView.bind(to: cpu.Xregister)
+        yView.bind(to: cpu.Yregister)
+        spView.bind(to: cpu.stackPointer)
+
+        pswView.psw = cpu.psw
+    }
+
+    @IBAction func changeRegisters(_ sender: NSButton) {
+        cpu.accumulator.value = UInt8.random(in: 0...255)
+        cpu.Xregister.value = (cpu.Xregister.value + 2) % 127
+        cpu.Yregister.value = (cpu.Yregister.value + 3) % 127
+        cpu.stackPointer.value = (cpu.stackPointer.value + 2)
+    }
+
+    @IBAction func changePSW(_ sender: NSButton) {
+        cpu.psw.setFlag(.Z)
+        cpu.psw.setFlag(.N)
+        pswView.needsDisplay = true
+    }
 
     @IBAction func splunge(_ sender: NSButton) {
         let dis = Disassembly()
