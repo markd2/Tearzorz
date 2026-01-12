@@ -107,8 +107,60 @@
 } // humanReadableOpcode
 
 
+/// returns nil if there's no additional goodies, like for accumulator mode.
+- (NSString *) humanReadableAddress {
+    switch (self.addressingMode) {
+    case Accumulator:
+        return nil;
+
+    case Absolute: {
+        return [NSString stringWithFormat: @"$%02X%02X", _bytes[2], _bytes[1]];
+    }
+    case Absolute_XIndexed: {
+        return [NSString stringWithFormat: @"$%02X%02X,X", _bytes[2], _bytes[1]];
+    }
+    case Absolute_YIndexed: {
+        return [NSString stringWithFormat: @"$%02X%02X,Y", _bytes[2], _bytes[1]];
+    }
+    case Immediate:
+        return [NSString stringWithFormat: @"#$%02X", (uint8_t)_bytes[1]];
+
+    case Implied:
+        return nil;
+
+    case Indirect: {
+        return [NSString stringWithFormat: @"($%02X%02X)", _bytes[2], _bytes[1]];    }
+    case Indexed_Indirect_X:
+        return [NSString stringWithFormat: @"($%02X,X)", (uint8_t)_bytes[1]];
+
+    case Indirect_Indexed_Y:
+        return [NSString stringWithFormat: @"($%02X),Y", (uint8_t)_bytes[1]];
+
+    case Relative:
+        return [NSString stringWithFormat: @"$%02X", (uint8_t)_bytes[1]];
+
+    case ZeroPage:
+        return [NSString stringWithFormat: @"$%02X", (uint8_t)_bytes[1]];
+
+    case ZeroPage_XIndexed:
+        return [NSString stringWithFormat: @"$%02X,X", (uint8_t)_bytes[1]];
+
+    case ZeroPage_YIndexed:
+        return [NSString stringWithFormat: @"$%02X,Y", (uint8_t)_bytes[1]];
+    }
+
+} // humanReadableAddress
+
+
 - (NSString *) description {
-    NSString *description = [NSString stringWithFormat: @"%@", [self humanReadableOpcodeFor: self.opcode]];
+    NSMutableArray *splunge = NSMutableArray.new;
+
+    NSString *opcode = [self humanReadableOpcodeFor: self.opcode];
+    [splunge addObject: opcode];
+    NSString *address = [self humanReadableAddress];
+    if (address) [splunge addObject: address];
+
+    NSString *description = [splunge componentsJoinedByString: @" "];
     return description;
 } // description
 
