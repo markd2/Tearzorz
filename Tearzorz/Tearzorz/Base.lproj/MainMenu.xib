@@ -701,20 +701,29 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="isf-22-xg6">
-                        <rect key="frame" x="91" y="313" width="107" height="32"/>
+                        <rect key="frame" x="91" y="313" width="108" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Change Acc" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7wt-Vu-Sfb">
+                        <buttonCell key="cell" type="push" title="Change Reg" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7wt-Vu-Sfb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="changeAccumulator:" target="QvC-M9-y7g" id="D3M-sP-Wwl"/>
+                            <action selector="changeRegisters:" target="QvC-M9-y7g" id="V0q-bq-9lE"/>
                         </connections>
                     </button>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7ch-BX-gwu">
                         <rect key="frame" x="18" y="245" width="81" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Accumulator" id="Hu4-CW-TKb">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rHp-o6-PvY">
+                        <rect key="frame" x="144" y="245" width="13" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="X" id="5Zx-1D-WPX">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -728,12 +737,40 @@
                         <rect key="frame" x="146" y="191" width="83" height="46"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
+                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dhh-98-O20">
+                        <rect key="frame" x="258" y="245" width="13" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="Y" id="YZu-VY-vyU">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tkq-mo-QU8" customClass="RegisterView" customModule="Tearzorz" customModuleProvider="target">
+                        <rect key="frame" x="260" y="191" width="83" height="46"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OjY-ZF-74h">
+                        <rect key="frame" x="364" y="245" width="21" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="SP" id="nag-YA-se2">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uvi-dt-GOs" customClass="RegisterView" customModule="Tearzorz" customModuleProvider="target">
+                        <rect key="frame" x="366" y="191" width="83" height="46"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
                 </subviews>
             </view>
             <connections>
                 <outlet property="accumulatorView" destination="YvL-Nn-esm" id="kvl-CD-iVx"/>
-                <outlet property="accumulatorView2" destination="GIp-ZV-26h" id="8N4-yw-ec9"/>
                 <outlet property="delegate" destination="Voe-Tx-rLC" id="top-28-M4D"/>
+                <outlet property="spView" destination="Uvi-dt-GOs" id="jOw-s0-Y6D"/>
+                <outlet property="xView" destination="GIp-ZV-26h" id="XEN-PD-DOl"/>
+                <outlet property="yView" destination="Tkq-mo-QU8" id="F8O-hs-BFd"/>
             </connections>
             <point key="canvasLocation" x="200" y="400"/>
         </window>

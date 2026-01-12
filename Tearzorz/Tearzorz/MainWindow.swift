@@ -7,16 +7,22 @@ class MainWindow: NSWindow {
     let cpu: MOS6502 = MOS6502()
 
     @IBOutlet var accumulatorView: RegisterView! = nil
-    @IBOutlet var accumulatorView2: RegisterView! = nil
+    @IBOutlet var xView: RegisterView! = nil
+    @IBOutlet var yView: RegisterView! = nil
+    @IBOutlet var spView: RegisterView! = nil
     
     override func awakeFromNib() {
         accumulatorView.bind(to: cpu.accumulator)
-        accumulatorView2.bind(to: cpu.accumulator)
+        xView.bind(to: cpu.Xregister)
+        yView.bind(to: cpu.Yregister)
+        spView.bind(to: cpu.stackPointer)
     }
 
-    @IBAction func changeAccumulator(_ sender: NSButton) {
-        cpu.accumulator.value = (cpu.accumulator.value + 1) % 127
-        Swift.print(cpu.accumulator.value)
+    @IBAction func changeRegisters(_ sender: NSButton) {
+        cpu.accumulator.value = UInt8.random(in: 0...255)
+        cpu.Xregister.value = (cpu.Xregister.value + 2) % 127
+        cpu.Yregister.value = (cpu.Yregister.value + 3) % 127
+        cpu.stackPointer.value = (cpu.stackPointer.value + 2)
     }
 
     @IBAction func splunge(_ sender: NSButton) {
