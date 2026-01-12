@@ -111,7 +111,7 @@
 - (NSString *) humanReadableAddress {
     switch (self.addressingMode) {
     case Accumulator:
-        return nil;
+        return @"A";
 
     case Absolute: {
         return [NSString stringWithFormat: @"$%02X%02X", _bytes[2], _bytes[1]];
