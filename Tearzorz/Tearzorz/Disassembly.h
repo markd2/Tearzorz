@@ -68,8 +68,8 @@ typedef enum AddressingMode {
     Immediate,
     Implied,
     Indirect,
-    XIndexed_Indirect,
-    Indirect_YIndexed,
+    Indexed_Indirect_X,
+    Indirect_Indexed_Y,
     Relative,
     ZeroPage,
     ZeroPage_XIndexed,
@@ -77,9 +77,15 @@ typedef enum AddressingMode {
 } AddressingMode;
 
 
-@interface Instruction: NSObject
+@interface Instruction: NSObject {
+    char _bytes[3];
+}
 @property (assign, nonatomic) Opcode opcode;
 @property (assign, nonatomic) AddressingMode addressingMode;
+
+- (instancetype) initWithOpcode: (Opcode) opcode
+                 addressingMode: (AddressingMode) addressingMode
+                          bytes: (unsigned char *) bytes;
 @end // Instruction
 
 
