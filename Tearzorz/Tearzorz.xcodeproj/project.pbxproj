@@ -32,11 +32,6 @@
 			path = TearzorzTests;
 			sourceTree = "<group>";
 		};
-		7DDB79DE2F1431CF009E75E3 /* TearzorzUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = TearzorzUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +57,6 @@
 			children = (
 				7DDB79C42F1431CE009E75E3 /* Tearzorz */,
 				7DDB79D42F1431CF009E75E3 /* TearzorzTests */,
-				7DDB79DE2F1431CF009E75E3 /* TearzorzUITests */,
 				7DDB79C32F1431CE009E75E3 /* Products */,
 			);
 			sourceTree = "<group>";
