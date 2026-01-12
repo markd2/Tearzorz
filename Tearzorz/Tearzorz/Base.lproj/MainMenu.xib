@@ -724,10 +724,15 @@
                         <rect key="frame" x="20" y="191" width="83" height="46"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GIp-ZV-26h" customClass="RegisterView" customModule="Tearzorz" customModuleProvider="target">
+                        <rect key="frame" x="146" y="191" width="83" height="46"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
                 </subviews>
             </view>
             <connections>
                 <outlet property="accumulatorView" destination="YvL-Nn-esm" id="kvl-CD-iVx"/>
+                <outlet property="accumulatorView2" destination="GIp-ZV-26h" id="8N4-yw-ec9"/>
                 <outlet property="delegate" destination="Voe-Tx-rLC" id="top-28-M4D"/>
             </connections>
             <point key="canvasLocation" x="200" y="400"/>

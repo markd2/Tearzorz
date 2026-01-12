@@ -1,10 +1,12 @@
 // RegisterView.swift - visualize a register, react to its changes
 
 import AppKit
+import Combine
 
 class RegisterView: NSView {
-    private var updateTask: Task<Void, Never>?
-    private var register: Register!
+    
+    private var cancellable: AnyCancellable?
+    private var register: Register<UInt8>!
     
     override var isFlipped: Bool {
         true
@@ -15,21 +17,17 @@ class RegisterView: NSView {
     }
 
     deinit {
-        updateTask?.cancel()
+        cancellable?.cancel()
     }
 
-    func bind(to register: Register) {
+    func bind(to register: Register<UInt8>) {
 //             update: @escaping @MainActor (UInt8) -> Void) {
         self.register = register
-
-        updateTask?.cancel()
-
-        updateTask = Task {
-            for await _ in register.values {
-                await MainActor.run {
-                    needsDisplay = true
-                }
-            }
+        cancellable = register.publisher
+        .receive(on: RunLoop.main)
+        .sink { value in
+            _ = value
+            self.needsDisplay = true
         }
     }
     

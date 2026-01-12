@@ -7,9 +7,11 @@ class MainWindow: NSWindow {
     let cpu: MOS6502 = MOS6502()
 
     @IBOutlet var accumulatorView: RegisterView! = nil
+    @IBOutlet var accumulatorView2: RegisterView! = nil
     
     override func awakeFromNib() {
         accumulatorView.bind(to: cpu.accumulator)
+        accumulatorView2.bind(to: cpu.accumulator)
     }
 
     @IBAction func changeAccumulator(_ sender: NSButton) {

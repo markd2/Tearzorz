@@ -2,29 +2,23 @@
 
 import Foundation
 import Afluent
-import AsyncAlgorithms
+import Combine
 
-class Register {
+class Register<Value> {
 
-    private var _value: UInt8 = 0
+    private let subject: Combine.CurrentValueSubject<Value, Never>
     
-    var value: UInt8 {
-        get { _value }
-        set {
-            _value = newValue
-            Task { await channel.send(newValue) }
-        }
+    init(_ initialValue: Value = UInt8(0)) {
+        self.subject = CurrentValueSubject(initialValue)
     }
 
-    private let channel = AsyncChannel<UInt8>()
-
-    init() {
-        self.value = 0
-        Task { await channel.send(0) }
+    var value: Value {
+        get { subject.value }
+        set { subject.send(newValue) }
     }
 
-    var values: AsyncChannel<UInt8> {
-        channel
+    var publisher: AnyPublisher<Value, Never> {
+        subject.eraseToAnyPublisher()
     }
 
 }
