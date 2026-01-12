@@ -6,9 +6,16 @@ import Cocoa
 class MainWindow: NSWindow {
     let cpu: MOS6502 = MOS6502()
 
+    @IBOutlet var accumulatorView: RegisterView! = nil
+    
+    override func awakeFromNib() {
+        accumulatorView.register = cpu.accumulator
+    }
+
     @IBAction func changeAccumulator(_ sender: NSButton) {
         cpu.accumulator.value = (cpu.accumulator.value + 1) % 127
         Swift.print(cpu.accumulator.value)
+        accumulatorView.needsDisplay = true
     }
 
     @IBAction func splunge(_ sender: NSButton) {
