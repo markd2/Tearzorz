@@ -1,13 +1,15 @@
-//
-//  MainWindow.swift
-//  Tearzorz
-//
-//  Created by MarkD on 1/11/26.
-//
+// MainWindow.swift - the single window shown by the app, until we get
+//    more windows involved via NSWindowController, or whatnot
 
 import Cocoa
 
 class MainWindow: NSWindow {
+    let cpu: MOS6502 = MOS6502()
+
+    @IBAction func changeAccumulator(_ sender: NSButton) {
+        cpu.accumulator.value = (cpu.accumulator.value + 1) % 127
+        Swift.print(cpu.accumulator.value)
+    }
 
     @IBAction func splunge(_ sender: NSButton) {
         let dis = Disassembly()

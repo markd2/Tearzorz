@@ -700,6 +700,17 @@
                             <action selector="splunge:" target="QvC-M9-y7g" id="Lvb-wb-4cp"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="isf-22-xg6">
+                        <rect key="frame" x="91" y="313" width="107" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Change Acc" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7wt-Vu-Sfb">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="changeAccumulator:" target="QvC-M9-y7g" id="D3M-sP-Wwl"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <connections>
