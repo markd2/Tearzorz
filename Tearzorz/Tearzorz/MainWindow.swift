@@ -22,6 +22,9 @@ class MainWindow: NSWindow {
         spView.bind(to: cpu.stackPointer)
 
         pswView.bind(to: cpu.psw)
+
+        // populate the tableview
+        loadSomeCode()
     }
 
     @IBAction func changeRegisters(_ sender: NSButton) {
@@ -37,16 +40,28 @@ class MainWindow: NSWindow {
         pswView.needsDisplay = true
     }
 
-    @IBAction func loadSomeCode(_ sender: NSButton) {
+    @IBAction func runSelectedInstruction(_ sender: NSButton) {
+        let row = tableView.selectedRow
+        guard row >= 0 else { return }
+
+        let instruction = instructions[row]
+        cpu.execute(instruction)
+    }
+
+    func loadSomeCode() {
         let bytes = kim1bytes()
 
         let dis = Disassembly()
         instructions = dis.disassemble(bytes)!
 
-        for ins in instructions {
-            Swift.print("    ", ins)
-        }
+//        for ins in instructions {
+//            Swift.print("    ", ins)
+//        }
         tableView.reloadData()
+    }
+
+    @IBAction func loadSomeCode(_ sender: NSButton) {
+        loadSomeCode()
     }
 
     func kim1bytes() -> Data {
