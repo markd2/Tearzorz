@@ -2,6 +2,8 @@
 
 import Foundation
 
+typealias InstructionHandler = (Instruction) -> Void
+
 class MOS6502 {
     var instructions: [Instruction] = []
 
@@ -14,5 +16,172 @@ class MOS6502 {
 
     // can have some "overlays" over RAM for device I/O, ROM, text page, etc
     // Eventually this will break out into "outside the 6502". maybe.
-    let RAM: [UInt8] = Array<UInt8>(repeating: 0, count: 64 * 1024)
+    let memory: Memory = Memory()
+
+    var handlers: [Opcode: InstructionHandler] = [:]
+
+    init() {
+        setupHandlers()
+        memory.randomizeBytes()
+    }
+
+    // for extension
+    let bit0: UInt8 = 1 << 0
+    let bit1: UInt8 = 1 << 1
+    let bit2: UInt8 = 1 << 2
+    let bit3: UInt8 = 1 << 3
+    let bit4: UInt8 = 1 << 4
+    let bit5: UInt8 = 1 << 5
+    let bit6: UInt8 = 1 << 6
+    let bit7: UInt8 = 1 << 7
 }
+
+/// instruction execution
+extension MOS6502 {
+
+    func addressFor(_ instruction: Instruction) -> UInt16 {
+        switch instruction.addressingMode {
+        case ZeroPage:
+            let address = instruction.modeByteAddressValue()
+            return address
+/*
+        case Absolute:
+        case Absolute_XIndexed:
+        case Absolute_YIndexed:
+        case Implied:
+        case Indirect:
+        case Indexed_Indirect_X:
+        case Indirect_Indexed_Y:
+        case Relative:
+        case ZeroPage_XIndexed:
+        case ZeroPage_YIndexed:
+
+        // no addresses for these dudes
+        case Accumulator:
+        case Immediate:
+*/
+        default:
+            print("oops address")
+            return 0x0000
+        }
+    }
+
+    func addressedByte(_ instruction: Instruction) -> UInt8 {
+        switch instruction.addressingMode {
+        case Accumulator:
+            return accumulator.value
+        case Immediate:
+            return instruction.modeByteValue()
+        case ZeroPage:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
+/*
+        case Absolute:
+        case Absolute_XIndexed:
+        case Absolute_YIndexed:
+        case Implied:
+        case Indirect:
+        case Indexed_Indirect_X:
+        case Indirect_Indexed_Y:
+        case Relative:
+        case ZeroPage_XIndexed:
+        case ZeroPage_YIndexed:
+*/
+        default:
+            print("oops")
+            return 0xff
+        }
+    }
+
+    func updateFlags(for byte: UInt8) {
+        if byte == 0 {
+            psw.setFlag(.Z)
+        } else {
+            psw.clearFlag(.Z)
+        }
+
+        if byte & bit7 != 0 {
+            psw.setFlag(.N)
+        } else {
+            psw.clearFlag(.N)
+        }
+    }
+
+    func setupHandlers() {
+        handlers[CLC] = handleCLC
+        handlers[SEC] = handleSEC
+        handlers[CLI] = handleCLI
+        handlers[SEI] = handleSEI
+        handlers[CLV] = handleCLV
+        handlers[CLD] = handleCLD
+        handlers[SED] = handleSED
+
+        handlers[LDA] = handleLDA
+        handlers[STA] = handleSTA
+
+        handlers[NOP] = handleNOP
+    }
+    
+    func handleLDA(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+        accumulator.value = byte
+        updateFlags(for: byte)
+    }
+
+    func handleSTA(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        memory.setByte(accumulator.value, at: address)
+    }
+
+    // do all the work to do the instruction except for incrementing
+    // the program counter
+    func execute(_ instruction: Instruction) {
+        guard let handler = handlers[instruction.opcode] else {
+            print("no handler for \(instruction)")
+            return
+        }
+
+        handler(instruction)
+    }
+}
+
+
+// PSW Flags
+extension MOS6502 {
+    func handleCLC(_ instruction: Instruction) {
+        psw.clearFlag(.C)
+    }
+
+    func handleSEC(_ instruction: Instruction) {
+        psw.setFlag(.C)
+    }
+
+    func handleCLI(_ instruction: Instruction) {
+        psw.clearFlag(.I)
+    }
+
+    func handleSEI(_ instruction: Instruction) {
+        psw.setFlag(.I)
+    }
+
+    func handleCLV(_ instruction: Instruction) {
+        psw.clearFlag(.V)
+    }
+
+    func handleCLD(_ instruction: Instruction) {
+        psw.clearFlag(.D)
+    }
+
+    func handleSED(_ instruction: Instruction) {
+        psw.setFlag(.D)
+    }
+}
+
+// Misc instructions
+extension MOS6502 {
+    func handleNOP(_ instruction: Instruction) {
+        // nobody home
+    }
+}
+
+extension Opcode: Hashable { }

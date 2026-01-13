@@ -11,6 +11,10 @@ class MainWindow: NSWindow {
     @IBOutlet var yView: RegisterView! = nil
     @IBOutlet var spView: RegisterView! = nil
     @IBOutlet var pswView: PSWView! = nil
+    @IBOutlet var memoryView: MemoryView! = nil
+
+    @IBOutlet var tableView: NSTableView! = nil
+    var instructions: [Instruction] = []
     
     override func awakeFromNib() {
         accumulatorView.bind(to: cpu.accumulator)
@@ -18,7 +22,11 @@ class MainWindow: NSWindow {
         yView.bind(to: cpu.Yregister)
         spView.bind(to: cpu.stackPointer)
 
-        pswView.psw = cpu.psw
+        pswView.bind(to: cpu.psw)
+        memoryView.bind(to: cpu.memory)
+
+        // populate the tableview
+        loadSomeCode()
     }
 
     @IBAction func changeRegisters(_ sender: NSButton) {
@@ -34,9 +42,32 @@ class MainWindow: NSWindow {
         pswView.needsDisplay = true
     }
 
-    @IBAction func splunge(_ sender: NSButton) {
+    @IBAction func runSelectedInstruction(_ sender: NSButton) {
+        let row = tableView.selectedRow
+        guard row >= 0 else { return }
+
+        let instruction = instructions[row]
+        cpu.execute(instruction)
+    }
+
+    func loadSomeCode() {
+//        let bytes = kim1bytes()
+        let bytes = allAddressingModesBytes()
+
         let dis = Disassembly()
-        
+        instructions = dis.disassemble(bytes)!
+
+//        for ins in instructions {
+//            Swift.print("    ", ins)
+//        }
+        tableView.reloadData()
+    }
+
+    @IBAction func loadSomeCode(_ sender: NSButton) {
+        loadSomeCode()
+    }
+
+    func kim1bytes() -> Data {
         let kim1bytes: [CUnsignedChar] = [
             0x18,
             0xA5, 0x00,
@@ -46,15 +77,12 @@ class MainWindow: NSWindow {
             0x85, 0xFB,
             0x4C, 0x4F, 0x1C
         ]
-        
-        let blah = dis.disassemble(Data(kim1bytes))!
-        
-        for ins in blah {
-            Swift.print("    ", ins)
-        }
+        let data = Data(kim1bytes)
+        return data
+    }
 
+    func allAddressingModesBytes() -> Data {
         // courtesy of our robot overlords
-        print("-----")
         /*
         0800: 78          ; SEI
         0801: 18          ; CLC
@@ -86,19 +114,72 @@ class MainWindow: NSWindow {
         0836: 6C 00 09    ; JMP ($0900)
         0839: 60          ; RTS
         */
-        let allAddressingModesBytes: [CUnsignedChar] = [
+        let blah: [CUnsignedChar] = [
           0x78, 0x18, 0xA9, 0x10, 0x69, 0x05, 0xC9, 0x20, 0x0A, 0x2A, 0x85, 0x00, 0xA5, 0x00, 0xA2, 0x04,
           0xA0, 0x08, 0x95, 0x10, 0xB5, 0x10, 0x84, 0x20, 0xB6, 0x20, 0xAD, 0x34, 0x12, 0x8D, 0x35, 0x12,
           0xBD, 0x00, 0x20, 0x9D, 0x01, 0x20, 0xB9, 0x00, 0x30, 0x99, 0x01, 0x30, 0xA1, 0x40, 0xB1, 0x50,
           0xF0, 0x01, 0xEA, 0xD0, 0x01, 0xEA, 0x6C, 0x00, 0x09, 0x60
         ]
 
-        let blah2 = dis.disassemble(Data(allAddressingModesBytes))!
+        return Data(blah)
+    }
+
+    @IBAction func splunge(_ sender: NSButton) {
+        let dis = Disassembly()
+        
+        let blah = dis.disassemble(kim1bytes())!
+        
+        for ins in blah {
+            Swift.print("    ", ins)
+        }
+
+
+        let blah2 = dis.disassemble(allAddressingModesBytes())!
         
         for ins in blah2 {
             Swift.print("    ", ins)
         }
 
     }
+}
 
+extension MainWindow: NSTableViewDataSource, NSTableViewDelegate {
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        instructions.count
+    }
+
+    func tableView(_ tableView: NSTableView,
+                   viewFor tableColumn: NSTableColumn?,
+                   row: Int) -> NSView? {
+        guard let column = tableColumn else {
+            print("nil column")
+            return nil
+        }
+        
+        let instruction = instructions[row]
+
+        switch column.identifier.rawValue {
+            case "iconColumn":
+                return nil
+                /*
+                let cell = tableView.makeView(
+                  withIdentifier: column.identifier,
+                  owner: self
+                ) as? NSTableCellView
+                cell?.imageView?.image = item.isOn ? onImage : offImage
+                return cell
+                 */
+            case "textColumn":
+                let cell = tableView.makeView(
+                  withIdentifier: column.identifier,
+                  owner: self
+                ) as? NSTableCellView
+                cell?.textField?.stringValue = instruction.description
+                return cell
+
+            default:
+                print("huh, identifier \(column.identifier)")
+                return nil
+        }
+    }
 }

@@ -8,6 +8,10 @@ class PSWView: NSView {
     private var cancellable: AnyCancellable?
     var psw: ProcessorStatusWord! = nil
 
+    var flags: [ProcessorStatusWord.Flags] = 
+          [.N, .V, .brk, .ignored, .D, .I, .Z, .C]
+    var hitRects: [CGRect] = []
+
     override var isFlipped: Bool {
         true
     }
@@ -20,6 +24,30 @@ class PSWView: NSView {
         cancellable?.cancel()
     }
 
+    func bind(to psw: ProcessorStatusWord) {
+        self.psw = psw
+        cancellable = psw.publisher
+        .receive(on: RunLoop.main)
+        .sink { value in
+            _ = value
+            self.needsDisplay = true
+        }
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        let sliceWidth = bounds.width / CGFloat(flags.count)
+
+        for i in 0 ..< flags.count {
+            let rect = CGRect(x: bounds.origin.x + CGFloat(i) * sliceWidth,
+                              y: bounds.origin.y,
+                              width: sliceWidth,
+                              height: bounds.height)
+            hitRects.append(rect)
+        }
+    }
+
     override func draw(_ dirtyRect: NSRect) {
         NSColor.white.set()
         bounds.fill()
@@ -27,29 +55,24 @@ class PSWView: NSView {
         let flags: [ProcessorStatusWord.Flags] = 
           [.N, .V, .brk, .ignored, .D, .I, .Z, .C]
 
-        let sliceWidth = bounds.width / CGFloat(flags.count)
-
         for (i, flag) in flags.enumerated() {
-            let rect = CGRect(x: bounds.origin.x + CGFloat(i) * sliceWidth,
-                              y: bounds.origin.y,
-                              width: sliceWidth,
-                              height: bounds.height)
             if psw.isSet(flag) {
                 NSColor.yellow.set()
             } else {
                 NSColor.white.set()
             }
+            let rect = hitRects[i]
             rect.fill()
 
             let display = flag.displayString as NSString
             let size = display.size()
-            let fudgeFactor = size.height - 3
             let textRect = CGRect(x: rect.origin.x + ((rect.width - size.width) / 2.0),
-                                  y: rect.origin.y + ((rect.height - size.height) / 2.0) + fudgeFactor,
+                                  y: rect.origin.y + ((rect.height - size.height) / 2.0),
                                   width: size.width,
                                   height: size.height)
             
-            display.draw(with: textRect)
+            display.draw(with: textRect,
+                         options: .usesLineFragmentOrigin)
 
             NSColor.black.set()
             rect.frame()
@@ -57,6 +80,17 @@ class PSWView: NSView {
 
         NSColor.black.set()
         bounds.frame()
+    }
+
+    override func mouseDown(with event: NSEvent) {
+        let point = convert(event.locationInWindow, from: nil)
+
+        for (i, flag) in flags.enumerated() {
+            if hitRects[i].contains(point) {
+                psw.toggle(flag)
+            }
+        }
+        
     }
 
 }
