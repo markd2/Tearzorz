@@ -11,6 +11,7 @@ class MainWindow: NSWindow {
     @IBOutlet var yView: RegisterView! = nil
     @IBOutlet var spView: RegisterView! = nil
     @IBOutlet var pswView: PSWView! = nil
+    @IBOutlet var memoryView: MemoryView! = nil
 
     @IBOutlet var tableView: NSTableView! = nil
     var instructions: [Instruction] = []
@@ -22,6 +23,8 @@ class MainWindow: NSWindow {
         spView.bind(to: cpu.stackPointer)
 
         pswView.bind(to: cpu.psw)
+
+        memoryView.memory = cpu.memory
 
         // populate the tableview
         loadSomeCode()

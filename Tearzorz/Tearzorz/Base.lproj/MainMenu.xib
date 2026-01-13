@@ -886,6 +886,7 @@
             <connections>
                 <outlet property="accumulatorView" destination="YvL-Nn-esm" id="kvl-CD-iVx"/>
                 <outlet property="delegate" destination="Voe-Tx-rLC" id="top-28-M4D"/>
+                <outlet property="memoryView" destination="lWo-ux-K6v" id="M6u-iZ-lqp"/>
                 <outlet property="pswView" destination="Wb8-Nl-8UO" id="K4N-TF-SB0"/>
                 <outlet property="spView" destination="Uvi-dt-GOs" id="jOw-s0-Y6D"/>
                 <outlet property="tableView" destination="jb2-Km-700" id="zu5-bn-Acz"/>

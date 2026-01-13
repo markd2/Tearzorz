@@ -5,7 +5,7 @@ import Combine
 
 class Memory {
     static let capacity = 64 * 1024 // 64K
-    private var bytes: [UInt8] = Array<UInt8>(repeating: 0, count: capacity)
+    var bytes: [UInt8] = Array<UInt8>(repeating: 0, count: capacity)
 
     func randomizeBytes() {
         for i in 0 ..< Self.capacity {
