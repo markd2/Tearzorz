@@ -8,6 +8,8 @@ class MemoryView: NSView {
     private var cancellable: AnyCancellable?
     var memory: Memory!
     
+    var lastNotification: Memory.Notification?
+    
     override var isFlipped: Bool {
         true
     }
@@ -20,6 +22,17 @@ class MemoryView: NSView {
         cancellable?.cancel()
     }
 
+    func bind(to memory: Memory) {
+        self.memory = memory
+        cancellable = memory.publisher
+          .receive(on: RunLoop.main)
+          .sink { notification in
+              // !!! animate the change
+              self.lastNotification = notification
+              self.needsDisplay = true
+          }
+    }
+
     override func draw(_ dirtyRect: NSRect) {
         NSColor.white.set()
         bounds.fill()
@@ -28,6 +41,8 @@ class MemoryView: NSView {
         let byteHeight = 14
         let topMargin = 10
         let leftMargin = 75
+
+        let notificationAddress: Int = lastNotification != nil ? Int(lastNotification!.address) : -1
 
         // show a row of bytes
         for row in 0 ..< 18 {
@@ -54,6 +69,11 @@ class MemoryView: NSView {
                 let size = value.size()
                 let stringRect = rect.sizeCenteredIn(size)
 
+                let address = row * 16 + column
+                if notificationAddress == Int(address) {
+                    NSColor.orange.withAlphaComponent(0.5).set()
+                    rect.fill()
+                }
                 value.draw(with: stringRect,
                            options: .usesLineFragmentOrigin)
             }

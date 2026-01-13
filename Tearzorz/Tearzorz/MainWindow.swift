@@ -23,8 +23,7 @@ class MainWindow: NSWindow {
         spView.bind(to: cpu.stackPointer)
 
         pswView.bind(to: cpu.psw)
-
-        memoryView.memory = cpu.memory
+        memoryView.bind(to: cpu.memory)
 
         // populate the tableview
         loadSomeCode()
