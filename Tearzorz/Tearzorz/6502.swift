@@ -25,12 +25,6 @@ class MOS6502 {
         memory.randomizeBytes()
     }
 
-    func setupHandlers() {
-        handlers[CLC] = handleCLC
-        handlers[LDA] = handleLDA
-        handlers[STA] = handleSTA
-    }
-    
     // for extension
     let bit0: UInt8 = 1 << 0
     let bit1: UInt8 = 1 << 1
@@ -113,6 +107,13 @@ extension MOS6502 {
         }
     }
 
+    func setupHandlers() {
+        handlers[CLC] = handleCLC
+        handlers[LDA] = handleLDA
+        handlers[STA] = handleSTA
+        handlers[NOP] = handleNOP
+    }
+    
     func handleCLC(_ instruction: Instruction) {
         psw.clearFlag(.C)
     }
@@ -126,6 +127,10 @@ extension MOS6502 {
     func handleSTA(_ instruction: Instruction) {
         let address = addressFor(instruction)
         memory.setByte(accumulator.value, at: address)
+    }
+
+    func handleNOP(_ instruction: Instruction) {
+        // nobody home
     }
 
     // do all the work to do the instruction except for incrementing
