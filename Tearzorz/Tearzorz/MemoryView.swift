@@ -24,8 +24,8 @@ class MemoryView: NSView {
         NSColor.white.set()
         bounds.fill()
 
-        let byteWidth = 20
-        let byteHeight = 12
+        let byteWidth = 25
+        let byteHeight = 14
         let topMargin = 10
         let leftMargin = 75
 
@@ -56,7 +56,6 @@ class MemoryView: NSView {
 
                 value.draw(with: stringRect,
                            options: .usesLineFragmentOrigin)
-                stringRect.frame()
             }
         }
 

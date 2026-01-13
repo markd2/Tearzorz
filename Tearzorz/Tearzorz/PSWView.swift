@@ -66,13 +66,13 @@ class PSWView: NSView {
 
             let display = flag.displayString as NSString
             let size = display.size()
-            let fudgeFactor = size.height - 3
             let textRect = CGRect(x: rect.origin.x + ((rect.width - size.width) / 2.0),
-                                  y: rect.origin.y + ((rect.height - size.height) / 2.0) + fudgeFactor,
+                                  y: rect.origin.y + ((rect.height - size.height) / 2.0),
                                   width: size.width,
                                   height: size.height)
             
-            display.draw(with: textRect)
+            display.draw(with: textRect,
+                         options: .usesLineFragmentOrigin)
 
             NSColor.black.set()
             rect.frame()

@@ -38,13 +38,13 @@ class RegisterView: NSView {
         let display = String(format: "%02X", register.value) as NSString
         
         let size = display.size()
-        let fudgeFactor = size.height - 3 //  if the rect is perfectly centered, the text draws above it %-)
         let rect = CGRect(x: bounds.origin.x + ((bounds.width - size.width) / 2.0),
-                          y: bounds.origin.y + ((bounds.height - size.height) / 2.0) + fudgeFactor,
+                          y: bounds.origin.y + ((bounds.height - size.height) / 2.0),
                           width: size.width,
                           height: size.height)
 
-        display.draw(with: rect)
+        display.draw(with: rect,
+                     options: .usesLineFragmentOrigin)
         
         NSColor.black.set()
         bounds.frame()
