@@ -683,14 +683,14 @@
         <window title="Tearzorz" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g" customClass="MainWindow" customModule="Tearzorz" customModuleProvider="target">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="480" height="360"/>
+            <rect key="contentRect" x="335" y="390" width="579" height="459"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2048" height="1127"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
+                <rect key="frame" x="0.0" y="0.0" width="579" height="459"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0NK-bN-MCS">
-                        <rect key="frame" x="5" y="321" width="138" height="32"/>
+                        <rect key="frame" x="5" y="420" width="138" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Load Some Code" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gOv-T3-1XP">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -700,8 +700,19 @@
                             <action selector="loadSomeCode:" target="QvC-M9-y7g" id="qQ4-qP-EMu"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tkP-SL-OK2">
+                        <rect key="frame" x="13" y="324" width="181" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Run selected instruction" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sOX-be-Lm4">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="runSelectedInstruction:" target="QvC-M9-y7g" id="q7i-0B-7Me"/>
+                        </connections>
+                    </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="isf-22-xg6">
-                        <rect key="frame" x="141" y="321" width="108" height="32"/>
+                        <rect key="frame" x="141" y="420" width="108" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Change Reg" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7wt-Vu-Sfb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -712,7 +723,7 @@
                         </connections>
                     </button>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7ch-BX-gwu">
-                        <rect key="frame" x="18" y="245" width="81" height="16"/>
+                        <rect key="frame" x="18" y="400" width="81" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Accumulator" id="Hu4-CW-TKb">
                             <font key="font" metaFont="system"/>
@@ -721,7 +732,7 @@
                         </textFieldCell>
                     </textField>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rHp-o6-PvY">
-                        <rect key="frame" x="144" y="245" width="13" height="16"/>
+                        <rect key="frame" x="144" y="400" width="13" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="X" id="5Zx-1D-WPX">
                             <font key="font" metaFont="system"/>
@@ -730,15 +741,15 @@
                         </textFieldCell>
                     </textField>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YvL-Nn-esm" customClass="RegisterView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="20" y="191" width="83" height="46"/>
+                        <rect key="frame" x="20" y="361" width="83" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GIp-ZV-26h" customClass="RegisterView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="146" y="191" width="83" height="46"/>
+                        <rect key="frame" x="146" y="361" width="83" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dhh-98-O20">
-                        <rect key="frame" x="258" y="245" width="13" height="16"/>
+                        <rect key="frame" x="258" y="400" width="13" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Y" id="YZu-VY-vyU">
                             <font key="font" metaFont="system"/>
@@ -747,11 +758,11 @@
                         </textFieldCell>
                     </textField>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tkq-mo-QU8" customClass="RegisterView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="260" y="191" width="83" height="46"/>
+                        <rect key="frame" x="260" y="361" width="83" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OjY-ZF-74h">
-                        <rect key="frame" x="364" y="245" width="21" height="16"/>
+                        <rect key="frame" x="364" y="400" width="21" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="SP" id="nag-YA-se2">
                             <font key="font" metaFont="system"/>
@@ -759,25 +770,12 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kJC-1C-PBr">
-                        <rect key="frame" x="440" y="324" width="33" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" lineBreakMode="clipping" title="PSW" id="SUW-2a-kgo">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uvi-dt-GOs" customClass="RegisterView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="366" y="191" width="83" height="46"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    </customView>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wb8-Nl-8UO" customClass="PSWView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="343" y="294" width="128" height="25"/>
+                        <rect key="frame" x="366" y="361" width="83" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a5z-1X-DCf">
-                        <rect key="frame" x="245" y="321" width="113" height="32"/>
+                        <rect key="frame" x="245" y="420" width="113" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Change PSW" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="8et-k8-EOH">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -787,21 +785,29 @@
                             <action selector="changePSW:" target="QvC-M9-y7g" id="hai-kU-bK0"/>
                         </connections>
                     </button>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wb8-Nl-8UO" customClass="PSWView" customModule="Tearzorz" customModuleProvider="target">
+                        <rect key="frame" x="366" y="424" width="128" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lWo-ux-K6v" customClass="MemoryView" customModule="Tearzorz" customModuleProvider="target">
+                        <rect key="frame" x="12" y="20" width="547" height="183"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </customView>
                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XwU-Ks-lUn">
-                        <rect key="frame" x="220" y="48" width="240" height="135"/>
+                        <rect key="frame" x="216" y="216" width="240" height="135"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="vFa-hO-Rmh">
                             <rect key="frame" x="1" y="1" width="238" height="133"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" headerView="SY6-UI-nzF" viewBased="YES" id="jb2-Km-700">
-                                    <rect key="frame" x="0.0" y="0.0" width="238" height="105"/>
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" id="jb2-Km-700">
+                                    <rect key="frame" x="0.0" y="0.0" width="238" height="133"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <size key="intercellSpacing" width="17" height="0.0"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="iconColumn" width="40" minWidth="40" maxWidth="1000" id="mca-V6-rJa">
+                                        <tableColumn identifier="iconColumn" width="20" minWidth="20" maxWidth="1000" id="mca-V6-rJa">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -814,7 +820,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="iconColumn" id="0ck-z6-z0Y">
-                                                    <rect key="frame" x="8" y="0.0" width="38" height="24"/>
+                                                    <rect key="frame" x="8" y="0.0" width="18" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HBP-2j-b02">
@@ -839,7 +845,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="textColumn" id="1Dc-0R-pLc">
-                                                    <rect key="frame" x="63" y="0.0" width="166" height="24"/>
+                                                    <rect key="frame" x="43" y="0.0" width="166" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eUl-A1-JOQ">
@@ -874,22 +880,7 @@
                             <rect key="frame" x="224" y="17" width="15" height="102"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <tableHeaderView key="headerView" wantsLayer="YES" id="SY6-UI-nzF">
-                            <rect key="frame" x="0.0" y="0.0" width="238" height="28"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </tableHeaderView>
                     </scrollView>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tkP-SL-OK2">
-                        <rect key="frame" x="13" y="128" width="181" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Run selected instruction" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="sOX-be-Lm4">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="runSelectedInstruction:" target="QvC-M9-y7g" id="q7i-0B-7Me"/>
-                        </connections>
-                    </button>
                 </subviews>
             </view>
             <connections>
@@ -901,7 +892,7 @@
                 <outlet property="xView" destination="GIp-ZV-26h" id="XEN-PD-DOl"/>
                 <outlet property="yView" destination="Tkq-mo-QU8" id="F8O-hs-BFd"/>
             </connections>
-            <point key="canvasLocation" x="200" y="400"/>
+            <point key="canvasLocation" x="150.5" y="449.5"/>
         </window>
     </objects>
 </document>
