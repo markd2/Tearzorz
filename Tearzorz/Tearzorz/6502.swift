@@ -71,9 +71,14 @@ extension MOS6502 {
     func updateFlags(for byte: UInt8) {
         if byte == 0 {
             psw.setFlag(.Z)
+        } else {
+            psw.clearFlag(.Z)
         }
+
         if byte & bit7 != 0 {
             psw.setFlag(.N)
+        } else {
+            psw.clearFlag(.N)
         }
     }
 
