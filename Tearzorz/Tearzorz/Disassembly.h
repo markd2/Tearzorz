@@ -89,6 +89,9 @@ typedef enum AddressingMode {
 - (instancetype) initWithOpcode: (Opcode) opcode
                  addressingMode: (AddressingMode) addressingMode
                           bytes: (unsigned char *) bytes;
+
+- (unsigned char) modeByteValue;
+- (uint16_t) modeWordValue;
 @end // Instruction
 
 

@@ -154,6 +154,18 @@
 } // humanReadableAddress
 
 
+- (unsigned char) modeByteValue {
+    return _bytes[1];
+} // modeByteValue
+
+
+- (uint16_t) modeWordValue {
+    // little endian
+    return _bytes[2] << 16 | _bytes[1];
+} // modeWordValue
+
+
+
 - (NSString *) description {
     NSMutableArray *splunge = NSMutableArray.new;
 
