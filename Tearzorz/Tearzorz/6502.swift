@@ -109,15 +109,19 @@ extension MOS6502 {
 
     func setupHandlers() {
         handlers[CLC] = handleCLC
+        handlers[SEC] = handleSEC
+        handlers[CLI] = handleCLI
+        handlers[SEI] = handleSEI
+        handlers[CLV] = handleCLV
+        handlers[CLD] = handleCLD
+        handlers[SED] = handleSED
+
         handlers[LDA] = handleLDA
         handlers[STA] = handleSTA
+
         handlers[NOP] = handleNOP
     }
     
-    func handleCLC(_ instruction: Instruction) {
-        psw.clearFlag(.C)
-    }
-
     func handleLDA(_ instruction: Instruction) {
         let byte = addressedByte(instruction)
         accumulator.value = byte
@@ -127,10 +131,6 @@ extension MOS6502 {
     func handleSTA(_ instruction: Instruction) {
         let address = addressFor(instruction)
         memory.setByte(accumulator.value, at: address)
-    }
-
-    func handleNOP(_ instruction: Instruction) {
-        // nobody home
     }
 
     // do all the work to do the instruction except for incrementing
@@ -143,7 +143,45 @@ extension MOS6502 {
 
         handler(instruction)
     }
+}
 
+
+// PSW Flags
+extension MOS6502 {
+    func handleCLC(_ instruction: Instruction) {
+        psw.clearFlag(.C)
+    }
+
+    func handleSEC(_ instruction: Instruction) {
+        psw.setFlag(.C)
+    }
+
+    func handleCLI(_ instruction: Instruction) {
+        psw.clearFlag(.I)
+    }
+
+    func handleSEI(_ instruction: Instruction) {
+        psw.setFlag(.I)
+    }
+
+    func handleCLV(_ instruction: Instruction) {
+        psw.clearFlag(.V)
+    }
+
+    func handleCLD(_ instruction: Instruction) {
+        psw.clearFlag(.D)
+    }
+
+    func handleSED(_ instruction: Instruction) {
+        psw.setFlag(.D)
+    }
+}
+
+// Misc instructions
+extension MOS6502 {
+    func handleNOP(_ instruction: Instruction) {
+        // nobody home
+    }
 }
 
 extension Opcode: Hashable { }

@@ -51,7 +51,8 @@ class MainWindow: NSWindow {
     }
 
     func loadSomeCode() {
-        let bytes = kim1bytes()
+//        let bytes = kim1bytes()
+        let bytes = allAddressingModesBytes()
 
         let dis = Disassembly()
         instructions = dis.disassemble(bytes)!
@@ -80,17 +81,8 @@ class MainWindow: NSWindow {
         return data
     }
 
-    @IBAction func splunge(_ sender: NSButton) {
-        let dis = Disassembly()
-        
-        let blah = dis.disassemble(kim1bytes())!
-        
-        for ins in blah {
-            Swift.print("    ", ins)
-        }
-
+    func allAddressingModesBytes() -> Data {
         // courtesy of our robot overlords
-        print("-----")
         /*
         0800: 78          ; SEI
         0801: 18          ; CLC
@@ -122,14 +114,27 @@ class MainWindow: NSWindow {
         0836: 6C 00 09    ; JMP ($0900)
         0839: 60          ; RTS
         */
-        let allAddressingModesBytes: [CUnsignedChar] = [
+        let blah: [CUnsignedChar] = [
           0x78, 0x18, 0xA9, 0x10, 0x69, 0x05, 0xC9, 0x20, 0x0A, 0x2A, 0x85, 0x00, 0xA5, 0x00, 0xA2, 0x04,
           0xA0, 0x08, 0x95, 0x10, 0xB5, 0x10, 0x84, 0x20, 0xB6, 0x20, 0xAD, 0x34, 0x12, 0x8D, 0x35, 0x12,
           0xBD, 0x00, 0x20, 0x9D, 0x01, 0x20, 0xB9, 0x00, 0x30, 0x99, 0x01, 0x30, 0xA1, 0x40, 0xB1, 0x50,
           0xF0, 0x01, 0xEA, 0xD0, 0x01, 0xEA, 0x6C, 0x00, 0x09, 0x60
         ]
 
-        let blah2 = dis.disassemble(Data(allAddressingModesBytes))!
+        return Data(blah)
+    }
+
+    @IBAction func splunge(_ sender: NSButton) {
+        let dis = Disassembly()
+        
+        let blah = dis.disassemble(kim1bytes())!
+        
+        for ins in blah {
+            Swift.print("    ", ins)
+        }
+
+
+        let blah2 = dis.disassemble(allAddressingModesBytes())!
         
         for ins in blah2 {
             Swift.print("    ", ins)
