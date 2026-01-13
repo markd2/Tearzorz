@@ -10,6 +10,10 @@ react.
 
 ![](assets/tearzorz-1.gif)
 
+Can now click on the flags in the PSW to toggle them. Starts adding some
+instruction executing.  Shows memory and highlights bytes that change.
+
+![](assets/run-some-code.gif)
 
 # LICENSE
 
