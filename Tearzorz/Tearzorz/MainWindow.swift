@@ -21,7 +21,7 @@ class MainWindow: NSWindow {
         yView.bind(to: cpu.Yregister)
         spView.bind(to: cpu.stackPointer)
 
-        pswView.psw = cpu.psw
+        pswView.bind(to: cpu.psw)
     }
 
     @IBAction func changeRegisters(_ sender: NSButton) {

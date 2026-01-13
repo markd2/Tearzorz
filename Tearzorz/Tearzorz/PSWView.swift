@@ -24,6 +24,16 @@ class PSWView: NSView {
         cancellable?.cancel()
     }
 
+    func bind(to psw: ProcessorStatusWord) {
+        self.psw = psw
+        cancellable = psw.publisher
+        .receive(on: RunLoop.main)
+        .sink { value in
+            _ = value
+            self.needsDisplay = true
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         
