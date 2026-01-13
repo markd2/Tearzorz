@@ -49,6 +49,9 @@ extension MOS6502 {
             return accumulator.value
         case Immediate:
             return instruction.modeByteValue()
+        case ZeroPage:
+            let address = instruction.modeByteValue()
+            return memory.bytes[Int(address)]
 /*
         case Absolute:
         case Absolute_XIndexed:
@@ -58,7 +61,6 @@ extension MOS6502 {
         case Indexed_Indirect_X:
         case Indirect_Indexed_Y:
         case Relative:
-        case ZeroPage:
         case ZeroPage_XIndexed:
         case ZeroPage_YIndexed:
 */
