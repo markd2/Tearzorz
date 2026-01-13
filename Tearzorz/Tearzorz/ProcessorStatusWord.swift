@@ -71,4 +71,12 @@ class ProcessorStatusWord {
     func isSet(_ flag: Flags) -> Bool {
         flags.contains(flag)
     }
+
+    func toggle(_ flag: Flags) {
+        if isSet(flag) {
+            clearFlag(flag)
+        } else {
+            setFlag(flag)
+        }
+    }
 }
