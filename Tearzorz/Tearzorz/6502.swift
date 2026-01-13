@@ -28,6 +28,7 @@ class MOS6502 {
     func setupHandlers() {
         handlers[CLC] = handleCLC
         handlers[LDA] = handleLDA
+        handlers[STA] = handleSTA
     }
     
     // for extension
@@ -43,6 +44,34 @@ class MOS6502 {
 
 /// instruction execution
 extension MOS6502 {
+
+    func addressFor(_ instruction: Instruction) -> UInt16 {
+        switch instruction.addressingMode {
+        case ZeroPage:
+            let address = instruction.modeByteAddressValue()
+            return address
+/*
+        case Absolute:
+        case Absolute_XIndexed:
+        case Absolute_YIndexed:
+        case Implied:
+        case Indirect:
+        case Indexed_Indirect_X:
+        case Indirect_Indexed_Y:
+        case Relative:
+        case ZeroPage_XIndexed:
+        case ZeroPage_YIndexed:
+
+        // no addresses for these dudes
+        case Accumulator:
+        case Immediate:
+*/
+        default:
+            print("oops address")
+            return 0x0000
+        }
+    }
+
     func addressedByte(_ instruction: Instruction) -> UInt8 {
         switch instruction.addressingMode {
         case Accumulator:
@@ -50,7 +79,7 @@ extension MOS6502 {
         case Immediate:
             return instruction.modeByteValue()
         case ZeroPage:
-            let address = instruction.modeByteValue()
+            let address = addressFor(instruction)
             return memory.bytes[Int(address)]
 /*
         case Absolute:
@@ -92,6 +121,11 @@ extension MOS6502 {
         let byte = addressedByte(instruction)
         accumulator.value = byte
         updateFlags(for: byte)
+    }
+
+    func handleSTA(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        memory.setByte(accumulator.value, at: address)
     }
 
     // do all the work to do the instruction except for incrementing
