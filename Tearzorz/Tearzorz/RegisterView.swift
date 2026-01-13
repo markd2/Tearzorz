@@ -24,11 +24,11 @@ class RegisterView: NSView {
 //             update: @escaping @MainActor (UInt8) -> Void) {
         self.register = register
         cancellable = register.publisher
-        .receive(on: RunLoop.main)
-        .sink { value in
-            _ = value
-            self.needsDisplay = true
-        }
+          .receive(on: RunLoop.main)
+          .sink { value in
+              _ = value
+              self.needsDisplay = true
+          }
     }
     
     override func draw(_ dirtyRect: NSRect) {
