@@ -22,6 +22,7 @@ class MOS6502 {
 
     init() {
         setupHandlers()
+        memory.randomizeBytes()
     }
 
     func setupHandlers() {
