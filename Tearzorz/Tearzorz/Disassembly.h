@@ -91,7 +91,8 @@ typedef enum AddressingMode {
                           bytes: (unsigned char *) bytes;
 
 - (unsigned char) modeByteValue;
-- (uint16_t) modeWordValue;
+- (uint16_t) modeWordAddressValue;
+- (uint16_t) modeByteAddressValue;
 @end // Instruction
 
 
