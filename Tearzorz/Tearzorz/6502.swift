@@ -44,16 +44,21 @@ extension MOS6502 {
         case ZeroPage:
             let address = instruction.modeByteAddressValue()
             return address
+        case ZeroPage_XIndexed:
+            var address: UInt16 = instruction.modeByteAddressValue()
+            address += UInt16(Xregister.value)
+            print(String(format: "looking at %04x", UInt16(address)))
+            return address
+
 /*
         case Absolute:
-        case Absolute_XIndexed:
         case Absolute_YIndexed:
+        case Absolute_XIndexed:
         case Implied:
         case Indirect:
         case Indexed_Indirect_X:
         case Indirect_Indexed_Y:
         case Relative:
-        case ZeroPage_XIndexed:
         case ZeroPage_YIndexed:
 
         // no addresses for these dudes
@@ -75,6 +80,10 @@ extension MOS6502 {
         case ZeroPage:
             let address = addressFor(instruction)
             return memory.bytes[Int(address)]
+        case ZeroPage_XIndexed:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
+
 /*
         case Absolute:
         case Absolute_XIndexed:
@@ -84,7 +93,6 @@ extension MOS6502 {
         case Indexed_Indirect_X:
         case Indirect_Indexed_Y:
         case Relative:
-        case ZeroPage_XIndexed:
         case ZeroPage_YIndexed:
 */
         default:
