@@ -93,7 +93,7 @@ extension MOS6502 {
         }
     }
 
-    func updateFlags(for byte: UInt8) {
+    func updateNZFlags(for byte: UInt8) {
         if byte == 0 {
             psw.setFlag(.Z)
         } else {
@@ -119,13 +119,20 @@ extension MOS6502 {
         handlers[LDA] = handleLDA
         handlers[STA] = handleSTA
 
+        handlers[TAX] = handleTAX
+        handlers[TAY] = handleTAY
+        handlers[TSX] = handleTSX
+        handlers[TXA] = handleTXA
+        handlers[TXS] = handleTXS
+        handlers[TYA] = handleTYA
+
         handlers[NOP] = handleNOP
     }
     
     func handleLDA(_ instruction: Instruction) {
         let byte = addressedByte(instruction)
         accumulator.value = byte
-        updateFlags(for: byte)
+        updateNZFlags(for: byte)
     }
 
     func handleSTA(_ instruction: Instruction) {
@@ -174,6 +181,39 @@ extension MOS6502 {
 
     func handleSED(_ instruction: Instruction) {
         psw.setFlag(.D)
+    }
+}
+
+// Transfer instructions
+extension MOS6502 {
+    func handleTAX(_ instruction: Instruction) {
+        Xregister.value = accumulator.value
+        updateNZFlags(for: Xregister.value)
+    }
+
+    func handleTAY(_ instruction: Instruction) {
+        Yregister.value = accumulator.value
+        updateNZFlags(for: Yregister.value)
+    }
+
+    func handleTSX(_ instruction: Instruction) {
+        Xregister.value = stackPointer.value
+        updateNZFlags(for: Xregister.value)
+    }
+
+    func handleTXA(_ instruction: Instruction) {
+        accumulator.value = Xregister.value
+        updateNZFlags(for: accumulator.value)
+    }
+
+    func handleTXS(_ instruction: Instruction) {
+        stackPointer.value = Xregister.value
+        updateNZFlags(for: stackPointer.value)
+    }
+
+    func handleTYA(_ instruction: Instruction) {
+        accumulator.value = Yregister.value
+        updateNZFlags(for: accumulator.value)
     }
 }
 
