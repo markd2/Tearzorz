@@ -76,7 +76,7 @@ extension MOS6502 {
         case Indirect:
         case Indexed_Indirect_X:
         case Indirect_Indexed_Y:
-        case Relative:
+        case Relative:  // this is pretty complicated due to page-boundary crossings, so kicked that can further down the road. only for branches
         case ZeroPage_YIndexed:
 
         // no addresses for these dudes
