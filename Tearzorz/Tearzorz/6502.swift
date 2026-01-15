@@ -65,9 +65,11 @@ extension MOS6502 {
             address += UInt16(Xregister.value)
             print(String(format: "looking at %04x", UInt16(address)))
             return address
+        case Absolute:
+            let address: UInt16 = instruction.modeWordAddressValue()
+            return address
 
 /*
-        case Absolute:
         case Absolute_YIndexed:
         case Absolute_XIndexed:
         case Implied:
@@ -99,9 +101,11 @@ extension MOS6502 {
         case ZeroPage_XIndexed:
             let address = addressFor(instruction)
             return memory.bytes[Int(address)]
+        case Absolute:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
 
 /*
-        case Absolute:
         case Absolute_XIndexed:
         case Absolute_YIndexed:
         case Implied:
