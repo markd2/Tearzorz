@@ -32,7 +32,7 @@ class StackView: NSView {
         self.sp = sp
         self.memory = memory
 
-        self.sp.publisher
+        sp.publisher
           .receive(on: RunLoop.main)
           .sink { value in
               self.clearHighlightIn(Constants.changeHighlightInterval)
@@ -40,7 +40,7 @@ class StackView: NSView {
           }
           .store(in: &cancellables)
 
-        self.memory.publisher
+        memory.publisher
           .receive(on: RunLoop.main)
           .sink { notification in
               self.highlightedAddress = notification.address
