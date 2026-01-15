@@ -723,7 +723,7 @@
                         </connections>
                     </button>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7ch-BX-gwu">
-                        <rect key="frame" x="18" y="400" width="81" height="16"/>
+                        <rect key="frame" x="18" y="395" width="81" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Accumulator" id="Hu4-CW-TKb">
                             <font key="font" metaFont="system"/>
@@ -732,7 +732,7 @@
                         </textFieldCell>
                     </textField>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rHp-o6-PvY">
-                        <rect key="frame" x="144" y="400" width="13" height="16"/>
+                        <rect key="frame" x="144" y="395" width="13" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="X" id="5Zx-1D-WPX">
                             <font key="font" metaFont="system"/>
@@ -749,7 +749,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dhh-98-O20">
-                        <rect key="frame" x="258" y="400" width="13" height="16"/>
+                        <rect key="frame" x="258" y="395" width="13" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Y" id="YZu-VY-vyU">
                             <font key="font" metaFont="system"/>
@@ -762,7 +762,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OjY-ZF-74h">
-                        <rect key="frame" x="364" y="400" width="21" height="16"/>
+                        <rect key="frame" x="364" y="395" width="21" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="SP" id="nag-YA-se2">
                             <font key="font" metaFont="system"/>
