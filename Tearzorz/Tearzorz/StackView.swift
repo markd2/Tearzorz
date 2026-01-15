@@ -27,6 +27,8 @@ class StackView: NSView {
 
     func bind(toSP sp: Register<UInt8>,
               memory: Memory) {
+        cancellables.removeAll()
+
         self.sp = sp
         self.memory = memory
 
@@ -36,7 +38,7 @@ class StackView: NSView {
               self.clearHighlightIn(Constants.changeHighlightInterval)
               self.needsDisplay = true
           }
-          .store(in: &cancellables)        
+          .store(in: &cancellables)
 
         self.memory.publisher
           .receive(on: RunLoop.main)
@@ -45,7 +47,7 @@ class StackView: NSView {
               self.clearHighlightIn(Constants.changeHighlightInterval)
               self.needsDisplay = true
           }
-          .store(in: &cancellables)        
+          .store(in: &cancellables)
     }
 
     func clearHighlightIn(_ seconds: TimeInterval) {
