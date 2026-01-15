@@ -23,6 +23,22 @@ class MOS6502 {
     init() {
         setupHandlers()
         memory.randomizeBytes()
+        reset()
+    }
+
+    func reset() {
+        // ideally, a ROM routine (function) pointer at (FFFC/D) will clear
+        // the CPU state (set A,X,Y to zero, SP to 0xFD because it's cleared,
+        // and RESET does the "push three things on the stack".  The first
+        // writes to zero and wraps around, then two more.
+        // Resumably the code pointed to by the reset vector can change SP to
+        // 0xFF and get those two bytes back
+        accumulator.value = 0
+        Xregister.value = 0
+        Yregister.value = 0
+        stackPointer.value = 0xFD
+
+        // start the PC at (0xFFFC) when things get real
     }
 
     // for extension
