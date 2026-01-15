@@ -31,7 +31,7 @@ class ProcessorStatusWord {
             self.displayString = displayString
         }
         
-        let rawValue: UInt8
+        var rawValue: UInt8
         let displayString: String
 
         /// Negative - set if the most significant bit of the result 1 is 
@@ -62,6 +62,10 @@ class ProcessorStatusWord {
 
     func setFlag(_ flag: Flags) {
         flags = flags.union([flag])
+    }
+
+    func setFlags(_ rawFlags: UInt8) {
+        flags.rawValue = rawFlags
     }
     
     func clearFlag(_ flag: Flags) {

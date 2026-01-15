@@ -6,34 +6,50 @@ import Cocoa
 class MainWindow: NSWindow {
     let cpu: MOS6502 = MOS6502()
 
-    @IBOutlet var accumulatorView: RegisterView! = nil
-    @IBOutlet var xView: RegisterView! = nil
-    @IBOutlet var yView: RegisterView! = nil
-    @IBOutlet var spView: RegisterView! = nil
-    @IBOutlet var pswView: PSWView! = nil
-    @IBOutlet var memoryView: MemoryView! = nil
+    @IBOutlet var accumulatorView: RegisterView!
+    @IBOutlet var xView: RegisterView!
+    @IBOutlet var yView: RegisterView!
+    @IBOutlet var spView: RegisterView!
 
-    @IBOutlet var tableView: NSTableView! = nil
+    @IBOutlet var pswView: PSWView!
+
+    @IBOutlet var memoryView: MemoryView!
+    @IBOutlet var stackView: StackView!
+
+    @IBOutlet var tableView: NSTableView!
     var instructions: [Instruction] = []
+
+    /// Looks like the new 'improved' view-based tableview can trigger
+    /// awakeFromNib multiple times, one extra time for each tableview row
+    /// visible.  If you're doing one-time stuff in awakeFromNib, that's
+    /// kind of a problem. So hack around it by only running the one-time
+    /// work once.
+    var alreadyAwokenFromNib = false
     
     override func awakeFromNib() {
-        accumulatorView.bind(to: cpu.accumulator)
-        xView.bind(to: cpu.Xregister)
-        yView.bind(to: cpu.Yregister)
-        spView.bind(to: cpu.stackPointer)
+        if !alreadyAwokenFromNib {
+            accumulatorView.bind(to: cpu.accumulator)
+            xView.bind(to: cpu.Xregister)
+            yView.bind(to: cpu.Yregister)
+            spView.bind(to: cpu.stackPointer)
+            
+            pswView.bind(to: cpu.psw)
+            
+            memoryView.bind(to: cpu.memory)
+            stackView.bind(toSP: cpu.stackPointer, memory: cpu.memory)
+            
+            // populate the tableview
+            loadSomeCode()
 
-        pswView.bind(to: cpu.psw)
-        memoryView.bind(to: cpu.memory)
-
-        // populate the tableview
-        loadSomeCode()
+            alreadyAwokenFromNib = true
+        }
     }
 
     @IBAction func changeRegisters(_ sender: NSButton) {
         cpu.accumulator.value = UInt8.random(in: 0...255)
         cpu.Xregister.value = (cpu.Xregister.value + 2) % 127
         cpu.Yregister.value = (cpu.Yregister.value + 3) % 127
-        cpu.stackPointer.value = (cpu.stackPointer.value + 2)
+        cpu.stackPointer.value = UInt8.random(in: 0...255)
     }
 
     @IBAction func changePSW(_ sender: NSButton) {
@@ -113,12 +129,27 @@ class MainWindow: NSWindow {
         0835: EA          ; NOP
         0836: 6C 00 09    ; JMP ($0900)
         0839: 60          ; RTS
+              08            PHP
+              28            PLP
+              48            PHA
+              68            PLA
+              88            DEY
+              C8            INY
+              CA            DEX
+              E8            INX
+              8A            TXA
+              AA            TAX
+              A8            TAY
+              BA            TSX
+              9A            TXS
+              98            TYA
         */
         let blah: [CUnsignedChar] = [
           0x78, 0x18, 0xA9, 0x10, 0x69, 0x05, 0xC9, 0x20, 0x0A, 0x2A, 0x85, 0x00, 0xA5, 0x00, 0xA2, 0x04,
           0xA0, 0x08, 0x95, 0x10, 0xB5, 0x10, 0x84, 0x20, 0xB6, 0x20, 0xAD, 0x34, 0x12, 0x8D, 0x35, 0x12,
           0xBD, 0x00, 0x20, 0x9D, 0x01, 0x20, 0xB9, 0x00, 0x30, 0x99, 0x01, 0x30, 0xA1, 0x40, 0xB1, 0x50,
-          0xF0, 0x01, 0xEA, 0xD0, 0x01, 0xEA, 0x6C, 0x00, 0x09, 0x60
+          0xF0, 0x01, 0xEA, 0xD0, 0x01, 0xEA, 0x6C, 0x00, 0x09, 0x60,
+          0x08, 0x28, 0x48, 0x68, 0x88, 0xC8, 0xCA, 0xE8, 0x8A, 0xAA, 0xA8, 0xBA, 0x9A, 0x98
         ]
 
         return Data(blah)

@@ -45,7 +45,7 @@ class MemoryView: NSView {
         let notificationAddress: Int = lastNotification != nil ? Int(lastNotification!.address) : -1
 
         // show a row of bytes
-        for row in 0 ..< 18 {
+        for row in 0 ..< 256 {
             let rowLabelRect = CGRect(x: 5,
                                       y: topMargin + row * byteHeight,
                                       width: 70,
@@ -53,7 +53,7 @@ class MemoryView: NSView {
             let labelValue = String(format: "$%04X", UInt16(row * 16)) as NSString
             let labelSize = labelValue.size()
             labelValue.draw(with: rowLabelRect.sizeCenteredIn(labelSize),
-                           options: .usesLineFragmentOrigin)
+                            options: .usesLineFragmentOrigin)
             
             // show the bytes in the row. Xcode team should replace 16 with
             // the prime number of their choice
@@ -71,11 +71,15 @@ class MemoryView: NSView {
 
                 let address = row * 16 + column
                 if notificationAddress == Int(address) {
-                    NSColor.orange.withAlphaComponent(0.5).set()
+                    Colors.changeHighlight.set()
                     rect.fill()
                 }
                 value.draw(with: stringRect,
                            options: .usesLineFragmentOrigin)
+            }
+
+            if CGFloat(topMargin + row * byteHeight + byteHeight*2) > bounds.height {
+                break
             }
         }
 
