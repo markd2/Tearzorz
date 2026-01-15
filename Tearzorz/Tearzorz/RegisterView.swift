@@ -7,6 +7,7 @@ class RegisterView: NSView {
     
     private var cancellable: AnyCancellable?
     private var register: Register<UInt8>!
+    private var isHighlighted = false
     
     override var isFlipped: Bool {
         true
@@ -21,20 +22,28 @@ class RegisterView: NSView {
     }
 
     func bind(to register: Register<UInt8>) {
-//             update: @escaping @MainActor (UInt8) -> Void) {
         self.register = register
         cancellable = register.publisher
           .receive(on: RunLoop.main)
           .sink { value in
               _ = value
+              self.isHighlighted = true
+              self.clearHighlightIn(Constants.changeHighlightInterval)
               self.needsDisplay = true
           }
     }
+
+    func clearHighlightIn(_ seconds: TimeInterval) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            self.isHighlighted = false
+            self.needsDisplay = true
+        }
+    }
     
     override func draw(_ dirtyRect: NSRect) {
-        NSColor.white.set()
+        (isHighlighted ? Colors.changeHighlight : NSColor.white).set()
         bounds.fill()
-
+        
         let display = String(format: "$%02X\n%@", register.value,
                              register.value.binaryString) as NSString
         
