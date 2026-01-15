@@ -33,7 +33,6 @@ class StackView: NSView {
         self.sp.publisher
           .receive(on: RunLoop.main)
           .sink { value in
-              self.highlightedAddress = 0x00 << 16 | UInt16(value)
               self.clearHighlightIn(Constants.changeHighlightInterval)
               self.needsDisplay = true
           }
@@ -56,9 +55,56 @@ class StackView: NSView {
         }
     }
 
+    let byteWidth = 25
+    let byteHeight: CGFloat = 14
+
+    func renderTwoBytes(_ thing1: UInt8, _ thing2: UInt8,
+                        at y: CGFloat, drawLighter: Bool, drawHighlighted: Bool) {
+        let string = String(format: "$01%02X: %02X", thing1, thing2) as NSString
+        let rect = CGRect(x: 5, y: y,
+                          width: bounds.width - 10, height: byteHeight)
+        if drawHighlighted {
+            Colors.changeHighlight.set()
+            rect.fill()
+        }
+
+        let size = string.size()
+
+        let textFontAttributes: [NSAttributedString.Key: Any] = [
+          .foregroundColor: (drawLighter ? NSColor.gray : NSColor.black)
+        ]
+
+        string.draw(with: rect.sizeCenteredIn(size),
+                    options: .usesLineFragmentOrigin,
+                    attributes: textFontAttributes)
+    }
+
     override func draw(_ dirtyRect: NSRect) {
         NSColor.white.set()
         bounds.fill()
+
+        var y: CGFloat = 5
+        var drawLighter = false
+
+        NSColor.black.set()
+        for address: UInt16 in stride(from: 0x01FF, through: 0x0100, by: -1) {
+            let lowByte = UInt8(address & 0xFF)
+            let drawHighlighted = address == highlightedAddress
+            renderTwoBytes(lowByte, memory.byte(at: address),
+                           at: y, drawLighter: drawLighter,
+                           drawHighlighted: drawHighlighted)
+            y += (byteHeight + 2.0)
+
+            if (y + byteHeight) > bounds.height { break }
+
+            if sp.value == lowByte {
+                drawLighter = true
+                NSColor.gray.set()
+                let line = CGRect(x: 0, y: y - 2,
+                                  width: bounds.width, height: 1)
+                line.fill()
+            }
+        }
         
         NSColor.black.set()
         bounds.frame()
