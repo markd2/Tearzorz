@@ -186,7 +186,7 @@ extension MOS6502 {
     }
 
     func handleDEX(_ instruction: Instruction) {
-        var byte  = Xregister.value
+        var byte = Xregister.value
 
         if byte > 0 {
             byte = byte - 1
