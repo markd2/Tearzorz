@@ -152,6 +152,7 @@ extension MOS6502 {
         handlers[STA] = handleSTA
 
         handlers[PHA] = handlePHA
+        handlers[PLA] = handlePLA
 
         handlers[TAX] = handleTAX
         handlers[TAY] = handleTAY
@@ -327,6 +328,21 @@ extension MOS6502 {
         Swift.print(String(format: "    new snack pointer value %02X", newSP))
         // storing/pushing don't update NZ flags
     }
+
+    func handlePLA(_ instruction: Instruction) {
+        // move stack pointer up a byte, wrapping around if passes 0xFF
+        var newSP = stackPointer.value
+        if newSP < 255 { newSP = newSP + 1 }
+        else { newSP = 0 }
+        stackPointer.value = newSP
+
+        // put the byte where the stack pointer is pointing to
+        let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
+        accumulator.value = memory.byte(at: address)
+
+        updateNZFlags(for: accumulator.value)
+    }
+
 }
 
 // Misc instructions
