@@ -71,7 +71,7 @@ class MemoryView: NSView {
 
                 let address = row * 16 + column
                 if notificationAddress == Int(address) {
-                    NSColor.orange.withAlphaComponent(0.5).set()
+                    Colors.changeHighlight.set()
                     rect.fill()
                 }
                 value.draw(with: stringRect,
