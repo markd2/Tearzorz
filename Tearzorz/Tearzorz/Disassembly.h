@@ -40,10 +40,10 @@ typedef enum Opcode {
     LSR, // - logical shift right
     NOP, // * no operation
     ORA, // - or with accumulator
-    PHA, // - push accumulator
-    PHP, // - push processor status (SR)
-    PLA, // - pull accumulator
-    PLP, // - pull processor status (SR)
+    PHA, // * push accumulator
+    PHP, // * push processor status (SR)
+    PLA, // * pull (pop) accumulator
+    PLP, // * pull (pop) processor status (SR)
     ROL, // - rotate left
     ROR, // - rotate right
     RTI, // - return from interrupt
