@@ -49,7 +49,7 @@ class MainWindow: NSWindow {
         cpu.accumulator.value = UInt8.random(in: 0...255)
         cpu.Xregister.value = (cpu.Xregister.value + 2) % 127
         cpu.Yregister.value = (cpu.Yregister.value + 3) % 127
-        cpu.stackPointer.value = (cpu.stackPointer.value + 2)
+        cpu.stackPointer.value = UInt8.random(in: 0...255)
     }
 
     @IBAction func changePSW(_ sender: NSButton) {
