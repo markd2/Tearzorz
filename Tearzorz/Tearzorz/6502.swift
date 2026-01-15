@@ -128,6 +128,11 @@ extension MOS6502 {
         handlers[LDX] = handleLDX
         handlers[LDY] = handleLDY
 
+        handlers[INX] = handleINX
+        handlers[INY] = handleINY
+        handlers[DEX] = handleDEX
+        handlers[DEY] = handleDEY
+
         handlers[STA] = handleSTA
 
         handlers[TAX] = handleTAX
@@ -154,6 +159,52 @@ extension MOS6502 {
 
     func handleLDY(_ instruction: Instruction) {
         let byte = addressedByte(instruction)
+        Yregister.value = byte
+        updateNZFlags(for: byte)
+    }
+
+    func handleINX(_ instruction: Instruction) {
+        var byte = Xregister.value
+        if byte < 255 {
+            byte = byte + 1
+        } else {
+            byte = 0
+        }
+        Xregister.value = byte
+        updateNZFlags(for: byte)
+    }
+
+    func handleINY(_ instruction: Instruction) {
+        var byte = Yregister.value
+        if byte < 255 {
+            byte = byte + 1
+        } else {
+            byte = 0
+        }
+        Yregister.value = byte
+        updateNZFlags(for: byte)
+    }
+
+    func handleDEX(_ instruction: Instruction) {
+        var byte  = Xregister.value
+
+        if byte > 0 {
+            byte = byte - 1
+        } else {
+            byte = 255
+        }
+        Xregister.value = byte
+        updateNZFlags(for: byte)
+    }
+
+    func handleDEY(_ instruction: Instruction) {
+        var byte = Yregister.value
+
+        if byte > 0 {
+            byte = byte - 1
+        } else {
+            byte = 255
+        }
         Yregister.value = byte
         updateNZFlags(for: byte)
     }
