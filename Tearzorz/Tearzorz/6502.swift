@@ -125,6 +125,9 @@ extension MOS6502 {
         handlers[SED] = handleSED
 
         handlers[LDA] = handleLDA
+        handlers[LDX] = handleLDX
+        handlers[LDY] = handleLDY
+
         handlers[STA] = handleSTA
 
         handlers[TAX] = handleTAX
@@ -140,6 +143,18 @@ extension MOS6502 {
     func handleLDA(_ instruction: Instruction) {
         let byte = addressedByte(instruction)
         accumulator.value = byte
+        updateNZFlags(for: byte)
+    }
+
+    func handleLDX(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+        Xregister.value = byte
+        updateNZFlags(for: byte)
+    }
+
+    func handleLDY(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+        Yregister.value = byte
         updateNZFlags(for: byte)
     }
 
