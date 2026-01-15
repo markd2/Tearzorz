@@ -6,14 +6,17 @@ import Cocoa
 class MainWindow: NSWindow {
     let cpu: MOS6502 = MOS6502()
 
-    @IBOutlet var accumulatorView: RegisterView! = nil
-    @IBOutlet var xView: RegisterView! = nil
-    @IBOutlet var yView: RegisterView! = nil
-    @IBOutlet var spView: RegisterView! = nil
-    @IBOutlet var pswView: PSWView! = nil
-    @IBOutlet var memoryView: MemoryView! = nil
+    @IBOutlet var accumulatorView: RegisterView!
+    @IBOutlet var xView: RegisterView!
+    @IBOutlet var yView: RegisterView!
+    @IBOutlet var spView: RegisterView!
 
-    @IBOutlet var tableView: NSTableView! = nil
+    @IBOutlet var pswView: PSWView!
+
+    @IBOutlet var memoryView: MemoryView!
+    @IBOutlet var stackView: StackView!
+
+    @IBOutlet var tableView: NSTableView!
     var instructions: [Instruction] = []
     
     override func awakeFromNib() {
@@ -23,7 +26,9 @@ class MainWindow: NSWindow {
         spView.bind(to: cpu.stackPointer)
 
         pswView.bind(to: cpu.psw)
+
         memoryView.bind(to: cpu.memory)
+        stackView.bind(toSP: cpu.stackPointer, memory: cpu.memory)
 
         // populate the tableview
         loadSomeCode()
