@@ -285,6 +285,38 @@ extension MOS6502 {
         updateNZFlags(for: byte)
     }
 
+    func handleSTA(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        memory[address] = accumulator.value
+    }
+
+    func handleSTX(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        memory[address] = Xregister.value
+    }
+
+    func handleSTY(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        memory[address] = Yregister.value
+    }
+
+    // do all the work to do the instruction except for incrementing
+    // the program counter
+    func execute(_ instruction: Instruction) {
+        guard let handler = handlers[instruction.opcode] else {
+            print("no handler for \(instruction)")
+            return
+        }
+
+        // increment PC first, because branches are relative to the
+        // address of the instruction _after_ the branch instruction
+        programCounter.value += instruction.byteCount
+        handler(instruction)
+    }
+}
+
+// Mathy / Logically stuff
+extension MOS6502 {
     func handleINX(_ instruction: Instruction) {
         var byte = Xregister.value
         if byte < 255 {
@@ -329,35 +361,6 @@ extension MOS6502 {
         }
         Yregister.value = byte
         updateNZFlags(for: byte)
-    }
-
-    func handleSTA(_ instruction: Instruction) {
-        let address = addressFor(instruction)
-        memory[address] = accumulator.value
-    }
-
-    func handleSTX(_ instruction: Instruction) {
-        let address = addressFor(instruction)
-        memory[address] = Xregister.value
-    }
-
-    func handleSTY(_ instruction: Instruction) {
-        let address = addressFor(instruction)
-        memory[address] = Yregister.value
-    }
-
-    // do all the work to do the instruction except for incrementing
-    // the program counter
-    func execute(_ instruction: Instruction) {
-        guard let handler = handlers[instruction.opcode] else {
-            print("no handler for \(instruction)")
-            return
-        }
-
-        // increment PC first, because branches are relative to the
-        // address of the instruction _after_ the branch instruction
-        programCounter.value += instruction.byteCount
-        handler(instruction)
     }
 }
 
