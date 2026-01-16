@@ -11,7 +11,7 @@ typedef enum Opcode {
     BCC, // * branch on carry flag clear
     BCS, // * branch on carry flag set
     BEQ, // * branch on equal - zero flag set
-    BIT, // - bit test
+    BIT, // * bit test
     BMI, // * branch on minus - negative flag set
     BNE, // * branch on not equal - zero flag clear
     BPL, // * branch on plus - negative flag clear
@@ -22,10 +22,10 @@ typedef enum Opcode {
     CLD, // * clear decimal mode
     CLI, // * clear interrupt
     CLV, // * clear overflow
-    CMP, // - compare
-    CPX, // - compare with X
-    CPY, // - compare with Y
-    DEC, // - decrement
+    CMP, // * compare
+    CPX, // * compare with X
+    CPY, // * compare with Y
+    DEC, // - decrement (memory)
     DEX, // * decrement X
     DEY, // * decrement Y
     EOR, // - exclusive or

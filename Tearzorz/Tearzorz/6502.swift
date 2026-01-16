@@ -250,6 +250,7 @@ extension MOS6502 {
         handlers[CMP] = handleCMP
         handlers[CPX] = handleCPX
         handlers[CPY] = handleCPY
+        handlers[BIT] = handleBIT
 
         handlers[JMP] = handleJMP
         handlers[JSR] = handleJSR
@@ -511,6 +512,18 @@ extension MOS6502 {
                               memoryByte: memory[address])
     }
 
+    func handleBIT(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+        let andAcc = byte & accumulator.value
+
+        // it's a non-destructive AND with the accumulator
+        if andAcc == 0 { psw.setFlag(.Z) } else { psw.clearFlag(.Z) }
+
+        // oh, also look at the high two bits of the memory value and
+        // set flags. Kind of a three-fer looking at bits
+        if byte & bit7 == bit7 { psw.setFlag(.N) } else { psw.clearFlag(.N) }
+        if byte & bit6 == bit6 { psw.setFlag(.V) } else { psw.clearFlag(.V) }
+    }
 }
 
 // Branching instructions
