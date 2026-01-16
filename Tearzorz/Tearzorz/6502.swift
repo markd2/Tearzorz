@@ -247,6 +247,10 @@ extension MOS6502 {
         handlers[TXS] = handleTXS
         handlers[TYA] = handleTYA
 
+        handlers[CMP] = handleCMP
+        handlers[CPX] = handleCPX
+        handlers[CPY] = handleCPY
+
         handlers[JMP] = handleJMP
         handlers[JSR] = handleJSR
         handlers[RTS] = handleRTS
@@ -470,6 +474,43 @@ extension MOS6502 {
         let byte = pull()
         psw.setFlags(byte)
     }
+}
+
+// Comparison instructions
+extension MOS6502 {
+
+    func updateComparisonFlags(registerByte: UInt8, memoryByte: UInt8) {
+
+        // described as A - M
+        //   A < M  : Z=0, C=0
+        //   A = M  : Z=1, C=1
+        //   A > M  : Z=0, C=1
+
+        if registerByte == memoryByte { psw.setFlag(.Z) } else { psw.clearFlag(.Z) }
+        if registerByte >= memoryByte { psw.setFlag(.C) } else { psw.clearFlag(.C) }
+
+        let diff = Int32(bitPattern: UInt32(registerByte)) - Int32(bitPattern: UInt32(memoryByte)) // I <3 Swift so much
+        if diff < 0 { psw.setFlag(.N) } else { psw.clearFlag(.N) }
+    }
+
+    func handleCMP(_ instruction: Instruction) {
+        let address = UInt16(addressedByte(instruction))
+        updateComparisonFlags(registerByte: accumulator.value,
+                              memoryByte: memory[address])
+    }
+
+    func handleCPX(_ instruction: Instruction) {
+        let address = UInt16(addressedByte(instruction))
+        updateComparisonFlags(registerByte: Xregister.value,
+                              memoryByte: memory[address])
+    }
+
+    func handleCPY(_ instruction: Instruction) {
+        let address = UInt16(addressedByte(instruction))
+        updateComparisonFlags(registerByte: Yregister.value,
+                              memoryByte: memory[address])
+    }
+
 }
 
 // Branching instructions
