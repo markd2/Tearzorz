@@ -13,6 +13,8 @@ class MainWindow: NSWindow {
 
     @IBOutlet var pswView: PSWView!
 
+    @IBOutlet var pcView: PCView!
+
     @IBOutlet var memoryView: MemoryView!
     @IBOutlet var stackView: StackView!
 
@@ -34,6 +36,8 @@ class MainWindow: NSWindow {
             spView.bind(to: cpu.stackPointer)
             
             pswView.bind(to: cpu.psw)
+
+            pcView.bind(to: cpu.programCounter)
             
             memoryView.bind(to: cpu.memory)
             stackView.bind(toSP: cpu.stackPointer, memory: cpu.memory)
