@@ -251,6 +251,13 @@ extension MOS6502 {
         handlers[JSR] = handleJSR
         handlers[RTS] = handleRTS
         handlers[BPL] = handleBPL
+        handlers[BMI] = handleBMI
+        handlers[BVC] = handleBVC
+        handlers[BVS] = handleBVS
+        handlers[BCC] = handleBCC
+        handlers[BCS] = handleBCS
+        handlers[BNE] = handleBNE
+        handlers[BEQ] = handleBEQ
 
         handlers[NOP] = handleNOP
     }
@@ -504,12 +511,52 @@ extension MOS6502 {
     }
 
     func handleBPL(_ instruction: Instruction) {
-        if !psw.isSet(.N) {
-            programCounter.value = offsetAddress(self.programCounter.value,
-                                                 by: instruction.modeByteValue())
-        }
+        guard psw.isSet(.N) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
     }
 
+    func handleBMI(_ instruction: Instruction) {
+        guard !psw.isSet(.N) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBVC(_ instruction: Instruction) {
+        guard !psw.isSet(.V) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBVS(_ instruction: Instruction) {
+        guard psw.isSet(.V) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBCC(_ instruction: Instruction) {
+        guard !psw.isSet(.C) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBCS(_ instruction: Instruction) {
+        guard psw.isSet(.C) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBNE(_ instruction: Instruction) {
+        guard !psw.isSet(.Z) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBEQ(_ instruction: Instruction) {
+        guard psw.isSet(.Z) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
 }
 
 // Misc instructions
