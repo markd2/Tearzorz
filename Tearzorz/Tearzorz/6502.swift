@@ -7,12 +7,14 @@ typealias InstructionHandler = (Instruction) -> Void
 class MOS6502 {
     var instructions: [Instruction] = []
 
-    let accumulator: Register = Register()
-    let Xregister: Register = Register()
-    let Yregister: Register = Register()
-    let stackPointer: Register = Register()
+    let accumulator: Register<UInt8> = Register()
+    let Xregister: Register<UInt8> = Register()
+    let Yregister: Register<UInt8> = Register()
+    let stackPointer: Register<UInt8> = Register()
 
     let psw: ProcessorStatusWord = ProcessorStatusWord()
+
+    let programCounter: Register<UInt16> = Register()
 
     // can have some "overlays" over RAM for device I/O, ROM, text page, etc
     // Eventually this will break out into "outside the 6502". maybe.
