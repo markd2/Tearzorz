@@ -40,6 +40,15 @@ class Memory {
         bytes[Int(index)]
     }
 
+    subscript(address: UInt16) -> UInt8 {
+        get {
+            byte(at: address)
+        }
+        set(newValue) {
+            setByte(newValue, at: address)
+        }
+    }
+
     func setByte(_ value: UInt8, at index: UInt16) {
         let oldValue = bytes[Int(index)]
         bytes[Int(index)] = value
