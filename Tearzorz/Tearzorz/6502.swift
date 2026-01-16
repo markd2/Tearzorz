@@ -25,10 +25,10 @@ class MOS6502 {
         memory.randomizeBytes()
         reset()
 
-        // set up for exercising Indexed Indirect (X) mode
-        memory.setByte(0x02, at: 0x16) // put in pointer to $0102 at $16,$17
-        memory.setByte(0x01, at: 0x17)
-        Xregister.value = 0x17
+        // set up for exercising Indirect Indexed (Y) mode
+        memory.setByte(0x10, at: 0x42)
+        memory.setByte(0x01, at: 0x43)
+        Yregister.value = 0x55
     }
 
     func reset() {
@@ -119,7 +119,18 @@ extension MOS6502 {
 
         case Indirect_Indexed_Y:
             // Syntax is ($44),Y
-            return 0
+            // "the usefulness of this is primarily for those operations
+            // in which one of several values could be used as part of
+            // a subroutine.  Combine an address that points anywhere
+            // in memory combined with counter offset of the index (Y) register
+            let zpAddress: UInt16 = instruction.modeByteAddressValue()
+            let lowByte = memory.byte(at: zpAddress)
+            // this wraps around, staying on zero page
+            let highByte = memory.byte(at: (UInt16(zpAddress) + 1) % 0xFF)
+            // this is sixteen-bit math, so it's ok if it cross page boundaries
+            let thirtyTwoBitAddress = ((UInt32(highByte) << 8 | UInt32(lowByte)) + UInt32(Yregister.value)) & UInt32(0xFFFF) // wrap around 16 bit address space if we started off at say $FFFF
+            let address: UInt16 = UInt16(thirtyTwoBitAddress & 0xFFFF)
+            return address
 
 /*
         case Implied:
