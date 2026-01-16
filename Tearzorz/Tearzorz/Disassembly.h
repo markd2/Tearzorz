@@ -6,8 +6,8 @@
 
 typedef enum Opcode {
     ADC, // - add with carry
-    AND, // - and
-    ASL, // - arithmetic shift left
+    AND, // * and
+    ASL, // * arithmetic shift left
     BCC, // * branch on carry flag clear
     BCS, // * branch on carry flag set
     BEQ, // * branch on equal - zero flag set
@@ -28,7 +28,7 @@ typedef enum Opcode {
     DEC, // - decrement (memory)
     DEX, // * decrement X
     DEY, // * decrement Y
-    EOR, // - exclusive or
+    EOR, // * exclusive or
     INC, // - increment (memory)
     INX, // * increment X
     INY, // * increment Y
@@ -37,15 +37,15 @@ typedef enum Opcode {
     LDA, // * load accumulator
     LDX, // * load X
     LDY, // * load Y
-    LSR, // - logical shift right
+    LSR, // * logical shift right
     NOP, // * no operation
-    ORA, // - or with accumulator
+    ORA, // * or with accumulator
     PHA, // * push accumulator
     PHP, // * push processor status (SR)
     PLA, // * pull (pop) accumulator
     PLP, // * pull (pop) processor status (SR)
-    ROL, // - rotate left
-    ROR, // - rotate right
+    ROL, // * rotate left
+    ROR, // * rotate right
     RTI, // - return from interrupt
     RTS, // * return from subroutine
     SBC, // - subtract with carry

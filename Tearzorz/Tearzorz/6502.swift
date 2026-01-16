@@ -226,6 +226,13 @@ extension MOS6502 {
         handlers[LDX] = handleLDX
         handlers[LDY] = handleLDY
 
+        handlers[AND] = handleAND
+        handlers[ORA] = handleORA
+        handlers[EOR] = handleEOR
+        handlers[ASL] = handleASL
+        handlers[LSR] = handleLSR
+        handlers[ROL] = handleROL
+        handlers[ROR] = handleROR
         handlers[INX] = handleINX
         handlers[INY] = handleINY
         handlers[DEX] = handleDEX
@@ -285,6 +292,133 @@ extension MOS6502 {
         updateNZFlags(for: byte)
     }
 
+    func handleSTA(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        memory[address] = accumulator.value
+    }
+
+    func handleSTX(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        memory[address] = Xregister.value
+    }
+
+    func handleSTY(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        memory[address] = Yregister.value
+    }
+
+    // do all the work to do the instruction except for incrementing
+    // the program counter
+    func execute(_ instruction: Instruction) {
+        guard let handler = handlers[instruction.opcode] else {
+            print("no handler for \(instruction)")
+            return
+        }
+
+        // increment PC first, because branches are relative to the
+        // address of the instruction _after_ the branch instruction
+        programCounter.value += instruction.byteCount
+        handler(instruction)
+    }
+}
+
+// Mathy / Logically stuff
+extension MOS6502 {
+
+    func handleAND(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+        let result = byte & accumulator.value
+        accumulator.value = result
+        updateNZFlags(for: accumulator.value)
+    }
+    
+    func handleORA(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+        let result = byte | accumulator.value
+        accumulator.value = result
+        updateNZFlags(for: accumulator.value)
+    }
+    
+    func handleEOR(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+        let result = byte ^ accumulator.value
+        accumulator.value = result
+        updateNZFlags(for: accumulator.value)
+    }
+
+    // if it's accumulator mode, put the byte there, otherwise
+    // figure out the effective address, and put the byte there.
+    // Saves repeated nonsense in the shifting opcodes
+    func setByte(_ byte: UInt8, for instruction: Instruction) {
+        if instruction.addressingMode == Accumulator {
+            accumulator.value = byte
+        } else {
+            let address = addressFor(instruction)
+            memory[address] = byte
+        }
+    }
+
+    func handleASL(_ instruction: Instruction) { // 58,M,Pittsburgh
+        let byte = addressedByte(instruction)
+        if byte & bit7 == bit7 { psw.setFlag(.C) } else { psw.clearFlag(.C) }
+        let result = byte << 1
+
+        setByte(result, for: instruction)
+        updateNZFlags(for: result)
+    }
+
+    func handleLSR(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+
+        // see if we need to send bottom bit to the carry flag
+        if byte & bit0 == bit0 { psw.setFlag(.C) } else { psw.clearFlag(.C) }
+
+        let result = byte >> 1
+        
+        setByte(result, for: instruction)
+        updateNZFlags(for: result)
+    }
+
+    func handleROL(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+
+        let bit7set = byte & bit7 == bit7
+
+        // shift left by one
+        var result = byte << 1
+        
+        // shift in the carry to bit zero
+        if psw.isSet(.C) {
+           result |= bit0
+        }
+
+        // shift bit 7 into the carry
+        if bit7set { psw.setFlag(.C) } else { psw.clearFlag(.C) }
+
+        setByte(result, for: instruction)
+        updateNZFlags(for: result)
+    }
+
+    func handleROR(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+
+        let bit0set = byte & bit0 == bit0
+
+        // shift right by one
+        var result = byte >> 1
+        
+        // shift in the carry to bit 7
+        if psw.isSet(.C) {
+           result |= bit7
+        }
+
+        // shift bit 0 into the carry
+        if bit0set { psw.setFlag(.C) } else { psw.clearFlag(.C) }
+
+        setByte(result, for: instruction)
+        updateNZFlags(for: result)
+    }
+    
     func handleINX(_ instruction: Instruction) {
         var byte = Xregister.value
         if byte < 255 {
@@ -329,35 +463,6 @@ extension MOS6502 {
         }
         Yregister.value = byte
         updateNZFlags(for: byte)
-    }
-
-    func handleSTA(_ instruction: Instruction) {
-        let address = addressFor(instruction)
-        memory[address] = accumulator.value
-    }
-
-    func handleSTX(_ instruction: Instruction) {
-        let address = addressFor(instruction)
-        memory[address] = Xregister.value
-    }
-
-    func handleSTY(_ instruction: Instruction) {
-        let address = addressFor(instruction)
-        memory[address] = Yregister.value
-    }
-
-    // do all the work to do the instruction except for incrementing
-    // the program counter
-    func execute(_ instruction: Instruction) {
-        guard let handler = handlers[instruction.opcode] else {
-            print("no handler for \(instruction)")
-            return
-        }
-
-        // increment PC first, because branches are relative to the
-        // address of the instruction _after_ the branch instruction
-        programCounter.value += instruction.byteCount
-        handler(instruction)
     }
 }
 
