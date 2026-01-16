@@ -227,6 +227,8 @@ extension MOS6502 {
         handlers[LDY] = handleLDY
 
         handlers[AND] = handleAND
+        handlers[ORA] = handleORA
+        handlers[EOR] = handleEOR
         handlers[INX] = handleINX
         handlers[INY] = handleINY
         handlers[DEX] = handleDEX
@@ -322,6 +324,20 @@ extension MOS6502 {
     func handleAND(_ instruction: Instruction) {
         let byte = addressedByte(instruction)
         let result = byte & accumulator.value
+        accumulator.value = result
+        updateNZFlags(for: accumulator.value)
+    }
+    
+    func handleORA(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+        let result = byte | accumulator.value
+        accumulator.value = result
+        updateNZFlags(for: accumulator.value)
+    }
+    
+    func handleEOR(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+        let result = byte ^ accumulator.value
         accumulator.value = result
         updateNZFlags(for: accumulator.value)
     }

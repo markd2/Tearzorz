@@ -28,7 +28,7 @@ typedef enum Opcode {
     DEC, // - decrement (memory)
     DEX, // * decrement X
     DEY, // * decrement Y
-    EOR, // - exclusive or
+    EOR, // * exclusive or
     INC, // - increment (memory)
     INX, // * increment X
     INY, // * increment Y
@@ -39,7 +39,7 @@ typedef enum Opcode {
     LDY, // * load Y
     LSR, // - logical shift right
     NOP, // * no operation
-    ORA, // - or with accumulator
+    ORA, // * or with accumulator
     PHA, // * push accumulator
     PHP, // * push processor status (SR)
     PLA, // * pull (pop) accumulator
