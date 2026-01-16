@@ -44,7 +44,7 @@ typedef enum Opcode {
     PHP, // * push processor status (SR)
     PLA, // * pull (pop) accumulator
     PLP, // * pull (pop) processor status (SR)
-    ROL, // - rotate left
+    ROL, // * rotate left
     ROR, // - rotate right
     RTI, // - return from interrupt
     RTS, // * return from subroutine
