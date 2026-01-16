@@ -28,8 +28,8 @@ class MOS6502 {
         reset()
 
         // set up for exercising Indirect Indexed (Y) mode
-        memory.setByte(0x10, at: 0x42)
-        memory.setByte(0x01, at: 0x43)
+        memory[0x42] = 0x10
+        memory[0x43] = 0x01
         Yregister.value = 0x55
     }
 
@@ -121,8 +121,8 @@ extension MOS6502 {
             // indirection.
             let zpAddress: UInt16 = instruction.modeByteAddressValue()
             let indexedZPAddress: UInt16 = (zpAddress + UInt16(Xregister.value)) & 0xFF // ignore carry
-            let lowByte = memory.byte(at: indexedZPAddress)
-            let highByte = memory.byte(at: (indexedZPAddress + 1) % 0xFF)
+            let lowByte = memory[indexedZPAddress]
+            let highByte = memory[UInt16(UInt32(indexedZPAddress) + 1 % 0xFF)]
             let effectiveAddress: UInt16 = UInt16(highByte) << 8 | UInt16(lowByte)
             return effectiveAddress
 
@@ -133,9 +133,9 @@ extension MOS6502 {
             // a subroutine.  Combine an address that points anywhere
             // in memory combined with counter offset of the index (Y) register
             let zpAddress: UInt16 = instruction.modeByteAddressValue()
-            let lowByte = memory.byte(at: zpAddress)
+            let lowByte = memory[zpAddress]
             // this wraps around, staying on zero page
-            let highByte = memory.byte(at: (UInt16(zpAddress) + 1) % 0xFF)
+            let highByte = memory[(UInt16(zpAddress) + 1) % 0xFF]
             // this is sixteen-bit math, so it's ok if it cross page boundaries
             let thirtyTwoBitAddress = ((UInt32(highByte) << 8 | UInt32(lowByte)) + UInt32(Yregister.value)) & UInt32(0xFFFF) // wrap around 16 bit address space if we started off at say $FFFF
             let address: UInt16 = UInt16(thirtyTwoBitAddress & 0xFFFF)
@@ -165,28 +165,28 @@ extension MOS6502 {
             return instruction.modeByteValue()
         case ZeroPage:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case ZeroPage_XIndexed:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case ZeroPage_YIndexed:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case Absolute:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case Absolute_XIndexed:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case Absolute_YIndexed:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case Indexed_Indirect_X:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case Indirect_Indexed_Y:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
 
 /*
         case Implied:
@@ -317,7 +317,7 @@ extension MOS6502 {
 
     func handleSTA(_ instruction: Instruction) {
         let address = addressFor(instruction)
-        memory.setByte(accumulator.value, at: address)
+        memory[address] = accumulator.value
     }
 
     // do all the work to do the instruction except for incrementing
@@ -413,8 +413,12 @@ extension MOS6502 {
         stackPointer.value = newSP
     }
 
-    func pop() -> UInt8 {
-        // pre decrement SP
+    // eventually the world settled on 'pop' for this operation, but the 6502
+    // manuals and opcodes call it pull.
+    func pull() -> UInt8 {
+        // pre decrement SP.
+        // move stack pointer up a byte, wrapping around if passes 0xFF
+
         var newSP = stackPointer.value
         if newSP < 255 { newSP = newSP + 1 }
         else { newSP = 0 }
@@ -426,62 +430,24 @@ extension MOS6502 {
     }
 
     func handlePHA(_ instruction: Instruction) {
-        // put the byte where the stack pointer is pointing to
-        Swift.print(String(format: "starting snack pointer value %02X", stackPointer.value))
-        let byte = accumulator.value
-        let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
-        memory.setByte(byte, at: address)
-        Swift.print(String(format: "  setting %04X to %02X", address, byte))
-
-        // move stack pointer down a byte, wrapping around if passes zero
-        var newSP = stackPointer.value
-        if newSP > 0 { newSP = newSP - 1 }
-        else { newSP = 255 }
-        stackPointer.value = newSP
+        push(accumulator.value)
         // storing/pushing don't update NZ flags
     }
 
     func handlePLA(_ instruction: Instruction) {
-        // move stack pointer up a byte, wrapping around if passes 0xFF
-        var newSP = stackPointer.value
-        if newSP < 255 { newSP = newSP + 1 }
-        else { newSP = 0 }
-        stackPointer.value = newSP
-
-        // get the byte from where the stack pointer is now pointing to
-        let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
-        accumulator.value = memory.byte(at: address)
-
+        let byte = pull()
+        accumulator.value = byte
         updateNZFlags(for: accumulator.value)
     }
 
     func handlePHP(_ instruction: Instruction) {
-        // put the byte where the stack pointer is pointing to
-        Swift.print(String(format: "starting snack pointer value %02X", stackPointer.value))
-        let byte = psw.flags
-        let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
-        memory.setByte(byte.rawValue, at: address)
-        Swift.print(String(format: "  setting %04X to %02X", address, byte.rawValue))
-
-        // move stack pointer down a byte, wrapping around if passes zero
-        var newSP = stackPointer.value
-        if newSP > 0 { newSP = newSP - 1 }
-        else { newSP = 255 }
-        stackPointer.value = newSP
-        Swift.print(String(format: "    new snack pointer value %02X", newSP))
+        push(psw.flags.rawValue)
         // storing/pushing don't update NZ flags
     }
 
     func handlePLP(_ instruction: Instruction) {
-        // move stack pointer up a byte, wrapping around if passes 0xFF
-        var newSP = stackPointer.value
-        if newSP < 255 { newSP = newSP + 1 }
-        else { newSP = 0 }
-        stackPointer.value = newSP
-
-        // put the byte where the stack pointer is pointing to
-        let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
-        psw.setFlags(memory.byte(at: address))
+        let byte = pull()
+        psw.setFlags(byte)
     }
 }
 
@@ -511,8 +477,8 @@ extension MOS6502 {
     }
 
     func handleRTS(_ instruction: Instruction) {
-        let lowPC = pop()
-        let highPC = pop()
+        let lowPC = pull()
+        let highPC = pull()
         var address = UInt16(highPC) << 8 | UInt16(lowPC)
         address = UInt16((UInt32(address) + 1) & 0xFFFF)
         programCounter.value = address
