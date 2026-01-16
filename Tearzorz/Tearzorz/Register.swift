@@ -4,11 +4,11 @@ import Foundation
 import Afluent
 import Combine
 
-class Register<Value> {
+class Register<Value: BinaryInteger> {
 
     private let subject: Combine.CurrentValueSubject<Value, Never>
     
-    init(_ initialValue: Value = UInt8(0)) {
+    init(_ initialValue: Value = Value(0)) {
         self.subject = CurrentValueSubject(initialValue)
     }
 

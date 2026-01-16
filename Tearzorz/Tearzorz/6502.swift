@@ -7,12 +7,14 @@ typealias InstructionHandler = (Instruction) -> Void
 class MOS6502 {
     var instructions: [Instruction] = []
 
-    let accumulator: Register = Register()
-    let Xregister: Register = Register()
-    let Yregister: Register = Register()
-    let stackPointer: Register = Register()
+    let accumulator: Register<UInt8> = Register()
+    let Xregister: Register<UInt8> = Register()
+    let Yregister: Register<UInt8> = Register()
+    let stackPointer: Register<UInt8> = Register()
 
     let psw: ProcessorStatusWord = ProcessorStatusWord()
+
+    let programCounter: Register<UInt16> = Register()
 
     // can have some "overlays" over RAM for device I/O, ROM, text page, etc
     // Eventually this will break out into "outside the 6502". maybe.
@@ -26,8 +28,8 @@ class MOS6502 {
         reset()
 
         // set up for exercising Indirect Indexed (Y) mode
-        memory.setByte(0x10, at: 0x42)
-        memory.setByte(0x01, at: 0x43)
+        memory[0x42] = 0x10
+        memory[0x43] = 0x01
         Yregister.value = 0x55
     }
 
@@ -76,6 +78,13 @@ extension MOS6502 {
         case Absolute:
             let address: UInt16 = instruction.modeWordAddressValue()
             return address
+        case Indirect:
+            let address: UInt16 = instruction.modeWordAddressValue()
+            let lowByte = memory[address]
+            let highByte = memory[UInt16((UInt32(address) + 1) % 0xFFFF)]
+            let effectiveAddress: UInt16 = UInt16(highByte) << 8 | UInt16(lowByte)
+            return effectiveAddress
+
         case Absolute_XIndexed:
             // not doing the page-crossing work here. If a page is crossed,
             // for HB (high byte) and LB (low byte)
@@ -112,8 +121,8 @@ extension MOS6502 {
             // indirection.
             let zpAddress: UInt16 = instruction.modeByteAddressValue()
             let indexedZPAddress: UInt16 = (zpAddress + UInt16(Xregister.value)) & 0xFF // ignore carry
-            let lowByte = memory.byte(at: indexedZPAddress)
-            let highByte = memory.byte(at: (indexedZPAddress + 1) % 0xFF)
+            let lowByte = memory[indexedZPAddress]
+            let highByte = memory[UInt16(UInt32(indexedZPAddress) + 1 % 0xFF)]
             let effectiveAddress: UInt16 = UInt16(highByte) << 8 | UInt16(lowByte)
             return effectiveAddress
 
@@ -124,9 +133,9 @@ extension MOS6502 {
             // a subroutine.  Combine an address that points anywhere
             // in memory combined with counter offset of the index (Y) register
             let zpAddress: UInt16 = instruction.modeByteAddressValue()
-            let lowByte = memory.byte(at: zpAddress)
+            let lowByte = memory[zpAddress]
             // this wraps around, staying on zero page
-            let highByte = memory.byte(at: (UInt16(zpAddress) + 1) % 0xFF)
+            let highByte = memory[(UInt16(zpAddress) + 1) % 0xFF]
             // this is sixteen-bit math, so it's ok if it cross page boundaries
             let thirtyTwoBitAddress = ((UInt32(highByte) << 8 | UInt32(lowByte)) + UInt32(Yregister.value)) & UInt32(0xFFFF) // wrap around 16 bit address space if we started off at say $FFFF
             let address: UInt16 = UInt16(thirtyTwoBitAddress & 0xFFFF)
@@ -134,7 +143,6 @@ extension MOS6502 {
 
 /*
         case Implied:
-        case Indirect: // just used by JMP. there is no pure indirect for other instructions. 
         case Relative:  // this is pretty complicated due to page-boundary crossings, so kicked that can further down the road. only for branches
 
         // no addresses for these dudes
@@ -157,28 +165,28 @@ extension MOS6502 {
             return instruction.modeByteValue()
         case ZeroPage:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case ZeroPage_XIndexed:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case ZeroPage_YIndexed:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case Absolute:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case Absolute_XIndexed:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case Absolute_YIndexed:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case Indexed_Indirect_X:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
         case Indirect_Indexed_Y:
             let address = addressFor(instruction)
-            return memory.bytes[Int(address)]
+            return memory[address]
 
 /*
         case Implied:
@@ -224,6 +232,8 @@ extension MOS6502 {
         handlers[DEY] = handleDEY
 
         handlers[STA] = handleSTA
+        handlers[STX] = handleSTX
+        handlers[STY] = handleSTY
 
         handlers[PHA] = handlePHA
         handlers[PLA] = handlePLA
@@ -236,6 +246,18 @@ extension MOS6502 {
         handlers[TXA] = handleTXA
         handlers[TXS] = handleTXS
         handlers[TYA] = handleTYA
+
+        handlers[JMP] = handleJMP
+        handlers[JSR] = handleJSR
+        handlers[RTS] = handleRTS
+        handlers[BPL] = handleBPL
+        handlers[BMI] = handleBMI
+        handlers[BVC] = handleBVC
+        handlers[BVS] = handleBVS
+        handlers[BCC] = handleBCC
+        handlers[BCS] = handleBCS
+        handlers[BNE] = handleBNE
+        handlers[BEQ] = handleBEQ
 
         handlers[NOP] = handleNOP
     }
@@ -306,7 +328,17 @@ extension MOS6502 {
 
     func handleSTA(_ instruction: Instruction) {
         let address = addressFor(instruction)
-        memory.setByte(accumulator.value, at: address)
+        memory[address] = accumulator.value
+    }
+
+    func handleSTX(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        memory[address] = Xregister.value
+    }
+
+    func handleSTY(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        memory[address] = Yregister.value
     }
 
     // do all the work to do the instruction except for incrementing
@@ -317,6 +349,9 @@ extension MOS6502 {
             return
         }
 
+        // increment PC first, because branches are relative to the
+        // address of the instruction _after_ the branch instruction
+        programCounter.value += instruction.byteCount
         handler(instruction)
     }
 }
@@ -388,64 +423,139 @@ extension MOS6502 {
 
 // Stacky stuff
 extension MOS6502 {
-    func handlePHA(_ instruction: Instruction) {
-        // put the byte where the stack pointer is pointing to
-        Swift.print(String(format: "starting snack pointer value %02X", stackPointer.value))
-        let byte = accumulator.value
+    func push(_ byte: UInt8) {
         let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
-        memory.setByte(byte, at: address)
-        Swift.print(String(format: "  setting %04X to %02X", address, byte))
+        memory[address] = byte
 
-        // move stack pointer down a byte, wrapping around if passes zero
+        // post increment SP
         var newSP = stackPointer.value
         if newSP > 0 { newSP = newSP - 1 }
         else { newSP = 255 }
         stackPointer.value = newSP
-        Swift.print(String(format: "    new snack pointer value %02X", newSP))
+    }
+
+    // eventually the world settled on 'pop' for this operation, but the 6502
+    // manuals and opcodes call it pull.
+    func pull() -> UInt8 {
+        // pre decrement SP.
+        // move stack pointer up a byte, wrapping around if passes 0xFF
+
+        var newSP = stackPointer.value
+        if newSP < 255 { newSP = newSP + 1 }
+        else { newSP = 0 }
+        stackPointer.value = newSP
+
+        let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
+        let byte = memory[address]
+        return byte
+    }
+
+    func handlePHA(_ instruction: Instruction) {
+        push(accumulator.value)
         // storing/pushing don't update NZ flags
     }
 
     func handlePLA(_ instruction: Instruction) {
-        // move stack pointer up a byte, wrapping around if passes 0xFF
-        var newSP = stackPointer.value
-        if newSP < 255 { newSP = newSP + 1 }
-        else { newSP = 0 }
-        stackPointer.value = newSP
-
-        // put the byte where the stack pointer is pointing to
-        let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
-        accumulator.value = memory.byte(at: address)
-
+        let byte = pull()
+        accumulator.value = byte
         updateNZFlags(for: accumulator.value)
     }
 
     func handlePHP(_ instruction: Instruction) {
-        // put the byte where the stack pointer is pointing to
-        Swift.print(String(format: "starting snack pointer value %02X", stackPointer.value))
-        let byte = psw.flags
-        let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
-        memory.setByte(byte.rawValue, at: address)
-        Swift.print(String(format: "  setting %04X to %02X", address, byte.rawValue))
-
-        // move stack pointer down a byte, wrapping around if passes zero
-        var newSP = stackPointer.value
-        if newSP > 0 { newSP = newSP - 1 }
-        else { newSP = 255 }
-        stackPointer.value = newSP
-        Swift.print(String(format: "    new snack pointer value %02X", newSP))
+        push(psw.flags.rawValue)
         // storing/pushing don't update NZ flags
     }
 
     func handlePLP(_ instruction: Instruction) {
-        // move stack pointer up a byte, wrapping around if passes 0xFF
-        var newSP = stackPointer.value
-        if newSP < 255 { newSP = newSP + 1 }
-        else { newSP = 0 }
-        stackPointer.value = newSP
+        let byte = pull()
+        psw.setFlags(byte)
+    }
+}
 
-        // put the byte where the stack pointer is pointing to
-        let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
-        psw.setFlags(memory.byte(at: address))
+// Branching instructions
+extension MOS6502 {
+    func handleJMP(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        programCounter.value = address
+    }
+
+    func handleJSR(_ instruction: Instruction) {
+        // point to the last byte of the JSR instruction
+        let pc = programCounter.value - 1
+        let lowPC = UInt8(pc & 0xFF)
+        let highPC = UInt8(pc >> 8 & 0xFF)
+
+        // push high first so the low byte is in the lower addres
+        push(highPC)
+        push(lowPC)
+
+        let address = addressFor(instruction)
+        programCounter.value = address
+    }
+
+    func handleRTS(_ instruction: Instruction) {
+        let lowPC = pull()
+        let highPC = pull()
+        var address = UInt16(highPC) << 8 | UInt16(lowPC)
+        address = UInt16((UInt32(address) + 1) & 0xFFFF)
+        programCounter.value = address
+    }
+
+    func offsetAddress(_ address: UInt16, by byte: UInt8) -> UInt16 {
+        let signedByte = Int8(bitPattern: byte)
+        
+        var addr = Int32(address)
+        addr += Int32(signedByte)
+        let effectiveAddress = UInt16(bitPattern: Int16(addr % 0xFF))
+        return effectiveAddress
+    }
+
+    func handleBPL(_ instruction: Instruction) {
+        guard psw.isSet(.N) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBMI(_ instruction: Instruction) {
+        guard psw.isClear(.N) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBVC(_ instruction: Instruction) {
+        guard psw.isClear(.V) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBVS(_ instruction: Instruction) {
+        guard psw.isSet(.V) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBCC(_ instruction: Instruction) {
+        guard psw.isClear(.C) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBCS(_ instruction: Instruction) {
+        guard psw.isSet(.C) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBNE(_ instruction: Instruction) {
+        guard psw.isClear(.Z) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
+    }
+
+    func handleBEQ(_ instruction: Instruction) {
+        guard psw.isSet(.Z) else { return }
+        programCounter.value = offsetAddress(self.programCounter.value,
+                                             by: instruction.modeByteValue())
     }
 }
 

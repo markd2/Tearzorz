@@ -732,7 +732,7 @@
                         </textFieldCell>
                     </textField>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rHp-o6-PvY">
-                        <rect key="frame" x="144" y="395" width="13" height="16"/>
+                        <rect key="frame" x="110" y="395" width="13" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="X" id="5Zx-1D-WPX">
                             <font key="font" metaFont="system"/>
@@ -741,15 +741,15 @@
                         </textFieldCell>
                     </textField>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YvL-Nn-esm" customClass="RegisterView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="20" y="361" width="83" height="31"/>
+                        <rect key="frame" x="20" y="361" width="75" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GIp-ZV-26h" customClass="RegisterView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="146" y="361" width="83" height="31"/>
+                        <rect key="frame" x="112" y="361" width="75" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dhh-98-O20">
-                        <rect key="frame" x="258" y="395" width="13" height="16"/>
+                        <rect key="frame" x="200" y="395" width="13" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Y" id="YZu-VY-vyU">
                             <font key="font" metaFont="system"/>
@@ -758,11 +758,11 @@
                         </textFieldCell>
                     </textField>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tkq-mo-QU8" customClass="RegisterView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="260" y="361" width="83" height="31"/>
+                        <rect key="frame" x="202" y="361" width="75" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OjY-ZF-74h">
-                        <rect key="frame" x="364" y="395" width="21" height="16"/>
+                        <rect key="frame" x="289" y="395" width="21" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="SP" id="nag-YA-se2">
                             <font key="font" metaFont="system"/>
@@ -780,11 +780,20 @@
                         </textFieldCell>
                     </textField>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uvi-dt-GOs" customClass="RegisterView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="366" y="361" width="83" height="31"/>
+                        <rect key="frame" x="291" y="361" width="75" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
-                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wb8-Nl-8UO" customClass="PSWView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="366" y="424" width="128" height="25"/>
+                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u7c-Sl-RKl">
+                        <rect key="frame" x="392" y="395" width="22" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="PC" id="Aq4-3z-IJx">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fAM-53-jzd" customClass="PCView" customModule="Tearzorz" customModuleProvider="target">
+                        <rect key="frame" x="394" y="361" width="91" height="31"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lWo-ux-K6v" customClass="MemoryView" customModule="Tearzorz" customModuleProvider="target">
@@ -892,12 +901,17 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wb8-Nl-8UO" customClass="PSWView" customModule="Tearzorz" customModuleProvider="target">
+                        <rect key="frame" x="357" y="424" width="128" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
                 </subviews>
             </view>
             <connections>
                 <outlet property="accumulatorView" destination="YvL-Nn-esm" id="kvl-CD-iVx"/>
                 <outlet property="delegate" destination="Voe-Tx-rLC" id="top-28-M4D"/>
                 <outlet property="memoryView" destination="lWo-ux-K6v" id="M6u-iZ-lqp"/>
+                <outlet property="pcView" destination="fAM-53-jzd" id="P7B-kS-nwr"/>
                 <outlet property="pswView" destination="Wb8-Nl-8UO" id="K4N-TF-SB0"/>
                 <outlet property="spView" destination="Uvi-dt-GOs" id="jOw-s0-Y6D"/>
                 <outlet property="stackView" destination="FGr-Hb-cTt" id="PHW-WY-y7C"/>

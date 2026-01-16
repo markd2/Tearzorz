@@ -8,16 +8,16 @@ typedef enum Opcode {
     ADC, // - add with carry
     AND, // - and
     ASL, // - arithmetic shift left
-    BCC, // - branch on carry flag clear
-    BCS, // - branch on carry flag set
-    BEQ, // - branch on equal - zero flag set
+    BCC, // * branch on carry flag clear
+    BCS, // * branch on carry flag set
+    BEQ, // * branch on equal - zero flag set
     BIT, // - bit test
-    BMI, // - branch on minus - negative flag set
-    BNE, // - branch on not equal - zero flag clear
-    BPL, // - branch on plus - negative flag clear
+    BMI, // * branch on minus - negative flag set
+    BNE, // * branch on not equal - zero flag clear
+    BPL, // * branch on plus - negative flag clear
     BRK, // - break
-    BVC, // - branch on overflow flag clear
-    BVS, // - branch on overflow flag set
+    BVC, // * branch on overflow flag clear
+    BVS, // * branch on overflow flag set
     CLC, // * clear carry
     CLD, // * clear decimal mode
     CLI, // * clear interrupt
@@ -29,11 +29,11 @@ typedef enum Opcode {
     DEX, // * decrement X
     DEY, // * decrement Y
     EOR, // - exclusive or
-    INC, // - increment
+    INC, // - increment (memory)
     INX, // * increment X
     INY, // * increment Y
-    JMP, // - jump
-    JSR, // - jump subroutine
+    JMP, // * jump
+    JSR, // * jump subroutine
     LDA, // * load accumulator
     LDX, // * load X
     LDY, // * load Y
@@ -47,14 +47,14 @@ typedef enum Opcode {
     ROL, // - rotate left
     ROR, // - rotate right
     RTI, // - return from interrupt
-    RTS, // - return from subroutine
+    RTS, // * return from subroutine
     SBC, // - subtract with carry
     SEC, // * set carry
     SED, // * set decimal mode
-    SEI, // - set interrupt disable
+    SEI, // * set interrupt disable
     STA, // * store accumulator
-    STX, // - store X
-    STY, // - store Y
+    STX, // * store X
+    STY, // * store Y
     TAX, // * transfer accumulator to X
     TAY, // * transfer accumulator to Y
     TSX, // * transfer stack pointer to X
@@ -85,6 +85,9 @@ typedef enum AddressingMode {
 }
 @property (assign, nonatomic) Opcode opcode;
 @property (assign, nonatomic) AddressingMode addressingMode;
+
+/// how much to advance the program counter
+@property (assign, readonly, nonatomic) UInt16 byteCount;
 
 - (instancetype) initWithOpcode: (Opcode) opcode
                  addressingMode: (AddressingMode) addressingMode
