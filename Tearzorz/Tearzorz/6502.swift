@@ -346,18 +346,24 @@ extension MOS6502 {
         updateNZFlags(for: accumulator.value)
     }
 
+    // if it's accumulator mode, put the byte there, otherwise
+    // figure out the effective address, and put the byte there.
+    // Saves repeated nonsense in the shifting opcodes
+    func setByte(_ byte: UInt8, for instruction: Instruction) {
+        if instruction.addressingMode == Accumulator {
+            accumulator.value = byte
+        } else {
+            let address = addressFor(instruction)
+            memory[address] = byte
+        }
+    }
+
     func handleASL(_ instruction: Instruction) { // 58,M,Pittsburgh
         let byte = addressedByte(instruction)
         if byte & bit7 == bit7 { psw.setFlag(.C) } else { psw.clearFlag(.C) }
         let result = byte << 1
 
-        if instruction.addressingMode == Accumulator {
-            accumulator.value = result
-        } else {
-            let address = addressFor(instruction)
-            memory[address] = result
-        }
-
+        setByte(result, for: instruction)
         updateNZFlags(for: result)
     }
 
@@ -369,13 +375,7 @@ extension MOS6502 {
 
         let result = byte >> 1
         
-        if instruction.addressingMode == Accumulator {
-            accumulator.value = result
-        } else {
-            let address = addressFor(instruction)
-            memory[address] = result
-        }
-
+        setByte(result, for: instruction)
         updateNZFlags(for: result)
     }
 
@@ -395,13 +395,7 @@ extension MOS6502 {
         // shift bit 7 into the carry
         if bit7set { psw.setFlag(.C) } else { psw.clearFlag(.C) }
 
-        if instruction.addressingMode == Accumulator {
-            accumulator.value = result
-        } else {
-            let address = addressFor(instruction)
-            memory[address] = result
-        }
-        
+        setByte(result, for: instruction)
         updateNZFlags(for: result)
     }
 
@@ -421,13 +415,7 @@ extension MOS6502 {
         // shift bit 0 into the carry
         if bit0set { psw.setFlag(.C) } else { psw.clearFlag(.C) }
 
-        if instruction.addressingMode == Accumulator {
-            accumulator.value = result
-        } else {
-            let address = addressFor(instruction)
-            memory[address] = result
-        }
-        
+        setByte(result, for: instruction)
         updateNZFlags(for: result)
     }
     
