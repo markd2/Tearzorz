@@ -78,6 +78,13 @@ extension MOS6502 {
         case Absolute:
             let address: UInt16 = instruction.modeWordAddressValue()
             return address
+        case Indirect:
+            let address: UInt16 = instruction.modeWordAddressValue()
+            let lowByte = memory[address]
+            let highByte = memory[UInt16((UInt32(address) + 1) % 0xFFFF)]
+            let effectiveAddress: UInt16 = UInt16(highByte) << 8 | UInt16(lowByte)
+            return effectiveAddress
+
         case Absolute_XIndexed:
             // not doing the page-crossing work here. If a page is crossed,
             // for HB (high byte) and LB (low byte)
@@ -136,7 +143,6 @@ extension MOS6502 {
 
 /*
         case Implied:
-        case Indirect: // just used by JMP. there is no pure indirect for other instructions. 
         case Relative:  // this is pretty complicated due to page-boundary crossings, so kicked that can further down the road. only for branches
 
         // no addresses for these dudes
@@ -240,6 +246,7 @@ extension MOS6502 {
         handlers[TYA] = handleTYA
 
         handlers[NOP] = handleNOP
+        handlers[JMP] = handleJMP
     }
     
     func handleLDA(_ instruction: Instruction) {
@@ -458,6 +465,11 @@ extension MOS6502 {
 extension MOS6502 {
     func handleNOP(_ instruction: Instruction) {
         // nobody home
+    }
+
+    func handleJMP(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        programCounter.value = address
     }
 }
 
