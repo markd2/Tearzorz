@@ -24,6 +24,11 @@ class MOS6502 {
         setupHandlers()
         memory.randomizeBytes()
         reset()
+
+        // set up for exercising Indexed Indirect (X) mode
+        memory.setByte(0x02, at: 0x16) // put in pointer to $0102 at $16,$17
+        memory.setByte(0x01, at: 0x17)
+        Xregister.value = 0x17
     }
 
     func reset() {
@@ -92,11 +97,33 @@ extension MOS6502 {
             address += UInt16(Yregister.value)
             return address
 
+        case Indexed_Indirect_X:
+            // Syntax is XYZ ($44,X)
+            // "major use is in picking up data from a table or a list
+            // of addresses to perform an operation"
+            // "examples where this is applicable is in polling I/O devices
+            // or performing string ot multiple string operations" (?)
+            // "useful for implementing jump tables or accessing elements
+            // in an array of pointers in the zero page"
+            // TL;DR: X is added to the zero page address (ZPA).  That's the
+            //   low byte.  The next page address (ZPA+1) forms the high byte.
+            //   then *that* is used as the effective address.
+            // It's *Indexed Indirect* because the index happens before the
+            // indirection.
+            let zpAddress: UInt16 = instruction.modeByteAddressValue()
+            let indexedZPAddress: UInt16 = (zpAddress + UInt16(Xregister.value)) & 0xFF // ignore carry
+            let lowByte = memory.byte(at: indexedZPAddress)
+            let highByte = memory.byte(at: (indexedZPAddress + 1) % 0xFF)
+            let effectiveAddress: UInt16 = UInt16(highByte) << 8 | UInt16(lowByte)
+            return effectiveAddress
+
+        case Indirect_Indexed_Y:
+            // Syntax is ($44),Y
+            return 0
+
 /*
         case Implied:
-        case Indirect:
-        case Indexed_Indirect_X:
-        case Indirect_Indexed_Y:
+        case Indirect: // just used by JMP. there is no pure indirect for other instructions. 
         case Relative:  // this is pretty complicated due to page-boundary crossings, so kicked that can further down the road. only for branches
 
         // no addresses for these dudes
@@ -135,12 +162,16 @@ extension MOS6502 {
         case Absolute_YIndexed:
             let address = addressFor(instruction)
             return memory.bytes[Int(address)]
+        case Indexed_Indirect_X:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
+        case Indirect_Indexed_Y:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
 
 /*
         case Implied:
         case Indirect:
-        case Indexed_Indirect_X:
-        case Indirect_Indexed_Y:
         case Relative:
 */
         default:
