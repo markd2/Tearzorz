@@ -517,13 +517,13 @@ extension MOS6502 {
     }
 
     func handleBMI(_ instruction: Instruction) {
-        guard !psw.isSet(.N) else { return }
+        guard psw.isClear(.N) else { return }
         programCounter.value = offsetAddress(self.programCounter.value,
                                              by: instruction.modeByteValue())
     }
 
     func handleBVC(_ instruction: Instruction) {
-        guard !psw.isSet(.V) else { return }
+        guard psw.isClear(.V) else { return }
         programCounter.value = offsetAddress(self.programCounter.value,
                                              by: instruction.modeByteValue())
     }
@@ -535,7 +535,7 @@ extension MOS6502 {
     }
 
     func handleBCC(_ instruction: Instruction) {
-        guard !psw.isSet(.C) else { return }
+        guard psw.isClear(.C) else { return }
         programCounter.value = offsetAddress(self.programCounter.value,
                                              by: instruction.modeByteValue())
     }
@@ -547,7 +547,7 @@ extension MOS6502 {
     }
 
     func handleBNE(_ instruction: Instruction) {
-        guard !psw.isSet(.Z) else { return }
+        guard psw.isClear(.Z) else { return }
         programCounter.value = offsetAddress(self.programCounter.value,
                                              by: instruction.modeByteValue())
     }
