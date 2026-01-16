@@ -128,8 +128,9 @@ class MainWindow: NSWindow {
         0832: EA          ; NOP
         0833: D0 01       ; BNE branch2
         0835: EA          ; NOP
-        0836: 6C 00 09    ; JMP ($0900)
-              4C 00 09      JMP $0900
+        0836: 6C 06 01    ; JMP ($0106)
+              4C 06 01      JMP $0106
+              20 06 01      JSR $0106
         0839: 60          ; RTS
               08            PHP
               28            PLP
@@ -160,6 +161,7 @@ class MainWindow: NSWindow {
           0xF0, 0x01, 0xEA, 0xD0, 0x01, 0xEA,
           0x6C, 0x06, 0x01,
           0x4C, 0x06, 0x01,
+          0x20, 0x06, 0x01,
           0x60,
           0x08, 0x28, 0x48, 0x68, 0x88, 0xC8, 0xCA, 0xE8, 0x8A, 0xAA, 0xA8, 0xBA, 0x9A, 0x98
         ]

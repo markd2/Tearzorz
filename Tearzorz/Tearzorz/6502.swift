@@ -247,6 +247,7 @@ extension MOS6502 {
 
         handlers[NOP] = handleNOP
         handlers[JMP] = handleJMP
+        handlers[JSR] = handleJSR
     }
     
     func handleLDA(_ instruction: Instruction) {
@@ -400,6 +401,16 @@ extension MOS6502 {
 
 // Stacky stuff
 extension MOS6502 {
+    func push(_ byte: UInt8) {
+        let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
+        memory[address] = byte
+
+        var newSP = stackPointer.value
+        if newSP > 0 { newSP = newSP - 1 }
+        else { newSP = 255 }
+        stackPointer.value = newSP
+    }
+
     func handlePHA(_ instruction: Instruction) {
         // put the byte where the stack pointer is pointing to
         Swift.print(String(format: "starting snack pointer value %02X", stackPointer.value))
@@ -413,7 +424,6 @@ extension MOS6502 {
         if newSP > 0 { newSP = newSP - 1 }
         else { newSP = 255 }
         stackPointer.value = newSP
-        Swift.print(String(format: "    new snack pointer value %02X", newSP))
         // storing/pushing don't update NZ flags
     }
 
@@ -468,6 +478,19 @@ extension MOS6502 {
     }
 
     func handleJMP(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        programCounter.value = address
+    }
+
+    func handleJSR(_ instruction: Instruction) {
+        // point to the last byte of the JSR instruction
+        let pc = programCounter.value - 1
+        let lowPC = UInt8(pc & 0xFF)
+        let highPC = UInt8(pc >> 8 & 0xFF)
+
+        push(highPC)
+        push(lowPC)
+
         let address = addressFor(instruction)
         programCounter.value = address
     }
