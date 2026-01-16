@@ -319,6 +319,9 @@ extension MOS6502 {
             return
         }
 
+        // increment PC first, because branches are relative to the
+        // address of the instruction _after_ the branch instruction
+        programCounter.value += instruction.byteCount
         handler(instruction)
     }
 }
