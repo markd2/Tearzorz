@@ -29,11 +29,11 @@ typedef enum Opcode {
     DEX, // * decrement X
     DEY, // * decrement Y
     EOR, // - exclusive or
-    INC, // - increment
+    INC, // - increment (memory)
     INX, // * increment X
     INY, // * increment Y
-    JMP, // - jump
-    JSR, // - jump subroutine
+    JMP, // * jump
+    JSR, // * jump subroutine
     LDA, // * load accumulator
     LDX, // * load X
     LDY, // * load Y
@@ -47,11 +47,11 @@ typedef enum Opcode {
     ROL, // - rotate left
     ROR, // - rotate right
     RTI, // - return from interrupt
-    RTS, // - return from subroutine
+    RTS, // * return from subroutine
     SBC, // - subtract with carry
     SEC, // * set carry
     SED, // * set decimal mode
-    SEI, // - set interrupt disable
+    SEI, // * set interrupt disable
     STA, // * store accumulator
     STX, // * store X
     STY, // * store Y
