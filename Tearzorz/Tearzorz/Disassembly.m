@@ -167,7 +167,7 @@
 
 - (uint16_t) modeByteAddressValue {
     // little endian
-    return 0x01 << 8 | (uint8_t)_bytes[1];
+    return (uint8_t)_bytes[1];
 } // modeByteAddressValue
 
 
