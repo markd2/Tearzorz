@@ -53,8 +53,8 @@ typedef enum Opcode {
     SED, // * set decimal mode
     SEI, // - set interrupt disable
     STA, // * store accumulator
-    STX, // - store X
-    STY, // - store Y
+    STX, // * store X
+    STY, // * store Y
     TAX, // * transfer accumulator to X
     TAY, // * transfer accumulator to Y
     TSX, // * transfer stack pointer to X

@@ -232,6 +232,8 @@ extension MOS6502 {
         handlers[DEY] = handleDEY
 
         handlers[STA] = handleSTA
+        handlers[STX] = handleSTX
+        handlers[STY] = handleSTY
 
         handlers[PHA] = handlePHA
         handlers[PLA] = handlePLA
@@ -318,6 +320,16 @@ extension MOS6502 {
     func handleSTA(_ instruction: Instruction) {
         let address = addressFor(instruction)
         memory[address] = accumulator.value
+    }
+
+    func handleSTX(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        memory[address] = Xregister.value
+    }
+
+    func handleSTY(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        memory[address] = Yregister.value
     }
 
     // do all the work to do the instruction except for incrementing
