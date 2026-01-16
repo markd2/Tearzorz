@@ -24,6 +24,11 @@ class MOS6502 {
         setupHandlers()
         memory.randomizeBytes()
         reset()
+
+        // set up for exercising Indirect Indexed (Y) mode
+        memory.setByte(0x10, at: 0x42)
+        memory.setByte(0x01, at: 0x43)
+        Yregister.value = 0x55
     }
 
     func reset() {
@@ -63,24 +68,81 @@ extension MOS6502 {
         case ZeroPage_XIndexed:
             var address: UInt16 = instruction.modeByteAddressValue()
             address += UInt16(Xregister.value)
-            print(String(format: "looking at %04x", UInt16(address)))
+            return address
+        case ZeroPage_YIndexed:
+            var address: UInt16 = instruction.modeByteAddressValue()
+            address += UInt16(Yregister.value)
+            return address
+        case Absolute:
+            let address: UInt16 = instruction.modeWordAddressValue()
+            return address
+        case Absolute_XIndexed:
+            // not doing the page-crossing work here. If a page is crossed,
+            // for HB (high byte) and LB (low byte)
+            //   - One is added to LB.  It overflows into the carry
+            //   -   HB and the LB value are combined into an address, and
+            //       that byte read (from the wrong place)
+            //   - The carry is added to HB
+            //       - HB and t he LB value are combined into an address, and
+            //       *that* byte is read
+            // costing one cycle, and an extra (throw-away) data read.
+            // no doing this could be bad if we're doing this operation on
+            // a memory read location that sensitive to reads. The algo below
+            // just does a simple add, ignoring the cross-page shenanigans
+            var address: UInt16 = instruction.modeWordAddressValue()
+            address += UInt16(Xregister.value)
+            return address
+        case Absolute_YIndexed:
+            var address: UInt16 = instruction.modeWordAddressValue()
+            address += UInt16(Yregister.value)
+            return address
+
+        case Indexed_Indirect_X:
+            // Syntax is XYZ ($44,X)
+            // "major use is in picking up data from a table or a list
+            // of addresses to perform an operation"
+            // "examples where this is applicable is in polling I/O devices
+            // or performing string ot multiple string operations" (?)
+            // "useful for implementing jump tables or accessing elements
+            // in an array of pointers in the zero page"
+            // TL;DR: X is added to the zero page address (ZPA).  That's the
+            //   low byte.  The next page address (ZPA+1) forms the high byte.
+            //   then *that* is used as the effective address.
+            // It's *Indexed Indirect* because the index happens before the
+            // indirection.
+            let zpAddress: UInt16 = instruction.modeByteAddressValue()
+            let indexedZPAddress: UInt16 = (zpAddress + UInt16(Xregister.value)) & 0xFF // ignore carry
+            let lowByte = memory.byte(at: indexedZPAddress)
+            let highByte = memory.byte(at: (indexedZPAddress + 1) % 0xFF)
+            let effectiveAddress: UInt16 = UInt16(highByte) << 8 | UInt16(lowByte)
+            return effectiveAddress
+
+        case Indirect_Indexed_Y:
+            // Syntax is ($44),Y
+            // "the usefulness of this is primarily for those operations
+            // in which one of several values could be used as part of
+            // a subroutine.  Combine an address that points anywhere
+            // in memory combined with counter offset of the index (Y) register
+            let zpAddress: UInt16 = instruction.modeByteAddressValue()
+            let lowByte = memory.byte(at: zpAddress)
+            // this wraps around, staying on zero page
+            let highByte = memory.byte(at: (UInt16(zpAddress) + 1) % 0xFF)
+            // this is sixteen-bit math, so it's ok if it cross page boundaries
+            let thirtyTwoBitAddress = ((UInt32(highByte) << 8 | UInt32(lowByte)) + UInt32(Yregister.value)) & UInt32(0xFFFF) // wrap around 16 bit address space if we started off at say $FFFF
+            let address: UInt16 = UInt16(thirtyTwoBitAddress & 0xFFFF)
             return address
 
 /*
-        case Absolute:
-        case Absolute_YIndexed:
-        case Absolute_XIndexed:
         case Implied:
-        case Indirect:
-        case Indexed_Indirect_X:
-        case Indirect_Indexed_Y:
-        case Relative:
-        case ZeroPage_YIndexed:
+        case Indirect: // just used by JMP. there is no pure indirect for other instructions. 
+        case Relative:  // this is pretty complicated due to page-boundary crossings, so kicked that can further down the road. only for branches
 
         // no addresses for these dudes
         case Accumulator:
         case Immediate:
 */
+        case Implied:
+            fallthrough
         default:
             print("oops address")
             return 0x0000
@@ -99,17 +161,29 @@ extension MOS6502 {
         case ZeroPage_XIndexed:
             let address = addressFor(instruction)
             return memory.bytes[Int(address)]
+        case ZeroPage_YIndexed:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
+        case Absolute:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
+        case Absolute_XIndexed:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
+        case Absolute_YIndexed:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
+        case Indexed_Indirect_X:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
+        case Indirect_Indexed_Y:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
 
 /*
-        case Absolute:
-        case Absolute_XIndexed:
-        case Absolute_YIndexed:
         case Implied:
         case Indirect:
-        case Indexed_Indirect_X:
-        case Indirect_Indexed_Y:
         case Relative:
-        case ZeroPage_YIndexed:
 */
         default:
             print("oops")

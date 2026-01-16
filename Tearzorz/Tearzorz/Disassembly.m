@@ -116,13 +116,13 @@
         return @"A";
 
     case Absolute: {
-        return [NSString stringWithFormat: @"$%02X%02X", _bytes[2], _bytes[1]];
+        return [NSString stringWithFormat: @"$%02X%02X", _bytes[2], (uint8_t)_bytes[1]];
     }
     case Absolute_XIndexed: {
-        return [NSString stringWithFormat: @"$%02X%02X,X", _bytes[2], _bytes[1]];
+        return [NSString stringWithFormat: @"$%02X%02X,X", _bytes[2], (uint8_t)_bytes[1]];
     }
     case Absolute_YIndexed: {
-        return [NSString stringWithFormat: @"$%02X%02X,Y", _bytes[2], _bytes[1]];
+        return [NSString stringWithFormat: @"$%02X%02X,Y", _bytes[2], (uint8_t)_bytes[1]];
     }
     case Immediate:
         return [NSString stringWithFormat: @"#$%02X", (uint8_t)_bytes[1]];
@@ -131,7 +131,7 @@
         return nil;
 
     case Indirect: {
-        return [NSString stringWithFormat: @"($%02X%02X)", _bytes[2], _bytes[1]];    }
+        return [NSString stringWithFormat: @"($%02X%02X)", _bytes[2], (uint8_t)_bytes[1]];    }
     case Indexed_Indirect_X:
         return [NSString stringWithFormat: @"($%02X,X)", (uint8_t)_bytes[1]];
 
@@ -161,13 +161,13 @@
 
 - (uint16_t) modeWordAddressValue {
     // little endian
-    return _bytes[2] << 16 | _bytes[1];
+    return _bytes[2] << 8 | (uint8_t)_bytes[1];
 } // modeWordAddressValue
 
 
 - (uint16_t) modeByteAddressValue {
     // little endian
-    return 0x00 << 16 | (uint8_t)_bytes[1];
+    return (uint8_t)_bytes[1];
 } // modeByteAddressValue
 
 
@@ -211,7 +211,6 @@
     unsigned char *stop = scan + data.length;
     
     while (scan < stop) {
-
         switch (*scan) {
         case 0x00: instruction = [self makeInstructionFrom: &scan  opcode: BRK  mode: Implied]; break;
         case 0x01: instruction = [self makeInstructionFrom: &scan  opcode: ORA  mode: Indexed_Indirect_X]; break;
