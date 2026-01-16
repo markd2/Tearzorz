@@ -248,6 +248,7 @@ extension MOS6502 {
         handlers[NOP] = handleNOP
         handlers[JMP] = handleJMP
         handlers[JSR] = handleJSR
+        handlers[RTS] = handleRTS
     }
     
     func handleLDA(_ instruction: Instruction) {
@@ -405,10 +406,23 @@ extension MOS6502 {
         let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
         memory[address] = byte
 
+        // post increment SP
         var newSP = stackPointer.value
         if newSP > 0 { newSP = newSP - 1 }
         else { newSP = 255 }
         stackPointer.value = newSP
+    }
+
+    func pop() -> UInt8 {
+        // pre decrement SP
+        var newSP = stackPointer.value
+        if newSP < 255 { newSP = newSP + 1 }
+        else { newSP = 0 }
+        stackPointer.value = newSP
+
+        let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
+        let byte = memory[address]
+        return byte
     }
 
     func handlePHA(_ instruction: Instruction) {
@@ -434,7 +448,7 @@ extension MOS6502 {
         else { newSP = 0 }
         stackPointer.value = newSP
 
-        // put the byte where the stack pointer is pointing to
+        // get the byte from where the stack pointer is now pointing to
         let address: UInt16 = UInt16(0x01 << 8) | UInt16(stackPointer.value & 0xFF)
         accumulator.value = memory.byte(at: address)
 
@@ -488,10 +502,19 @@ extension MOS6502 {
         let lowPC = UInt8(pc & 0xFF)
         let highPC = UInt8(pc >> 8 & 0xFF)
 
+        // push high first so the low byte is in the lower addres
         push(highPC)
         push(lowPC)
 
         let address = addressFor(instruction)
+        programCounter.value = address
+    }
+
+    func handleRTS(_ instruction: Instruction) {
+        let lowPC = pop()
+        let highPC = pop()
+        var address = UInt16(highPC) << 8 | UInt16(lowPC)
+        address = UInt16((UInt32(address) + 1) & 0xFFFF)
         programCounter.value = address
     }
 }
