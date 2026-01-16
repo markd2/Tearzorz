@@ -101,6 +101,7 @@ class MainWindow: NSWindow {
     func allAddressingModesBytes() -> Data {
         // courtesy of our robot overlords
         /*
+              29 35         AND #35  0011 0101
         0800: 78          ; SEI
         0801: 18          ; CLC
         0802: A9 10       ; LDA #$10
@@ -151,6 +152,7 @@ class MainWindow: NSWindow {
               98            TYA
         */
         let blah: [CUnsignedChar] = [
+          0x29, 0x35,
           0x78, 0x18, 0xA9, 0x10, 0x69, 0x05, 0xC9, 0x20, 0x0A, 0x2A, 0x85, 0x00, 0xA5, 0x00, 0xA2, 0x04,
           0xA0, 0x08, 0x95, 0x10, 0xB5, 0x10, 0x84, 0x20, 0xB6, 0x20,
           0xAD, 0xF0, 0x01,

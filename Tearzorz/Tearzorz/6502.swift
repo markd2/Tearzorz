@@ -226,6 +226,7 @@ extension MOS6502 {
         handlers[LDX] = handleLDX
         handlers[LDY] = handleLDY
 
+        handlers[AND] = handleAND
         handlers[INX] = handleINX
         handlers[INY] = handleINY
         handlers[DEX] = handleDEX
@@ -317,6 +318,14 @@ extension MOS6502 {
 
 // Mathy / Logically stuff
 extension MOS6502 {
+
+    func handleAND(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+        let result = byte & accumulator.value
+        accumulator.value = result
+        updateNZFlags(for: accumulator.value)
+    }
+    
     func handleINX(_ instruction: Instruction) {
         var byte = Xregister.value
         if byte < 255 {
