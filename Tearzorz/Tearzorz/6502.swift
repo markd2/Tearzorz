@@ -63,26 +63,48 @@ extension MOS6502 {
         case ZeroPage_XIndexed:
             var address: UInt16 = instruction.modeByteAddressValue()
             address += UInt16(Xregister.value)
-            print(String(format: "looking at %04x", UInt16(address)))
+            return address
+        case ZeroPage_YIndexed:
+            var address: UInt16 = instruction.modeByteAddressValue()
+            address += UInt16(Yregister.value)
             return address
         case Absolute:
             let address: UInt16 = instruction.modeWordAddressValue()
             return address
+        case Absolute_XIndexed:
+            // not doing the page-crossing work here. If a page is crossed,
+            // for HB (high byte) and LB (low byte)
+            //   - One is added to LB.  It overflows into the carry
+            //   -   HB and the LB value are combined into an address, and
+            //       that byte read (from the wrong place)
+            //   - The carry is added to HB
+            //       - HB and t he LB value are combined into an address, and
+            //       *that* byte is read
+            // costing one cycle, and an extra (throw-away) data read.
+            // no doing this could be bad if we're doing this operation on
+            // a memory read location that sensitive to reads. The algo below
+            // just does a simple add, ignoring the cross-page shenanigans
+            var address: UInt16 = instruction.modeWordAddressValue()
+            address += UInt16(Xregister.value)
+            return address
+        case Absolute_YIndexed:
+            var address: UInt16 = instruction.modeWordAddressValue()
+            address += UInt16(Yregister.value)
+            return address
 
 /*
-        case Absolute_YIndexed:
-        case Absolute_XIndexed:
         case Implied:
         case Indirect:
         case Indexed_Indirect_X:
         case Indirect_Indexed_Y:
         case Relative:  // this is pretty complicated due to page-boundary crossings, so kicked that can further down the road. only for branches
-        case ZeroPage_YIndexed:
 
         // no addresses for these dudes
         case Accumulator:
         case Immediate:
 */
+        case Implied:
+            fallthrough
         default:
             print("oops address")
             return 0x0000
@@ -101,19 +123,25 @@ extension MOS6502 {
         case ZeroPage_XIndexed:
             let address = addressFor(instruction)
             return memory.bytes[Int(address)]
+        case ZeroPage_YIndexed:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
         case Absolute:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
+        case Absolute_XIndexed:
+            let address = addressFor(instruction)
+            return memory.bytes[Int(address)]
+        case Absolute_YIndexed:
             let address = addressFor(instruction)
             return memory.bytes[Int(address)]
 
 /*
-        case Absolute_XIndexed:
-        case Absolute_YIndexed:
         case Implied:
         case Indirect:
         case Indexed_Indirect_X:
         case Indirect_Indexed_Y:
         case Relative:
-        case ZeroPage_YIndexed:
 */
         default:
             print("oops")
