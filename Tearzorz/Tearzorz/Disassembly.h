@@ -86,6 +86,9 @@ typedef enum AddressingMode {
 @property (assign, nonatomic) Opcode opcode;
 @property (assign, nonatomic) AddressingMode addressingMode;
 
+/// how much to advance the program counter
+@property (assign, readonly, nonatomic) UInt16 byteCount;
+
 - (instancetype) initWithOpcode: (Opcode) opcode
                  addressingMode: (AddressingMode) addressingMode
                           bytes: (unsigned char *) bytes;

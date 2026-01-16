@@ -6,6 +6,13 @@
 
 @implementation Instruction
 
+
+- (UInt16) byteCount {
+    // plus one for the opcode byte itself
+    return 1 + [self bytesForMode: self.addressingMode];
+} // byteCount
+
+
 /// Number of bytes used for addressing. Does not include the byte
 /// for the opcode.
 - (NSInteger) bytesForMode: (AddressingMode) addressingMode {
