@@ -145,8 +145,15 @@
     case Indirect_Indexed_Y:
         return [NSString stringWithFormat: @"($%02X),Y", (uint8_t)_bytes[1]];
 
-    case Relative:
-        return [NSString stringWithFormat: @"$%02X", (uint8_t)_bytes[1]];
+    case Relative: {
+        if (_bytes[1] < 0) {
+            int8_t twoc = ~_bytes[1] + 1;
+            return [NSString stringWithFormat: @"-$%02X ; $%02X",
+                             (uint8_t)twoc, (uint8_t)_bytes[1]];
+        } else {
+            return [NSString stringWithFormat: @"$%02X", (uint8_t)_bytes[1]];
+        }
+    }
 
     case ZeroPage:
         return [NSString stringWithFormat: @"$%02X", (uint8_t)_bytes[1]];
