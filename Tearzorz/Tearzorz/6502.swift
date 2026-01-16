@@ -247,10 +247,12 @@ extension MOS6502 {
         handlers[TXS] = handleTXS
         handlers[TYA] = handleTYA
 
-        handlers[NOP] = handleNOP
         handlers[JMP] = handleJMP
         handlers[JSR] = handleJSR
         handlers[RTS] = handleRTS
+        handlers[BPL] = handleBPL
+
+        handlers[NOP] = handleNOP
     }
     
     func handleLDA(_ instruction: Instruction) {
@@ -463,12 +465,8 @@ extension MOS6502 {
     }
 }
 
-// Misc instructions
+// Branching instructions
 extension MOS6502 {
-    func handleNOP(_ instruction: Instruction) {
-        // nobody home
-    }
-
     func handleJMP(_ instruction: Instruction) {
         let address = addressFor(instruction)
         programCounter.value = address
@@ -494,6 +492,30 @@ extension MOS6502 {
         var address = UInt16(highPC) << 8 | UInt16(lowPC)
         address = UInt16((UInt32(address) + 1) & 0xFFFF)
         programCounter.value = address
+    }
+
+    func offsetAddress(_ address: UInt16, by byte: UInt8) -> UInt16 {
+        let signedByte = Int8(bitPattern: byte)
+        
+        var addr = Int32(address)
+        addr += Int32(signedByte)
+        let effectiveAddress = UInt16(bitPattern: Int16(addr % 0xFF))
+        return effectiveAddress
+    }
+
+    func handleBPL(_ instruction: Instruction) {
+        if !psw.isSet(.N) {
+            programCounter.value = offsetAddress(self.programCounter.value,
+                                                 by: instruction.modeByteValue())
+        }
+    }
+
+}
+
+// Misc instructions
+extension MOS6502 {
+    func handleNOP(_ instruction: Instruction) {
+        // nobody home
     }
 }
 
