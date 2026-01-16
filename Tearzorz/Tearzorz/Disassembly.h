@@ -8,16 +8,16 @@ typedef enum Opcode {
     ADC, // - add with carry
     AND, // - and
     ASL, // - arithmetic shift left
-    BCC, // - branch on carry flag clear
-    BCS, // - branch on carry flag set
-    BEQ, // - branch on equal - zero flag set
+    BCC, // * branch on carry flag clear
+    BCS, // * branch on carry flag set
+    BEQ, // * branch on equal - zero flag set
     BIT, // - bit test
-    BMI, // - branch on minus - negative flag set
-    BNE, // - branch on not equal - zero flag clear
-    BPL, // - branch on plus - negative flag clear
+    BMI, // * branch on minus - negative flag set
+    BNE, // * branch on not equal - zero flag clear
+    BPL, // * branch on plus - negative flag clear
     BRK, // - break
-    BVC, // - branch on overflow flag clear
-    BVS, // - branch on overflow flag set
+    BVC, // * branch on overflow flag clear
+    BVS, // * branch on overflow flag set
     CLC, // * clear carry
     CLD, // * clear decimal mode
     CLI, // * clear interrupt
