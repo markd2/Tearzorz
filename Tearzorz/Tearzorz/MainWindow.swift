@@ -113,6 +113,8 @@ class MainWindow: NSWindow {
               46 20         LSR $20
               2A            ROL A
               26 30         ROL $30
+              6A            ROR A
+              66 40         ROR $40
         0809: 2A          ; ROL A
         080A: 85 00       ; STA $00
         080C: A5 00       ; LDA $00
@@ -165,6 +167,8 @@ class MainWindow: NSWindow {
           0x46, 0x20,
           0x2A,
           0x26, 0x30,
+          0x6A,
+          0x66, 0x40,
           0x85, 0x00, 0xA5, 0x00, 0xA2, 0x04,
           0xA0, 0x08, 0x95, 0x10, 0xB5, 0x10, 0x84, 0x20, 0xB6, 0x20,
           0xAD, 0xF0, 0x01,

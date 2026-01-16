@@ -232,6 +232,7 @@ extension MOS6502 {
         handlers[ASL] = handleASL
         handlers[LSR] = handleLSR
         handlers[ROL] = handleROL
+        handlers[ROR] = handleROR
         handlers[INX] = handleINX
         handlers[INY] = handleINY
         handlers[DEX] = handleDEX
@@ -388,11 +389,37 @@ extension MOS6502 {
         
         // shift in the carry to bit zero
         if psw.isSet(.C) {
-           result |= bit0 
+           result |= bit0
         }
 
         // shift bit 7 into the carry
         if bit7set { psw.setFlag(.C) } else { psw.clearFlag(.C) }
+
+        if instruction.addressingMode == Accumulator {
+            accumulator.value = result
+        } else {
+            let address = addressFor(instruction)
+            memory[address] = result
+        }
+        
+        updateNZFlags(for: result)
+    }
+
+    func handleROR(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+
+        let bit0set = byte & bit0 == bit0
+
+        // shift right by one
+        var result = byte >> 1
+        
+        // shift in the carry to bit 7
+        if psw.isSet(.C) {
+           result |= bit7
+        }
+
+        // shift bit 0 into the carry
+        if bit0set { psw.setFlag(.C) } else { psw.clearFlag(.C) }
 
         if instruction.addressingMode == Accumulator {
             accumulator.value = result
