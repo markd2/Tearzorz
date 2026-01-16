@@ -230,6 +230,7 @@ extension MOS6502 {
         handlers[ORA] = handleORA
         handlers[EOR] = handleEOR
         handlers[ASL] = handleASL
+        handlers[LSR] = handleLSR
         handlers[INX] = handleINX
         handlers[INY] = handleINY
         handlers[DEX] = handleDEX
@@ -348,6 +349,24 @@ extension MOS6502 {
         if byte & bit7 == bit7 { psw.setFlag(.C) } else { psw.clearFlag(.C) }
         let result = byte << 1
 
+        if instruction.addressingMode == Accumulator {
+            accumulator.value = result
+        } else {
+            let address = addressFor(instruction)
+            memory[address] = result
+        }
+
+        updateNZFlags(for: result)
+    }
+
+    func handleLSR(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+
+        // see if we need to send bottom bit to the carry flag
+        if byte & bit0 == bit0 { psw.setFlag(.C) } else { psw.clearFlag(.C) }
+
+        let result = byte >> 1
+        
         if instruction.addressingMode == Accumulator {
             accumulator.value = result
         } else {

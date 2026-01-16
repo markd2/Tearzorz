@@ -37,7 +37,7 @@ typedef enum Opcode {
     LDA, // * load accumulator
     LDX, // * load X
     LDY, // * load Y
-    LSR, // - logical shift right
+    LSR, // * logical shift right
     NOP, // * no operation
     ORA, // * or with accumulator
     PHA, // * push accumulator

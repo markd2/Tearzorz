@@ -109,6 +109,8 @@ class MainWindow: NSWindow {
         0806: C9 20       ; CMP #$20
         0808: 0A          ; ASL A
               06 10         ASL $10
+              4A            LSR A
+              46 20         LSR $20
         0809: 2A          ; ROL A
         080A: 85 00       ; STA $00
         080C: A5 00       ; LDA $00
@@ -157,6 +159,8 @@ class MainWindow: NSWindow {
           0x78, 0x18, 0xA9, 0x10, 0x69, 0x05, 0xC9, 0x20, 
           0x0A,
           0x06, 0x10,
+          0x4A, // CGS
+          0x46, 0x20,
           0x2A, 0x85, 0x00, 0xA5, 0x00, 0xA2, 0x04,
           0xA0, 0x08, 0x95, 0x10, 0xB5, 0x10, 0x84, 0x20, 0xB6, 0x20,
           0xAD, 0xF0, 0x01,
