@@ -1,6 +1,6 @@
 # Tearzorz
 
-Some 6502 exploration, maybe a tool to assist in the "tearing" method of reverse engineering introduced by Don Lancaster in his "Enhancing your Apple II" books. Or maybe I'll get distracted and not do much.
+Some 6502 exploration, maybe a tool to assist in the "tearing" method of reverse engineering introduced by Don Lancaster in his "Enhancing your Apple II" books. Or maybe I'll get distracted and not do much.  Or maybe I'll accidentally write a non-cycle-accurate emulator.  Anything can happen.
 
 
 # Porgress
