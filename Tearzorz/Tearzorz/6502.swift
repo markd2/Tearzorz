@@ -233,6 +233,9 @@ extension MOS6502 {
         handlers[LSR] = handleLSR
         handlers[ROL] = handleROL
         handlers[ROR] = handleROR
+
+        handlers[ADC] = handleADC
+        handlers[SBC] = handleSBC
         handlers[INX] = handleINX
         handlers[INY] = handleINY
         handlers[DEX] = handleDEX
@@ -418,7 +421,66 @@ extension MOS6502 {
         setByte(result, for: instruction)
         updateNZFlags(for: result)
     }
+
+    private func handleAdd(_ thing1: UInt8, _ thing2: UInt8) -> UInt8 {
+        let sum: UInt16 = UInt16(thing1) + UInt16(thing2) + (psw.isSet(.C) ? 1 : 0)
+        psw.setFlag(.C, to: sum > 255)
+        
+        let result: UInt8 = UInt8(sum & 0xFF)
+        
+        // check for carry
+        psw.setFlag(.C, to: sum > 255)
+        
+        // check for overflow
+        let thing1Bit7set = thing1 & bit7 == bit7
+        let thing2Bit7set = thing2 & bit7 == bit7
+        let resultBit7set = result & bit7 == bit7
+        
+        var overflew = false
+        if (thing1Bit7set && thing2Bit7set) && !resultBit7set { overflew = true }
+        if (!thing1Bit7set && !thing2Bit7set) && resultBit7set { overflew = true }
+        psw.setFlag(.V, to: overflew)
+        
+        return result
+    }
+
+    func handleADC(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+
+        if psw.isSet(.D) {
+            // BCD
+            print("no BCD yet")
+        } else {
+
+            // two's complement
+            let result = handleAdd(accumulator.value, byte)
+
+            accumulator.value = result
+            updateNZFlags(for: result)
+        }
+    }
+
+    func handleSBC(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+
+        if psw.isSet(.D) {
+            // BCD
+            print("no BCD yet")
+        } else {
+
+            // two's complement
+            // subtraction is the same as adding, but doing a 1s-complement
+            // of the memory field.  The carry flag being set before SBC
+            // turns it into true two's complement
+            // http://forum.6502.org/viewtopic.php?p=97407&sid=5a386f79fc3ed4596724aa9f73582d93#p97407
+            let result = handleAdd(accumulator.value, ~byte)
+
+            accumulator.value = result
+            updateNZFlags(for: result)
+        }
+    }
     
+
     func handleINX(_ instruction: Instruction) {
         var byte = Xregister.value
         if byte < 255 {

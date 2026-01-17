@@ -106,6 +106,16 @@ class MainWindow: NSWindow {
         0801: 18          ; CLC
         0802: A9 10       ; LDA #$10
         0804: 69 05       ; ADC #$05
+              69 FF         ADC #$FF
+              69 40         ADC #40
+              69 80         ADC #80
+              65 60         ADC $60
+              E5 40         SBC $40
+              E9 05         SBC #$05
+              E9 FF         SBC #$FF
+              E9 40         SBC #$40
+              E9 80         SBC #$80
+
         0806: C9 20       ; CMP #$20
         0808: 0A          ; ASL A
               06 10         ASL $10
@@ -160,7 +170,18 @@ class MainWindow: NSWindow {
         */
         let blah: [CUnsignedChar] = [
           0x29, 0x35,
-          0x78, 0x18, 0xA9, 0x10, 0x69, 0x05, 0xC9, 0x20, 
+          0x78, 0x18, 0xA9, 0x10,
+          0x69, 0x05, 
+          0x69, 0xFF,
+          0x69, 0x40,
+          0x69, 0x80,
+          0x65, 0x60, // ADC
+          0xE5, 0x40, // SBC
+          0xE9, 0x05,
+          0xE9, 0xFF,
+          0xE9, 0x40,
+          0xE9, 0x80,
+          0xC9, 0x20, 
           0x0A,
           0x06, 0x10,
           0x4A, // CGS

@@ -67,6 +67,14 @@ class ProcessorStatusWord {
     func setFlags(_ rawFlags: UInt8) {
         flags.rawValue = rawFlags
     }
+
+    func setFlag(_ flag: Flags, to onOff: Bool) {
+        if onOff {
+            setFlag(flag)
+        } else {
+            clearFlag(flag)
+        }
+    }
     
     func clearFlag(_ flag: Flags) {
         flags = flags.subtracting([flag])
