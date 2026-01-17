@@ -491,6 +491,11 @@ extension MOS6502 {
     }
 
     func handleDEC(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        let byte = memory[address]
+        let result = UInt8( (Int16(byte) - 1) & 0xFF )
+        memory[address] = result
+        updateNZFlags(for: result)
     }
 
     func handleINX(_ instruction: Instruction) {

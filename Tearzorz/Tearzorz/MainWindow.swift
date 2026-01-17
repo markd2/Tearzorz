@@ -160,6 +160,8 @@ class MainWindow: NSWindow {
               88            DEY
               E6 20         INC $20
               EE 30 01      INC $0130
+              C6 20         DEC $20
+              CE 30 01      DEC $0130
               C8            INY
               CA            DEX
               E8            INX
@@ -213,6 +215,8 @@ class MainWindow: NSWindow {
           0x08, 0x28, 0x48, 0x68, 0x88,
           0xE6, 0x20, // INC
           0xEE, 0x30, 0x01,
+          0xC6, 0x20, // DEC
+          0xCE, 0x30, 0x01,
           0xC8, 0xCA, 0xE8, 0x8A, 0xAA, 0xA8, 0xBA, 0x9A, 0x98
         ]
 
