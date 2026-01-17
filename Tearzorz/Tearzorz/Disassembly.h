@@ -48,7 +48,7 @@ typedef enum Opcode {
     ROR, // * rotate right
     RTI, // - return from interrupt
     RTS, // * return from subroutine
-    SBC, // - subtract with carry
+    SBC, // + subtract with carry - binary done, BCD TBD
     SEC, // * set carry
     SED, // * set decimal mode
     SEI, // * set interrupt disable

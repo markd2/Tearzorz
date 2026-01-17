@@ -235,6 +235,7 @@ extension MOS6502 {
         handlers[ROR] = handleROR
 
         handlers[ADC] = handleADC
+        handlers[SBC] = handleSBC
         handlers[INX] = handleINX
         handlers[INY] = handleINY
         handlers[DEX] = handleDEX
@@ -453,6 +454,26 @@ extension MOS6502 {
 
             // two's complement
             let result = handleAdd(accumulator.value, byte)
+
+            accumulator.value = result
+            updateNZFlags(for: result)
+        }
+    }
+
+    func handleSBC(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+
+        if psw.isSet(.D) {
+            // BCD
+            print("no BCD yet")
+        } else {
+
+            // two's complement
+            // subtraction is the same as adding, but doing a 1s-complement
+            // of the memory field.  The carry flag being set before SBC
+            // turns it into true two's complement
+            // http://forum.6502.org/viewtopic.php?p=97407&sid=5a386f79fc3ed4596724aa9f73582d93#p97407
+            let result = handleAdd(accumulator.value, ~byte)
 
             accumulator.value = result
             updateNZFlags(for: result)
