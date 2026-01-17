@@ -233,6 +233,8 @@ extension MOS6502 {
         handlers[LSR] = handleLSR
         handlers[ROL] = handleROL
         handlers[ROR] = handleROR
+
+        handlers[ADC] = handleADC
         handlers[INX] = handleINX
         handlers[INY] = handleINY
         handlers[DEX] = handleDEX
@@ -418,7 +420,39 @@ extension MOS6502 {
         setByte(result, for: instruction)
         updateNZFlags(for: result)
     }
+
+    func handleADC(_ instruction: Instruction) {
+        let byte = addressedByte(instruction)
+
+        if psw.isSet(.D) {
+            // BCD
+            print("no BCD yet")
+        } else {
+            // two's complement
+            let sum: UInt16 = UInt16(accumulator.value) + UInt16(byte)
+            psw.setFlag(.C, to: sum > 255)
+
+            let result: UInt8 = UInt8(sum & 0xFF)
+
+            // check for carry
+            psw.setFlag(.C, to: sum > 255)
+
+            // check for overflow
+            let accBit7set = accumulator.value & bit7 == bit7
+            let byteBit7set = byte & bit7 == bit7
+            let resultBit7set = result & bit7 == bit7
+            
+            var overflew = false
+            if (accBit7set && byteBit7set) && !resultBit7set { overflew = true }
+            if (!accBit7set && !byteBit7set) && resultBit7set { overflew = true }
+            psw.setFlag(.V, to: overflew)
+            
+            accumulator.value = result
+            updateNZFlags(for: result)
+        }
+    }
     
+
     func handleINX(_ instruction: Instruction) {
         var byte = Xregister.value
         if byte < 255 {
