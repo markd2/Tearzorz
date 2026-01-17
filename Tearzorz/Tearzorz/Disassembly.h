@@ -29,7 +29,7 @@ typedef enum Opcode {
     DEX, // * decrement X
     DEY, // * decrement Y
     EOR, // * exclusive or
-    INC, // - increment (memory)
+    INC, // * increment (memory)
     INX, // * increment X
     INY, // * increment Y
     JMP, // * jump

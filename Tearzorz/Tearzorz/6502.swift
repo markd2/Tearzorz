@@ -81,7 +81,7 @@ extension MOS6502 {
         case Indirect:
             let address: UInt16 = instruction.modeWordAddressValue()
             let lowByte = memory[address]
-            let highByte = memory[UInt16((UInt32(address) + 1) % 0xFFFF)]
+            let highByte = memory[UInt16((UInt32(address) + 1) & 0xFFFF)]
             let effectiveAddress: UInt16 = UInt16(highByte) << 8 | UInt16(lowByte)
             return effectiveAddress
 
@@ -122,7 +122,7 @@ extension MOS6502 {
             let zpAddress: UInt16 = instruction.modeByteAddressValue()
             let indexedZPAddress: UInt16 = (zpAddress + UInt16(Xregister.value)) & 0xFF // ignore carry
             let lowByte = memory[indexedZPAddress]
-            let highByte = memory[UInt16(UInt32(indexedZPAddress) + 1 % 0xFF)]
+            let highByte = memory[UInt16(UInt32(indexedZPAddress) + 1 & 0xFF)]
             let effectiveAddress: UInt16 = UInt16(highByte) << 8 | UInt16(lowByte)
             return effectiveAddress
 
@@ -135,7 +135,7 @@ extension MOS6502 {
             let zpAddress: UInt16 = instruction.modeByteAddressValue()
             let lowByte = memory[zpAddress]
             // this wraps around, staying on zero page
-            let highByte = memory[(UInt16(zpAddress) + 1) % 0xFF]
+            let highByte = memory[(UInt16(zpAddress) + 1) & 0xFF]
             // this is sixteen-bit math, so it's ok if it cross page boundaries
             let thirtyTwoBitAddress = ((UInt32(highByte) << 8 | UInt32(lowByte)) + UInt32(Yregister.value)) & UInt32(0xFFFF) // wrap around 16 bit address space if we started off at say $FFFF
             let address: UInt16 = UInt16(thirtyTwoBitAddress & 0xFFFF)
@@ -236,6 +236,8 @@ extension MOS6502 {
 
         handlers[ADC] = handleADC
         handlers[SBC] = handleSBC
+        handlers[INC] = handleINC
+        handlers[DEC] = handleDEC
         handlers[INX] = handleINX
         handlers[INY] = handleINY
         handlers[DEX] = handleDEX
@@ -479,7 +481,17 @@ extension MOS6502 {
             updateNZFlags(for: result)
         }
     }
-    
+
+    func handleINC(_ instruction: Instruction) {
+        let address = addressFor(instruction)
+        let byte = memory[address]
+        let result = UInt8( (UInt16(byte) + 1) & 0xFF )
+        memory[address] = result
+        updateNZFlags(for: result)
+    }
+
+    func handleDEC(_ instruction: Instruction) {
+    }
 
     func handleINX(_ instruction: Instruction) {
         var byte = Xregister.value
@@ -727,7 +739,7 @@ extension MOS6502 {
         
         var addr = Int32(address)
         addr += Int32(signedByte)
-        let effectiveAddress = UInt16(bitPattern: Int16(addr % 0xFF))
+        let effectiveAddress = UInt16(bitPattern: Int16(addr & 0xFF))
         return effectiveAddress
     }
 
