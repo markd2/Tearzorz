@@ -5,7 +5,7 @@
 
 
 typedef enum Opcode {
-    ADC, // * add with carry
+    ADC, // + add with carry (binary done, need BCD)
     AND, // * and
     ASL, // * arithmetic shift left
     BCC, // * branch on carry flag clear

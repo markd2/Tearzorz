@@ -421,6 +421,28 @@ extension MOS6502 {
         updateNZFlags(for: result)
     }
 
+    private func handleAdd(_ thing1: UInt8, _ thing2: UInt8) -> UInt8 {
+        let sum: UInt16 = UInt16(thing1) + UInt16(thing2) + (psw.isSet(.C) ? 1 : 0)
+        psw.setFlag(.C, to: sum > 255)
+        
+        let result: UInt8 = UInt8(sum & 0xFF)
+        
+        // check for carry
+        psw.setFlag(.C, to: sum > 255)
+        
+        // check for overflow
+        let thing1Bit7set = thing1 & bit7 == bit7
+        let thing2Bit7set = thing2 & bit7 == bit7
+        let resultBit7set = result & bit7 == bit7
+        
+        var overflew = false
+        if (thing1Bit7set && thing2Bit7set) && !resultBit7set { overflew = true }
+        if (!thing1Bit7set && !thing2Bit7set) && resultBit7set { overflew = true }
+        psw.setFlag(.V, to: overflew)
+        
+        return result
+    }
+
     func handleADC(_ instruction: Instruction) {
         let byte = addressedByte(instruction)
 
@@ -428,25 +450,10 @@ extension MOS6502 {
             // BCD
             print("no BCD yet")
         } else {
+
             // two's complement
-            let sum: UInt16 = UInt16(accumulator.value) + UInt16(byte)
-            psw.setFlag(.C, to: sum > 255)
+            let result = handleAdd(accumulator.value, byte)
 
-            let result: UInt8 = UInt8(sum & 0xFF)
-
-            // check for carry
-            psw.setFlag(.C, to: sum > 255)
-
-            // check for overflow
-            let accBit7set = accumulator.value & bit7 == bit7
-            let byteBit7set = byte & bit7 == bit7
-            let resultBit7set = result & bit7 == bit7
-            
-            var overflew = false
-            if (accBit7set && byteBit7set) && !resultBit7set { overflew = true }
-            if (!accBit7set && !byteBit7set) && resultBit7set { overflew = true }
-            psw.setFlag(.V, to: overflew)
-            
             accumulator.value = result
             updateNZFlags(for: result)
         }
