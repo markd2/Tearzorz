@@ -45,7 +45,42 @@ class MOS6502 {
         Yregister.value = 0
         stackPointer.value = 0xFD
 
-        // start the PC at (0xFFFC) when things get real
+        // start the PC at (0xFFFC)
+        let address: UInt16 = UInt16(memory[0xFFFD]) << 8 | UInt16(memory[0xFFFC])
+        programCounter.value = address
+    }
+
+    func interrupt() {
+        if psw.isSet(.I) { return }
+
+        pushAddress(programCounter.value)
+        push(psw.flags.rawValue)
+
+        // start the PC at (0xFFFE)
+        let address: UInt16 = UInt16(memory[0xFFFF]) << 8 | UInt16(memory[0xFFFE])
+        programCounter.value = address
+
+        psw.setFlag(.I)
+    }
+
+    func nmi() {
+        pushAddress(programCounter.value)
+        push(psw.flags.rawValue)
+
+        // start the PC at (0xFFFA)
+        let address: UInt16 = UInt16(memory[0xFFFB]) << 8 | UInt16(memory[0xFFFA])
+        programCounter.value = address
+
+        psw.setFlag(.I)
+    }
+
+    func pushAddress(_ address: UInt16) {
+        let low = UInt8(address & 0xFF)
+        let high = UInt8(address >> 8 & 0xFF)
+
+        // push high first so the low byte is in the lower addres
+        push(high)
+        push(low)
     }
 
     // for extension
@@ -267,6 +302,7 @@ extension MOS6502 {
         handlers[JMP] = handleJMP
         handlers[JSR] = handleJSR
         handlers[RTS] = handleRTS
+        handlers[RTI] = handleRTI
         handlers[BPL] = handleBPL
         handlers[BMI] = handleBMI
         handlers[BVC] = handleBVC
@@ -720,12 +756,7 @@ extension MOS6502 {
     func handleJSR(_ instruction: Instruction) {
         // point to the last byte of the JSR instruction
         let pc = programCounter.value - 1
-        let lowPC = UInt8(pc & 0xFF)
-        let highPC = UInt8(pc >> 8 & 0xFF)
-
-        // push high first so the low byte is in the lower addres
-        push(highPC)
-        push(lowPC)
+        pushAddress(pc)
 
         let address = addressFor(instruction)
         programCounter.value = address
@@ -736,6 +767,16 @@ extension MOS6502 {
         let highPC = pull()
         var address = UInt16(highPC) << 8 | UInt16(lowPC)
         address = UInt16((UInt32(address) + 1) & 0xFFFF)
+        programCounter.value = address
+    }
+    
+    func handleRTI(_ instruction: Instruction) {
+        let pswFlags = pull()
+        let lowPC = pull()
+        let highPC = pull()
+        psw.setFlags(pswFlags)
+
+        let address = UInt16(highPC) << 8 | UInt16(lowPC)
         programCounter.value = address
     }
 
