@@ -6,13 +6,20 @@ import Combine
 class Memory {
     private let subject: Combine.PassthroughSubject<Notification, Never>
 
-    struct Notification {
-        // maybe can also do bulk updates "this page / range changed"
-        // to consolidate a bunch of changes into an enum or something
-        let address: UInt16
-        let oldValue: UInt8
-        let newValue: UInt8
+    enum Notification {
+        case byteWrite(address: UInt16, oldValue: UInt8, newValue: UInt8)
+        case byteRead(address: UInt16, value: UInt8)
+
+        var address: UInt16? {
+            switch self {
+            case let .byteWrite(addr, _, _): return addr
+            case let .byteRead(addr, _): return addr
+            }
+        }
     }
+
+    // Things that draw should turn off read notifications
+    var notifyReads: Bool = true
 
     static let capacity = 64 * 1024 // 64K
     var bytes: [UInt8] = Array<UInt8>(repeating: 0, count: capacity)
@@ -31,13 +38,17 @@ class Memory {
         }
 
         // if we get a range notification, specify the range
-        subject.send(Notification(address: 0,
-                                  oldValue: 0,
-                                  newValue: 0))
+        subject.send(Notification.byteWrite(address: 0,
+                                            oldValue: 0,
+                                            newValue: 0))
     }
 
     func byte(at index: UInt16) -> UInt8 {
-        bytes[Int(index)]
+        let byte = bytes[Int(index)]
+        if notifyReads {
+            subject.send(Notification.byteRead(address: index, value: byte))
+        }
+        return byte
     }
 
     subscript(address: UInt16) -> UInt8 {
@@ -55,9 +66,9 @@ class Memory {
 
         // intentionally sending even if value doesn't change. The fact that
         // someone tried to change it might be interesting
-        subject.send(Notification(address: index,
-                                  oldValue: oldValue,
-                                  newValue: value))
+        subject.send(Notification.byteWrite(address: index,
+                                            oldValue: oldValue,
+                                            newValue: value))
     }
 
     func page(at index: UInt8) -> [UInt8] {
