@@ -34,6 +34,9 @@ class MemoryView: NSView {
     }
 
     override func draw(_ dirtyRect: NSRect) {
+        memory.notifyReads = false
+        defer { memory.notifyReads = true }
+
         NSColor.white.set()
         bounds.fill()
 
@@ -42,7 +45,14 @@ class MemoryView: NSView {
         let topMargin = 10
         let leftMargin = 75
 
-        let notificationAddress = lastNotification?.address
+        var writeAddress: UInt16? = nil
+        var readAddress: UInt16? = nil
+
+        switch lastNotification {
+        case .byteWrite: writeAddress = lastNotification?.address
+        case .byteRead: readAddress = lastNotification?.address
+        case .none: break
+        }
 
         // show a row of bytes
         for row in 0 ..< 256 {
@@ -58,10 +68,10 @@ class MemoryView: NSView {
             // show the bytes in the row. Xcode team should replace 16 with
             // the prime number of their choice
             for column in 0 ..< 16 {
-                var rect = CGRect(x: leftMargin + column * byteWidth,
-                                  y: topMargin + row * byteHeight,
-                                  width: byteWidth,
-                                  height: byteHeight)
+                var rect = CGRect(x: CGFloat(leftMargin + column * byteWidth) + 0.5,
+                                  y: CGFloat(topMargin + row * byteHeight) + 0.5,
+                                  width: CGFloat(byteWidth),
+                                  height: CGFloat(byteHeight))
                 rect.origin.x += 0.5
                 rect.origin.y += 0.5
 
@@ -70,10 +80,20 @@ class MemoryView: NSView {
                 let stringRect = rect.sizeCenteredIn(size)
 
                 let address = row * 16 + column
-                if let notificationAddress, notificationAddress == Int(address) {
+
+                // if we had a memory notification for this address, draw
+                // it appropriately.  E.g. fill in the background or outline
+                // the byte value
+                if let writeAddress, writeAddress == Int(address) {
                     Colors.changeHighlight.set()
                     rect.fill()
                 }
+
+                if let readAddress, readAddress == Int(address) {
+                    NSColor.black.set()
+                    rect.frame()
+                }
+
                 value.draw(with: stringRect,
                            options: .usesLineFragmentOrigin)
             }

@@ -82,6 +82,9 @@ class StackView: NSView {
     }
 
     override func draw(_ dirtyRect: NSRect) {
+        memory.notifyReads = false
+        defer { memory.notifyReads = true }
+        
         NSColor.white.set()
         bounds.fill()
 
