@@ -2,6 +2,19 @@
 
 Some 6502 exploration, maybe a tool to assist in the "tearing" method of reverse engineering introduced by Don Lancaster in his "Enhancing your Apple II" books. Or maybe I'll get distracted and not do much.  Or maybe I'll accidentally write a non-cycle-accurate emulator.  Anything can happen.
 
+### Things
+
+Nice reference(s)
+
+* opcode table: http://www.6502.org/tutorials/6502opcodes.html
+
+Things to read
+
+* https://wilsonminesco.com/stacks/
+* things at http://www.6502.org
+
+
+
 
 # Porgress
 
