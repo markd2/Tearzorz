@@ -42,7 +42,7 @@ class MemoryView: NSView {
         let topMargin = 10
         let leftMargin = 75
 
-        let notificationAddress: Int = lastNotification != nil ? Int(lastNotification!.address) : -1
+        let notificationAddress = lastNotification?.address
 
         // show a row of bytes
         for row in 0 ..< 256 {
@@ -70,7 +70,7 @@ class MemoryView: NSView {
                 let stringRect = rect.sizeCenteredIn(size)
 
                 let address = row * 16 + column
-                if notificationAddress == Int(address) {
+                if let notificationAddress, notificationAddress == Int(address) {
                     Colors.changeHighlight.set()
                     rect.fill()
                 }
