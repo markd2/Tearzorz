@@ -56,7 +56,12 @@ class MainWindow: NSWindow {
         cpu.stackPointer.value = UInt8.random(in: 0...255)
     }
 
-    @IBAction func printRemainingOpcodes(_ sender: NSButton) {
+    @IBAction func interrupt(_ sender: NSButton) {
+        cpu.interrupt()
+    }
+
+    @IBAction func nmi(_ sender: NSButton) {
+        cpu.nmi()
     }
 
     @IBAction func runSelectedInstruction(_ sender: NSButton) {
@@ -211,7 +216,8 @@ class MainWindow: NSWindow {
           0x6C, 0x06, 0x01,
           0x4C, 0x06, 0x01,
           0x20, 0x06, 0x01,
-          0x60,
+          0x60, // RTS
+          0x40, // RTI
           0x08, 0x28, 0x48, 0x68, 0x88,
           0xE6, 0x20, // INC
           0xEE, 0x30, 0x01,

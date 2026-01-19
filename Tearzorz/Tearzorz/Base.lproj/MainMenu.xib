@@ -722,6 +722,17 @@
                             <action selector="changeRegisters:" target="QvC-M9-y7g" id="V0q-bq-9lE"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hwz-c7-B5T">
+                        <rect key="frame" x="256" y="420" width="87" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Interrupt" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mmx-Qw-eUD">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="interrupt:" target="QvC-M9-y7g" id="XId-Uq-b1S"/>
+                        </connections>
+                    </button>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7ch-BX-gwu">
                         <rect key="frame" x="18" y="395" width="81" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -902,9 +913,20 @@
                         </textFieldCell>
                     </textField>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wb8-Nl-8UO" customClass="PSWView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="357" y="424" width="128" height="25"/>
+                        <rect key="frame" x="442" y="424" width="128" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rsd-NW-yyu">
+                        <rect key="frame" x="355" y="420" width="59" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="NMI" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KHh-Mx-QyQ">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="nmi:" target="QvC-M9-y7g" id="HoW-CH-NF9"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <connections>
