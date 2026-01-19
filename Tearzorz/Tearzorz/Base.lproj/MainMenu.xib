@@ -683,10 +683,10 @@
         <window title="Tearzorz" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" frameAutosaveName="zrozraeT" animationBehavior="default" id="QvC-M9-y7g" customClass="MainWindow" customModule="Tearzorz" customModuleProvider="target">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="579" height="459"/>
+            <rect key="contentRect" x="335" y="390" width="640" height="459"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2048" height="1127"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="579" height="459"/>
+                <rect key="frame" x="0.0" y="0.0" width="640" height="459"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0NK-bN-MCS">
@@ -712,7 +712,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="isf-22-xg6">
-                        <rect key="frame" x="141" y="420" width="108" height="32"/>
+                        <rect key="frame" x="254" y="420" width="108" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Change Reg" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7wt-Vu-Sfb">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -723,7 +723,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hwz-c7-B5T">
-                        <rect key="frame" x="256" y="420" width="87" height="32"/>
+                        <rect key="frame" x="360" y="420" width="87" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Interrupt" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Mmx-Qw-eUD">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -782,7 +782,7 @@
                         </textFieldCell>
                     </textField>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5z9-Uf-9Q5">
-                        <rect key="frame" x="520" y="376" width="39" height="16"/>
+                        <rect key="frame" x="581" y="376" width="39" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Stack" id="gyg-k4-gfy">
                             <font key="font" metaFont="system"/>
@@ -808,7 +808,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lWo-ux-K6v" customClass="MemoryView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="12" y="20" width="482" height="183"/>
+                        <rect key="frame" x="12" y="20" width="543" height="183"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </customView>
                     <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="24" horizontalPageScroll="10" verticalLineScroll="24" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XwU-Ks-lUn">
@@ -900,11 +900,11 @@
                         </scroller>
                     </scrollView>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FGr-Hb-cTt" customClass="StackView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="505" y="20" width="65" height="331"/>
+                        <rect key="frame" x="566" y="20" width="65" height="331"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
                     </customView>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ENM-hD-qVq">
-                        <rect key="frame" x="517" y="359" width="44" height="16"/>
+                        <rect key="frame" x="578" y="359" width="44" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="$01XX" id="iiY-lI-prb">
                             <font key="font" metaFont="system"/>
@@ -913,11 +913,11 @@
                         </textFieldCell>
                     </textField>
                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wb8-Nl-8UO" customClass="PSWView" customModule="Tearzorz" customModuleProvider="target">
-                        <rect key="frame" x="442" y="424" width="128" height="25"/>
+                        <rect key="frame" x="503" y="424" width="128" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rsd-NW-yyu">
-                        <rect key="frame" x="355" y="420" width="59" height="32"/>
+                        <rect key="frame" x="443" y="420" width="59" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="NMI" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KHh-Mx-QyQ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -925,6 +925,17 @@
                         </buttonCell>
                         <connections>
                             <action selector="nmi:" target="QvC-M9-y7g" id="HoW-CH-NF9"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RK5-rY-0Sx">
+                        <rect key="frame" x="164" y="420" width="92" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Rnd mem" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kGi-ER-eJh">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="randomize:" target="QvC-M9-y7g" id="F1D-Og-64m"/>
                         </connections>
                     </button>
                 </subviews>
@@ -941,7 +952,7 @@
                 <outlet property="xView" destination="GIp-ZV-26h" id="XEN-PD-DOl"/>
                 <outlet property="yView" destination="Tkq-mo-QU8" id="F8O-hs-BFd"/>
             </connections>
-            <point key="canvasLocation" x="150.5" y="449.5"/>
+            <point key="canvasLocation" x="120" y="449.5"/>
         </window>
     </objects>
 </document>

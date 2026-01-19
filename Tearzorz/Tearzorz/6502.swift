@@ -24,13 +24,7 @@ class MOS6502 {
 
     init() {
         setupHandlers()
-        memory.randomizeBytes()
         reset()
-
-        // set up for exercising Indirect Indexed (Y) mode
-        memory[0x42] = 0x10
-        memory[0x43] = 0x01
-        Yregister.value = 0x55
     }
 
     func reset() {

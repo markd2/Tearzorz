@@ -85,6 +85,10 @@ class MainWindow: NSWindow {
         tableView.reloadData()
     }
 
+    @IBAction func randomize(_ sender: NSButton) {
+        cpu.memory.randomizeBytes()
+    }
+
     @IBAction func loadSomeCode(_ sender: NSButton) {
         loadSomeCode()
     }
