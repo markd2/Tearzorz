@@ -891,7 +891,7 @@
                             </subviews>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="bhF-6Q-X3e">
-                            <rect key="frame" x="1" y="119" width="238" height="15"/>
+                            <rect key="frame" x="1" y="119" width="340" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="X5H-7h-jvA">
@@ -938,12 +938,44 @@
                             <action selector="randomize:" target="QvC-M9-y7g" id="F1D-Og-64m"/>
                         </connections>
                     </button>
+                    <button tag="-1" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bHR-Zx-MYw">
+                        <rect key="frame" x="6" y="212" width="42" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="–" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="o1I-CQ-y6C">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="disassemblyByteOffset:" target="QvC-M9-y7g" id="1aS-h6-1Ds"/>
+                        </connections>
+                    </button>
+                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jET-jx-6Bw">
+                        <rect key="frame" x="47" y="221" width="97" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" lineBreakMode="clipping" title="offset: 0" id="eEY-C6-xWj">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button tag="1" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qyg-Y8-1bl">
+                        <rect key="frame" x="143" y="212" width="43" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="+" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EFx-8I-s9Z">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="disassemblyByteOffset:" target="QvC-M9-y7g" id="Trz-Wj-GFj"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <connections>
                 <outlet property="accumulatorView" destination="YvL-Nn-esm" id="kvl-CD-iVx"/>
                 <outlet property="delegate" destination="Voe-Tx-rLC" id="top-28-M4D"/>
                 <outlet property="memoryView" destination="lWo-ux-K6v" id="M6u-iZ-lqp"/>
+                <outlet property="offsetLabel" destination="jET-jx-6Bw" id="CcU-dh-Zus"/>
                 <outlet property="pcView" destination="fAM-53-jzd" id="P7B-kS-nwr"/>
                 <outlet property="pswView" destination="Wb8-Nl-8UO" id="K4N-TF-SB0"/>
                 <outlet property="spView" destination="Uvi-dt-GOs" id="jOw-s0-Y6D"/>

@@ -21,6 +21,9 @@ class MainWindow: NSWindow {
     @IBOutlet var tableView: NSTableView!
     var instructions: [Instruction] = []
 
+    @IBOutlet var offsetLabel: NSTextField!
+    var disassemblyOffset: Int = 0
+
     /// Looks like the new 'improved' view-based tableview can trigger
     /// awakeFromNib multiple times, one extra time for each tableview row
     /// visible.  If you're doing one-time stuff in awakeFromNib, that's
@@ -44,6 +47,8 @@ class MainWindow: NSWindow {
             
             // populate the tableview
             loadSomeCode()
+
+            updateDisassemblyOffsetLabel()
 
             alreadyAwokenFromNib = true
         }
@@ -74,10 +79,13 @@ class MainWindow: NSWindow {
 
     func loadSomeCode() {
 //        let bytes = kim1bytes()
-        let bytes = allAddressingModesBytes()
+//        let bytes = allAddressingModesBytes()
+
+        let url = Bundle.main.url(forResource: "6530-002 fillerbyte00", withExtension: "bin")!
+        let data = try! Data(contentsOf: url)
 
         let dis = Disassembly()
-        instructions = dis.disassemble(bytes)!
+        instructions = dis.disassemble(data, skipping: disassemblyOffset)!
 
 //        for ins in instructions {
 //            Swift.print("    ", ins)
@@ -240,14 +248,14 @@ class MainWindow: NSWindow {
     @IBAction func splunge(_ sender: NSButton) {
         let dis = Disassembly()
         
-        let blah = dis.disassemble(kim1bytes())!
+        let blah = dis.disassemble(kim1bytes(), skipping: 0)!
         
         for ins in blah {
             Swift.print("    ", ins)
         }
 
 
-        let blah2 = dis.disassemble(allAddressingModesBytes())!
+        let blah2 = dis.disassemble(allAddressingModesBytes(), skipping: 0)!
         
         for ins in blah2 {
             Swift.print("    ", ins)
@@ -294,5 +302,24 @@ extension MainWindow: NSTableViewDataSource, NSTableViewDelegate {
                 print("huh, identifier \(column.identifier)")
                 return nil
         }
+    }
+}
+
+/// byte offset disassembly stuffs
+extension MainWindow {
+    
+    func updateDisassemblyOffsetLabel() {
+        offsetLabel.stringValue = "offset: \(disassemblyOffset)"
+    }
+
+    @IBAction func disassemblyByteOffset(_ sender: NSButton) {
+        let tag = sender.tag
+        let newOffset = disassemblyOffset + tag
+        guard newOffset >= 0 else { return }
+        disassemblyOffset = newOffset
+
+        updateDisassemblyOffsetLabel()
+
+        loadSomeCode()
     }
 }

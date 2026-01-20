@@ -216,12 +216,13 @@
 } // makeInstructionFrom
 
 
-- (NSArray<Instruction *> *) disassemble: (NSData *) data {
+- (NSArray<Instruction *> *) disassemble: (NSData *) data
+                                skipping: (NSInteger) byteOffset {
 
     NSMutableArray *instructions = NSMutableArray.new;
     Instruction *instruction;
 
-    unsigned char *scan = (unsigned char *)data.bytes;
+    unsigned char *scan = (unsigned char *)data.bytes + byteOffset;
     unsigned char *stop = scan + data.length;
     
     while (scan < stop) {
@@ -379,7 +380,11 @@
         case 0xFE: instruction = [self makeInstructionFrom: &scan  opcode: INC  mode: Absolute_XIndexed]; break;
         }
 
-        [instructions addObject: instruction];
+        if (instruction != nil) {
+            [instructions addObject: instruction];
+        } else {
+            NSLog(@"could not disassemble %02X", (uint8_t)*scan);
+        }
         scan++;
     }
 
