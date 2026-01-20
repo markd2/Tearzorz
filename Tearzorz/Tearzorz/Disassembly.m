@@ -123,13 +123,13 @@
         return @"A";
 
     case Absolute: {
-        return [NSString stringWithFormat: @"$%02X%02X", _bytes[2], (uint8_t)_bytes[1]];
+        return [NSString stringWithFormat: @"$%02X%02X", (uint8_t)_bytes[2], (uint8_t)_bytes[1]];
     }
     case Absolute_XIndexed: {
-        return [NSString stringWithFormat: @"$%02X%02X,X", _bytes[2], (uint8_t)_bytes[1]];
+        return [NSString stringWithFormat: @"$%02X%02X,X", (uint8_t)_bytes[2], (uint8_t)_bytes[1]];
     }
     case Absolute_YIndexed: {
-        return [NSString stringWithFormat: @"$%02X%02X,Y", _bytes[2], (uint8_t)_bytes[1]];
+        return [NSString stringWithFormat: @"$%02X%02X,Y", (uint8_t)_bytes[2], (uint8_t)_bytes[1]];
     }
     case Immediate:
         return [NSString stringWithFormat: @"#$%02X", (uint8_t)_bytes[1]];
@@ -138,7 +138,7 @@
         return nil;
 
     case Indirect: {
-        return [NSString stringWithFormat: @"($%02X%02X)", _bytes[2], (uint8_t)_bytes[1]];    }
+        return [NSString stringWithFormat: @"($%02X%02X)", (uint8_t)_bytes[2], (uint8_t)_bytes[1]];    }
     case Indexed_Indirect_X:
         return [NSString stringWithFormat: @"($%02X,X)", (uint8_t)_bytes[1]];
 
@@ -380,6 +380,7 @@
         }
 
         [instructions addObject: instruction];
+        scan++;
     }
 
     return instructions;
