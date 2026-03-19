@@ -123,13 +123,13 @@
         return @"A";
 
     case Absolute: {
-        return [NSString stringWithFormat: @"$%02X%02X", _bytes[2], (uint8_t)_bytes[1]];
+        return [NSString stringWithFormat: @"$%02X%02X", (uint8_t)_bytes[2], (uint8_t)_bytes[1]];
     }
     case Absolute_XIndexed: {
-        return [NSString stringWithFormat: @"$%02X%02X,X", _bytes[2], (uint8_t)_bytes[1]];
+        return [NSString stringWithFormat: @"$%02X%02X,X", (uint8_t)_bytes[2], (uint8_t)_bytes[1]];
     }
     case Absolute_YIndexed: {
-        return [NSString stringWithFormat: @"$%02X%02X,Y", _bytes[2], (uint8_t)_bytes[1]];
+        return [NSString stringWithFormat: @"$%02X%02X,Y", (uint8_t)_bytes[2], (uint8_t)_bytes[1]];
     }
     case Immediate:
         return [NSString stringWithFormat: @"#$%02X", (uint8_t)_bytes[1]];
@@ -138,7 +138,7 @@
         return nil;
 
     case Indirect: {
-        return [NSString stringWithFormat: @"($%02X%02X)", _bytes[2], (uint8_t)_bytes[1]];    }
+        return [NSString stringWithFormat: @"($%02X%02X)", (uint8_t)_bytes[2], (uint8_t)_bytes[1]];    }
     case Indexed_Indirect_X:
         return [NSString stringWithFormat: @"($%02X,X)", (uint8_t)_bytes[1]];
 
@@ -216,12 +216,13 @@
 } // makeInstructionFrom
 
 
-- (NSArray<Instruction *> *) disassemble: (NSData *) data {
+- (NSArray<Instruction *> *) disassemble: (NSData *) data
+                                skipping: (NSInteger) byteOffset {
 
     NSMutableArray *instructions = NSMutableArray.new;
     Instruction *instruction;
 
-    unsigned char *scan = (unsigned char *)data.bytes;
+    unsigned char *scan = (unsigned char *)data.bytes + byteOffset;
     unsigned char *stop = scan + data.length;
     
     while (scan < stop) {
@@ -379,7 +380,12 @@
         case 0xFE: instruction = [self makeInstructionFrom: &scan  opcode: INC  mode: Absolute_XIndexed]; break;
         }
 
-        [instructions addObject: instruction];
+        if (instruction != nil) {
+            [instructions addObject: instruction];
+        } else {
+            NSLog(@"could not disassemble %02X", (uint8_t)*scan);
+        }
+        scan++;
     }
 
     return instructions;
