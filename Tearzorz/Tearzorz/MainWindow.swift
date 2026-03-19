@@ -262,6 +262,18 @@ class MainWindow: NSWindow {
         }
 
     }
+
+    var tearingWC: TearingWindowController!
+
+    func openTearingWindowController() {
+        tearingWC = TearingWindowController(windowNibName: "TearingWindowController")
+
+        tearingWC.showWindow(nil)
+    }
+
+    @IBAction func tear(_ sender: NSButton) {
+        openTearingWindowController()
+    }
 }
 
 extension MainWindow: NSTableViewDataSource, NSTableViewDelegate {

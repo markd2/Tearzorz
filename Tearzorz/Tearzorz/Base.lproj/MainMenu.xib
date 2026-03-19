@@ -690,9 +690,9 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0NK-bN-MCS">
-                        <rect key="frame" x="5" y="420" width="138" height="32"/>
+                        <rect key="frame" x="66" y="420" width="100" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Load Some Code" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gOv-T3-1XP">
+                        <buttonCell key="cell" type="push" title="Load Code" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gOv-T3-1XP">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -967,6 +967,17 @@
                         </buttonCell>
                         <connections>
                             <action selector="disassemblyByteOffset:" target="QvC-M9-y7g" id="Trz-Wj-GFj"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L9F-IA-CGH">
+                        <rect key="frame" x="5" y="421" width="61" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Tear" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="IgQ-sf-r8E">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="tear:" target="QvC-M9-y7g" id="BXV-GT-rI0"/>
                         </connections>
                     </button>
                 </subviews>
